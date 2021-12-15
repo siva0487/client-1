@@ -1,0 +1,27 @@
+<div class="container-fluid px-1 py-5 mx-auto">
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === false" class="row justify-content-center">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div>
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === true" class="row justify-content-center">
+        <div class="col-xl-8 col-lg-9 col-md-10 col-12 text-center mb-5">
+            <div class="card">
+                <div class="cirle-img"> <img src="/assets/img/IRsUTtE.jpg">
+                    <div class="rating-on-img">
+                        <h3 class="head-rate">{{id.rating}}</h3>
+                        <h3 class="subhead-rate">out of 5</h3>
+                    </div>
+                </div>
+                <div class="heading0 mb-3 text-center">
+                    <h2 *ngIf="showThis === false">Rating & Review, by {{id.first_name}} {{id.last_name}}</h2>
+                    <h2 *ngIf="showThis === true">Rating, by {{id.first_name}} {{id.last_name}}</h2>
+                </div>
+                <div class="review-body">
+                    <p *ngIf="showThis === false" class="review-desc">{{id.review}}</p>
+                    <button class="btn btn-success" style="margin-bottom: 25px;" (click)="goBack()">Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

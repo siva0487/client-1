@@ -1,0 +1,59 @@
+<div class="container-fluid my-5 d-flex justify-content-center">
+    <div *ngIf="writePermissionForOnlyThisScreen.is_read === false" class="card card-1">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div>
+    <div *ngIf="writePermissionForOnlyThisScreen.is_read === true" class="card card-1">
+        <div class="card-body">
+            <div class="info_page_title_block">
+                <h6 class="info_page_title custome_header_title">View Frequency Service</h6>
+            </div>
+            <form [formGroup]="editFrequencyForm">
+                <div *ngIf="resOfSelectedFrequency" class="row">
+                    <div class="col-md-6">
+                        <label>Frequency Service<span class="custom_star_mark"> *</span> </label>
+                        <input class="form-control custom_select_added" [(ngModel)]="resOfSelectedFrequency.frequency"
+                            formControlName="frequency" readonly id="frequency_service_id"
+                            [ngClass]="{ 'is-invalid': submitted && a.frequency.errors }">
+                        <div *ngIf="submitted && a.frequency.errors" class="invalid-feedback">
+                            <div *ngIf="a.frequency.errors.required">Frequency is required</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Frequency Service Status<span class="custom_star_mark"> *</span> </label>
+                        <select class="form-control custom_select_added" id="frequency_service_is_active_id"
+                            disabled="true" [(ngModel)]="resOfSelectedFrequency.is_active" formControlName="is_active"
+                            [ngClass]="{ 'is-invalid': submitted && a.is_active.errors }">
+                            <option *ngFor="let list of frequencyStatusSet" value="{{list.is_active}}">
+                                {{list.status}}</option>
+                        </select>
+                        <div *ngIf="submitted && a.is_active.errors" class="invalid-feedback">
+                            <div *ngIf="a.is_active.errors.required">Assigning the Frequency Status is required
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="p-2 bd-highlight">
+                        <button id="edit_this" [disabled]="writePermissionForOnlyThisScreen.is_write === false"
+                            mat-raised-button type="submit" (click)="edit()"
+                            class="btn btn-success pull-right">Edit</button>
+                    </div>
+                    <div class="p-2 bd-highlight">
+                        <button id="update_this" mat-raised-button type="submit" class="btn btn-success pull-right"
+                            (click)="UpdateFrequency()">Update</button>
+                    </div>
+                    <div class="p-2 bd-highlight">
+                        <button mat-raised-button type="submit" class="btn btn-danger pull-right"
+                            (click)="cancel()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p>Loading please wait...</p>
+</div>

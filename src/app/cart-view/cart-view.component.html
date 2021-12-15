@@ -1,0 +1,117 @@
+<div class="container-fluid my-5 d-flex justify-content-center">
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === false" class="card card-1">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div>
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === true" class="card card-1">
+        <div class="card-body">
+            <div style="text-align: center;">
+                <h6 class="info_page_title custome_header_title">Customer Cart Details </h6>
+            </div>
+            <div *ngIf="id" class="row justify-content-between mb-2">
+                <div class="col-auto ">
+                    <h6 class="color-1 mb-0 change-color info_page_title">Customer ID : {{id.customer_id}}
+                    </h6>
+                </div>
+                <div class="col-auto return_to_orders_list">
+                    <img src="/assets/img/return.png" class="custom_retuns_image" data-placement="right" title="Back"
+                        (click)="cancel()">
+                    <!-- <h6 class="color-1 mb-0 change-color info_page_title" (click)="cancel()">Return To Cart List -->
+                    <!-- </h6> -->
+                </div>
+            </div>
+            <div *ngIf="customerDetails" class="card-2 customer_info_custom">
+                <div *ngIf="cartInfromation" class="row card-body">
+                    <div class="col-md-3">
+                        <label>Customer Name</label>
+                        <input readonly value="{{name}}" type="text">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Mobile Number</label>
+                        <input readonly value="{{customerDetails.mobile}}" type="number">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Email ID</label>
+                        <input readonly value="{{customerDetails.email}}" type="text">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Cart Amount</label>
+                        <input readonly value="{{cartInfromation.cart_amount}}" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="card card-2 custom_main_content_product_list">
+                        <div class="card-body">
+                            <div class="list_of_orders_title_custom">
+                                <h4 class="info_page_title"> List Of Orders </h4>
+                            </div>
+                            <div *ngIf="customerCartDetails" class="panel-group" id="accordion" role="tablist"
+                                aria-multiselectable="true">
+                                <div class="panel panel-default">
+                                    <div class="panel panel-default row">
+                                        <div *ngFor="let itemlist of list; let i = index;"
+                                            class="col-md-4 main_custom_block">
+                                            <div class="media">
+                                                <div class="sq align-self-center "> <img
+                                                        class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                        src="{{itemlist.image_url}}"
+                                                        width="135" height="135" />
+                                                </div>
+                                                <div class="media-body my-auto">
+                                                    <div>
+                                                        <span>{{itemlist.name}}</span>
+                                                    </div>
+                                                    <div>
+                                                        <span>Qty : {{itemlist.quantity}}</span>
+                                                    </div>
+                                                    <div>
+                                                        <span>Price : &#8377;{{itemlist.price}}</span>
+                                                    </div>
+                                                    <div>
+                                                        <span>Total Price : &#8377;{{itemlist.total_price}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row delivery_details">
+                <div class="col-md-6 ">
+                    <!-- <h3 class="info_page_title">Customer Default Address</h3>
+                    <span>
+                        <p>Sivaramkumar</p>
+                        <p>No 4, 4th Main Road, Errapareddy Layout, subbanapalya extenstions</p>
+                        <p>Bangalore, Karnataka, India</p>
+                        <p>560033,+91 9642392940 </p>
+                    </span> -->
+
+                    <!-- <div class="col-md-1" style="padding:0; margin: 00;">
+                        </div> -->
+                    <!-- <div class="col-md-6 shipping_address">
+                            <h3 class="info_page_title">Shipping Address</h3>
+                            <span>
+                                <p>Sivaramkumar</p>
+                                <p>No 4, 4th Main Road, Errapareddy Layout, subbanapalya extenstions</p>
+                                <p>Bangalore, Karnataka, India</p>
+                                <p>560033,+91 9642392940 </p>
+                            </span>
+                        </div> -->
+                </div>
+            </div>
+            <!-- <hr class="my-3 "> -->
+
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p>Loading please wait...</p>
+</div>

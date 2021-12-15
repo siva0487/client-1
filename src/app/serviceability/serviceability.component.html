@@ -1,0 +1,92 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card card-user">
+            <div class="card-header">
+                <div class="custome_title">
+                    <h5 class="card-title info_page_title custome_header_title">Serviceability</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <!-- <mat-form-field appearance="fill">
+                            <mat-label>State</mat-label>
+                            <select matNativeControl>
+                                <option value="" selected></option>
+                                <option value="active" *ngFor="let state of listofStates">{{state.name}}</option>
+                            </select>
+                        </mat-form-field> -->
+                        <label>State</label>
+                        <select class="custom_select_added">
+                            <option>Select</option>
+                            <option value="active" *ngFor="let state of listofStates">{{state.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>City</label>
+                        <select class="custom_select_added">
+                            <option>Select</option>
+                            <option value="active">City List</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input placeholder="Store ID" readonly value="10026">
+                        </div>
+                        <div class="col-md-3">
+                            <input placeholder="Store Name" readonly value="Ramamurthy Nagar Store">
+                        </div>
+                        <div class="col-md-3">
+                            <input placeholder="Contact Details" readonly type="number" value="9642392940">
+                        </div>
+                        <div class="col-md-3">
+                            <input placeholder="Email address" readonly type="email" value="sivaramkumar94@gmail.com">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input placeholder="Adress" readonly value="No 4, 4th Main, Ramamurthy Nagar Store"
+                                type="text">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input placeholder="City" readonly value="Bangalore" type="text">
+                        </div>
+                        <div class="col-md-6">
+                            <input placeholder="Country" readonly value="India" type="text">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Store Status</label>
+                            <select class="custom_select_added">
+                                <option>Select</option>
+                                <option value="active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <textarea class="custom_textare_added" placeholder="Postal Code" name="" rows="4"
+                                cols="50">560033,560001,560045,560033,560001,560045,560033,560001,560045,560033</textarea>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row-reverse bd-highlight">
+                        <div class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" class="btn btn-success pull-right">Update
+                                serviceability Details</button>
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- slot management -->

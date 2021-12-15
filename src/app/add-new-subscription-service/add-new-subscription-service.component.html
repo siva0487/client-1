@@ -1,0 +1,74 @@
+<div class="container-fluid my-5 d-flex justify-content-center">
+    <div *ngIf="writePermissionForOnlyThisScreen.is_read === false" class="card card-1">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div>
+    <div *ngIf="writePermissionForOnlyThisScreen.is_read === true" class="card card-1">
+        <div class="card-body">
+            <div class="info_page_title_block">
+                <h6 class="info_page_title custome_header_title">Add New Subscription Type Service</h6>
+            </div>
+            <form [formGroup]="addNewSubscriptionForm">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Select New Subscription Type Service<span class="custom_star_mark"> *</span> </label>
+                        <select class="custom_select_added form-control custom_class_input"
+                            formControlName="subscription_type"
+                            [ngClass]="{ 'is-invalid': submitted && a.subscription_type.errors }">
+                            <option *ngFor="let list of final_Subscription_type" value="{{list.frequency}}">
+                                {{list.frequency}}</option>
+                        </select>
+                        <div *ngIf="submitted && a.subscription_type.errors" class="invalid-feedback">
+                            <div *ngIf="a.subscription_type.errors.required">Subscription Type is required</div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-4">
+                        <label>New Subscription Type Service<span class="custom_star_mark"> *</span> </label>
+                        <input class="form-control custom_select_added" formControlName="subscription_type"
+                            [ngClass]="{ 'is-invalid': submitted && a.subscription_type.errors }">
+                        <div *ngIf="submitted && a.subscription_type.errors" class="invalid-feedback">
+                            <div *ngIf="a.subscription_type.errors.required">Subscription Type is required</div>
+                        </div>
+                    </div> -->
+                    <div class="col-md-4">
+                        <label>New Subscription Period<span class="custom_star_mark"> *</span> </label>
+                        <input class="form-control custom_select_added" type="text" (keypress)="numberOnly($event)"
+                            numbersOnly pattern="^[1-9][0-9]*$" formControlName="subscription_period"
+                            [ngClass]="{ 'is-invalid': submitted && a.subscription_period.errors }">
+                        <div *ngIf="submitted && a.subscription_period.errors" class="invalid-feedback">
+                            <div *ngIf="a.subscription_period.errors.required">Subscription Period is required</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Delivery Option Service Status<span class="custom_star_mark"> *</span> </label>
+                        <select class="custom_select_added form-control custom_class_input" formControlName="is_active"
+                            [ngClass]="{ 'is-invalid': submitted && a.is_active.errors }">
+                            <option *ngFor="let list of subscription_service_StatusSet" value="{{list.value}}">
+                                {{list.status}}</option>
+                        </select>
+                        <div *ngIf="submitted && a.is_active.errors" class="invalid-feedback">
+                            <div *ngIf="a.is_active.errors.required">Assigning the Subscription Type Status is required
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="p-2 bd-highlight">
+                        <button mat-raised-button type="submit" (click)="createNewSubscription_type()"
+                            class="btn btn-success pull-right">Create</button>
+                    </div>
+                    <div class="p-2 bd-highlight">
+                        <button mat-raised-button type="submit" class="btn btn-danger pull-right"
+                            (click)="cancel()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p>Loading please wait...</p>
+</div>

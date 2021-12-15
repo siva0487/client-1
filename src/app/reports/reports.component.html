@@ -1,0 +1,218 @@
+<div class="main-content">
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === false" class="container-fluid">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div>
+    <!-- *ngIf="allPermissionForOnlyThisScreen.is_read === true" -->
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === true" class="container-fluid">
+        <div class="card card-user">
+            <div class="card-header">
+                <div class="custome_title">
+                    <h5 class="card-title info_page_title custome_header_title">Reports</h5>
+                </div>
+                <!-- <div class="d-flex flex-row-reverse bd-highlight card-header custome_final_added_look_2">
+                    <div class="p-2 bd-highlight">
+                        <button class="btn btn-success btn-sm collapsed panel-heading" role="tab" id="heading1"
+                            data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="false"
+                            aria-controls="collapse1" (click)="eraseAllW()">Wallet<i style="margin-left: 10px;"
+                                class="fa fa-arrow-circle-o-down"></i></button>
+                    </div>
+                    <div class="p-2 bd-highlight">
+                        <button class="btn btn-success btn-sm collapsed panel-heading" role="tab" id="heading2"
+                            data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="false"
+                            aria-controls="collapse2" (click)="eraseAllT()">Transaction<i style="margin-left: 10px;"
+                                class="fa fa-arrow-circle-o-down"></i></button>
+                    </div>
+                    <div class="p-2 bd-highlight">
+                        <button class="btn btn-success btn-sm collapsed panel-heading" role="tab" id="heading3"
+                            data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="false"
+                            aria-controls="collapse3" (click)="eraseAllF()">Finance <i style="margin-left: 10px;"
+                                class="fa fa-arrow-circle-o-down"></i></button>
+                    </div>
+                </div> -->
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Reports</label>
+                        <select (change)="selectedInfo($event.target.value)"
+                            [disabled]="allPermissionForOnlyThisScreen.is_write === false"
+                            class="custom_select_added form-control custom_class_input">
+                            <option value="select">Select Reports</option>
+                            <option value="wallet" id="wallet_id">Wallet</option>
+                            <option value="transaction" id="transaction_id">Transaction</option>
+                            <option value="finance" id="finance_id">Finance</option>
+                            <option value="production" id="production_id">Production</option>
+                            <option value="sahyadrifarmproduct" id="sahyadri_farm_report_id">Sahyadri Farm Report
+                            </option>
+                            <option value="neworder" id="new_order_report_id">New Order Report</option>
+                            <option value="categorywisesales" id="category_wise_sales_report_id">Category wise sales
+                                Report</option>
+                            <option value="customer" id="customer_report_id">Customer Report</option>
+                            <option value="delivery" id="delivery_report_id">Delivery Report</option>
+                            <option value="all_orders" id="all_orders_report_id">All Orders Report</option>
+                            <option value="bulk_varient" id="bulk_varients_reports_id">Bulk Varients Reports</option>
+                            <option value="vehicle_plan" id="vehicle_plan_reports_id">Vehicle Plan Report</option>
+                            <option value="vehicle_wise_dispatch_verification"
+                                id="vehicle_wise_dispatch_verification_reports_id">Vehicle Wise Dispatch Verification
+                                Report</option>
+                            <option value="customer_order" id="customer_order_reports_id">Customer Order Report</option>
+                            <option value="wing_wise_dispatch_verification"
+                                id="wing_wise_dispatch_verification_reports_id">Wing wise dispatch verification
+                                Report</option>
+                            <option value="product_master" id="product_master_report_id">Product Master</option>
+                            <option value="in_process" id="in_process_report_id">In Process</option>
+
+                            <!-- <option value="diily_oms" id="diily_oms_report_id">Diily Oms</option>
+                                <option value="WMS_upload_format" id="WMS_upload_format_report_id">WMS Upload Format</option>
+                                <option value="picker_checker" id="picker_checker_report_id">Picker Checker</option>
+                                <option value="individual_store_dispatch_verification" id="individual_store_dispatch_verification_report_id">Individual Store Dispatch Verification</option> -->
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <form *ngIf="showWallet" [formGroup]="custome_download_one">
+                        <div class=" row">
+                            <div class="col-md-3">
+                                <label>From Date</label>
+                                <input type="date" class="form-control custom_select_added custom_class_input"
+                                    formControlName="from_date" id="from_date">
+                            </div>
+                            <div class="col-md-3">
+                                <label>To Date</label>
+                                <input type="date" id="to_date"
+                                    class="form-control custom_select_added custom_class_input"
+                                    formControlName="to_date">
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-success" (click)="customeExport_wallet()">
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1">
+                        <div class="panel-body">
+                            <div class="card-header">
+                                <form [formGroup]="custome_download_one">
+                                    <div class=" row">
+                                        <div class="col-md-3">
+                                            <label>From Date<span class="custom_star_mark"> *</span> </label>
+                                            <input type="date"
+                                                class="form-control custom_select_added custom_class_input"
+                                                formControlName="from_date" id="from_date"
+                                                [ngClass]="{ 'is-invalid': submitted && a.from_date.errors }">
+                                            <div *ngIf="submitted && a.from_date.errors" class="invalid-feedback">
+                                                <div *ngIf="a.from_date.errors.required">From Date is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>To Date<span class="custom_star_mark"> *</span> </label>
+                                            <input type="date" id="to_date"
+                                                class="form-control custom_select_added custom_class_input"
+                                                formControlName="to_date"
+                                                [ngClass]="{ 'is-invalid': submitted && a.to_date.errors }">
+                                            <div *ngIf="submitted && a.to_date.errors" class="invalid-feedback">
+                                                <div *ngIf="a.to_date.errors.required">To Date is required</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button class="btn btn-success" (click)="customeExport_wallet()">
+                                                Download
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="collapse2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading2">
+                        <div class="panel-body">
+                            <div class="card-header">
+                                <form [formGroup]="custome_download_two">
+                                    <div class=" row">
+                                        <div class="col-md-3">
+                                            <label>From Date<span class="custom_star_mark"> *</span> </label>
+                                            <input type="date"
+                                                class="form-control custom_select_added custom_class_input"
+                                                formControlName="from_date" id="from_date"
+                                                [ngClass]="{ 'is-invalid': submitted_two && b.from_date.errors }">
+                                            <div *ngIf="submitted_two && b.from_date.errors" class="invalid-feedback">
+                                                <div *ngIf="b.from_date.errors.required">From Date is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>To Date<span class="custom_star_mark"> *</span> </label>
+                                            <input type="date" id="to_date"
+                                                class="form-control custom_select_added custom_class_input"
+                                                formControlName="to_date"
+                                                [ngClass]="{ 'is-invalid': submitted_two && b.to_date.errors }">
+                                            <div *ngIf="submitted_two && b.to_date.errors" class="invalid-feedback">
+                                                <div *ngIf="b.to_date.errors.required">To Date is required</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button class="btn btn-success" (click)="customeExport_transactions()">
+                                                Download
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="collapse3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading3">
+                        <div class="panel-body">
+                            <div class="card-header">
+                                <form [formGroup]="custome_download_three">
+                                    <div class=" row">
+                                        <div class="col-md-3">
+                                            <label>From Date<span class="custom_star_mark"> *</span> </label>
+                                            <input type="date"
+                                                class="form-control custom_select_added custom_class_input"
+                                                formControlName="from_date" id="from_date"
+                                                [ngClass]="{ 'is-invalid': submitted_one && c.from_date.errors }">
+                                            <div *ngIf="submitted_one && c.from_date.errors" class="invalid-feedback">
+                                                <div *ngIf="c.from_date.errors.required">From Date is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>To Date<span class="custom_star_mark"> *</span> </label>
+                                            <input type="date" id="to_date"
+                                                class="form-control custom_select_added custom_class_input"
+                                                formControlName="to_date"
+                                                [ngClass]="{ 'is-invalid': submitted_one && c.to_date.errors }">
+                                            <div *ngIf="submitted_one && c.to_date.errors" class="invalid-feedback">
+                                                <div *ngIf="c.to_date.errors.required">To Date is required</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button class="btn btn-success" (click)="customeExport_finance()">
+                                                Download
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!-- <div class="card-body">
+
+            </div> -->
+
+        </div>
+    </div>
+    <div class="loader" *ngIf="loader">
+        <img src="/assets/img/Sahyadri-logo.png" alt="">
+        <p>Loading please wait...</p>
+    </div>

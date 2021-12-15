@@ -1,0 +1,230 @@
+<div class="main-content">
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === false" class="container-fluid">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div>
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === true" class="container-fluid">
+        <div class="card card-user">
+            <div class="card-header custome_final_added_look">
+                <div style="text-align: center;">
+                    <h5 class="card-title custome_title custome_header_title">List Of Order Rating & Review</h5>
+                </div>
+            </div>
+            <div class="d-flex flex-row-reverse bd-highlight card-header custome_final_added_look_2">
+                <div class="p-2 bd-highlight">
+                    <button class="btn btn-success btn-sm collapsed panel-heading" role="tab" id="heading1"
+                        data-toggle="collapse" data-parent="#accordion" href="#collapse_for_ciustomer"
+                        aria-expanded="false" aria-controls="collapse_for_ciustomer" (click)="customeDownloads()">
+                        Download<i style="margin-left: 10px;" class="fa fa-arrow-circle-o-down"></i></button>
+                </div>
+                <div class="p-2 bd-highlight">
+                    <button class="btn btn-success btn-sm collapsed panel-heading" role="tab" id="heading2"
+                        data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="false"
+                        aria-controls="collapse2" (click)="eraiseAll()"> Filter<i style="margin-left: 10px;"
+                            class="fa fa-filter"></i></button>
+                </div>
+                <div class="p-2 bd-highlight">
+                    <button class="btn btn-success btn-sm"
+                        [disabled]="allPermissionForOnlyThisScreen.is_write === false" (click)="generate()">Export<i
+                            style="margin-left: 10px;" class="fa fa-external-link-square"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <!-- <button style="margin-left: 24px;" class="btn btn-success" (click)="generate()">
+                        Export :
+                        <span class="material-icons custom_exxport">
+                            wysiwyg
+                        </span>
+                    </button> -->
+                    <!-- <div style="text-align: end; margin-right: 25px;" class="panel-heading" role="tab" id="heading1">
+                        <h4 class="panel-title"> <a style="color: #4caf50; font-weight: 700;" class="collapsed"
+                                role="button" data-toggle="collapse" data-parent="#accordion"
+                                href="#collapse_for_ciustomer" aria-expanded="false"
+                                aria-controls="collapse_for_ciustomer" (click)="customeDownloads()">
+                                Custom Download </a> </h4>
+                    </div> -->
+                    <div id="collapse_for_ciustomer" class="panel-collapse collapse" role="tabpanel"
+                        aria-labelledby="heading1">
+                        <div class="panel-body">
+                            <div class="card-header">
+                                <form [formGroup]="custome_download">
+                                    <div class=" row">
+                                        <div class="col-md-3">
+                                            <label>From Date </label>
+                                            <input type="date"
+                                                class="form-control custom_select_added custom_class_input"
+                                                formControlName="from_date" id="from_date">
+                                            <!-- [ngClass]="{ 'is-invalid': submitted && a.from_date.errors }"> -->
+                                            <!-- <div *ngIf="submitted && a.from_date.errors" class="invalid-feedback">
+                                                <div *ngIf="a.from_date.errors.required">From Date is required
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>To Date </label>
+                                            <input type="date" id="to_date"
+                                                class="form-control custom_select_added custom_class_input"
+                                                formControlName="to_date">
+                                            <!-- [ngClass]="{ 'is-invalid': submitted && a.to_date.errors }"> -->
+                                            <!-- <div *ngIf="submitted && a.to_date.errors" class="invalid-feedback">
+                                                <div *ngIf="a.to_date.errors.required">To Date is required</div>
+                                            </div> -->
+                                        </div>
+                                        <!-- <div class="col-md-3">
+                                            <label>Status<span class="custom_star_mark"> *</span> </label>
+                                            <select class="form-control custom_select_added"
+                                                (change)="selectedStatusInfor($event.target.value)"
+                                                formControlName="status_id"
+                                                [ngClass]="{ 'is-invalid': submitted && a.status_id.errors }">
+                                                <option *ngFor="let p of statustotalList.statuses;let i = index;"
+                                                    class="form-control custome_chaild_text" [value]="p.status_id">
+                                                    {{p.status | removeUnderscore}}</option>
+                                            </select>
+                                            <div *ngIf="submitted && a.status_id.errors" class="invalid-feedback">
+                                                <div *ngIf="a.status_id.errors.required">Status is required
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div class="col-md-3">
+                                            <button class="btn btn-success" (click)="customeExport()">
+                                                Download
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div style="text-align: end; margin-right: 25px;" class="panel-heading" role="tab" id="heading2">
+                        <h4 class="panel-title"> <a style="color: #4caf50; font-weight: 700;" class="collapsed"
+                                role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse2"
+                                aria-expanded="false" aria-controls="collapse2">
+                                Search </a> </h4>
+                    </div> -->
+                    <div id="collapse2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading2">
+                        <div class="panel-body">
+                            <div class="card-header">
+                                <div class="card-header">
+                                    <div class=" row">
+                                        <div class="col-md-4">
+                                            <label>Customer Name</label>
+                                            <input type="text" readonly (click)="enableThis1()"
+                                                class="form-control custom_select_added custom_class_input"
+                                                id="customer_name_id">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Rating</label>
+                                            <input type="text" id="rating_id" readonly (click)="enableThis2()"
+                                                class="form-control custom_select_added custom_class_input">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-success" (click)="customeSearch()">
+                                            Filter
+                                        </button>
+                                        <button class="btn btn-success" (click)="reSet()">
+                                            Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body custome_final_added_look_3">
+                <div class="ifNodata_List" *ngIf="message_display === true">
+                    <p>Currently No Order Ratings are Available</p>
+                </div>
+                <div *ngIf="message_display != true" class="table-responsive table_custome_resp">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%;">
+                                    <input type="checkbox" (click)="all(ratingInfo)" id="selectall" />
+                                </th>
+                                <!-- <th>S.No</th> -->
+                                <th> Customer Name </th>
+                                <!-- <th> Order ID </th> -->
+                                <th> Rating </th>
+                                <th style="width: 8%;"> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of pagedItems;let i = index;">
+                                <td>
+                                    <input type="checkbox" id="dynamicID{{i}}" class="singlechkbox"
+                                        (click)="single(i,item)" name="username" value="i" />
+                                </td>
+                                <!-- <td>{{i+1}}</td> -->
+                                <td>{{item.first_name}} {{item.last_name}}</td>
+                                <!-- <td>{{item.order_id}}</td> -->
+                                <td>{{item.rating}}</td>
+                                <td>
+                                    <span class="material-icons order_view" data-placement="right" title="View"
+                                        (click)="viewValue(item)">
+                                        remove_red_eye
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="total_pagination_custom">
+                <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                    <li (click)="setPage(1)" [ngClass]="{disabled:pager.currentPage === 1}">
+                        <a>First</a>
+                    </li>
+                    <li (click)="setPage(pager.currentPage - 1)" [ngClass]="{disabled:pager.currentPage === 1}">
+                        <a>Previous</a>
+                    </li>
+                    <li (click)="setPage(page)" *ngFor="let page of pager.pages"
+                        [ngClass]="{active:pager.currentPage === page}">
+                        <a>{{page}}</a>
+                    </li>
+                    <li (click)="setPage(pager.currentPage + 1)"
+                        [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                        <a>Next</a>
+                    </li>
+                    <li (click)="setPage(pager.totalPages)"
+                        [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                        <a>Last</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- <div class="modal fade auth-modal" id="rating_veiw_info">
+            <div class="modal-dialog " style="z-index: 2;">
+                <div class="modal-content d-flex">
+                    <button type="button" class="close close-button" id="profile_edit_verified" data-dismiss="modal">
+                        <img src="assets/img/Close.png" alt="">
+                    </button>
+                    <h5 class="card-title custome_title_in_pop-up">Order Rating & Review Details</h5>
+                </div>
+            </div>
+            <div class="modal-backdrop modal-overlay fade show" style="z-index: 1;"></div>
+        </div>
+        <div class="modal fade auth-modal" id="rating_edit_info">
+            <div class="modal-dialog " style="z-index: 2;">
+                <div class="modal-content d-flex">
+                    <button type="button" class="close close-button" id="profile_edit_verified" data-dismiss="modal">
+                        <img src="assets/img/Close.png" alt="">
+                    </button>
+                    <h5 class="card-title custome_title_in_pop-up">Order Rating & Review Details</h5>
+                    <div>
+                        <button class="btn btn-success" (click)="editSubmit()">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-backdrop modal-overlay fade show" style="z-index: 1;"></div>
+        </div> -->
+    </div>
+</div>
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p>Loading please wait...</p>
+</div>

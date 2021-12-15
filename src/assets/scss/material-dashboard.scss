@@ -1,0 +1,162 @@
+/*!
+
+=========================================================
+* Material Dashboard Angular - v2.4.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard-angular2
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/material-dashboard-angular2/blob/master/LICENSE.md)
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+ @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+ @import "core/variables";
+ @import "core/mixins";
+ @import "~bootstrap/scss/bootstrap";
+
+
+ // Core Components
+ @import "core/buttons";
+ @import "core/checkboxes";
+ @import "core/radios";
+ @import "core/forms";
+ @import "core/input-group";
+ @import "core/images";
+ @import "core/navbar";
+ @import "core/alerts";
+ @import "core/type";
+ @import "core/tabs";
+ @import "core/tooltip";
+ @import "core/popover";
+ @import "core/dropdown";
+ @import "core/togglebutton";
+ @import "core/ripples";
+ @import "core/footers";
+ @import "core/sidebar-and-main-panel";
+ @import "core/fixed-plugin";
+ @import "core/tables";
+ @import "core/misc";
+
+@import "core/cards";
+@import "core/cards/card-stats";
+@import "core/cards/card-profile";
+@import "core/cards/card-plain";
+
+ //plugin scss
+ @import "core/plugins/animate";
+ @import "core/plugins/chartist";
+ @import "core/plugins/perfect-scrollbar";
+
+ @import "core/responsive";
+
+@import "core/angular-modal.scss";
+
+.loader {
+    pointer-events: all !important;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 99999999999;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffffa6;
+    flex-flow: column;
+    pointer-events: none;
+  }
+  .loader p {
+    font-size: 12px;
+    font-weight: 600;
+    color: #000;
+  }
+  .table thead tr th {
+    color: #4caf50 !important;
+    font-weight: 700 !important;
+  }
+
+  .info_page_title{
+    color: #4caf50 !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+    text-transform: uppercase !important;
+  }
+  .info_page_title_block{
+    text-align: center;
+  }
+  .custom_exxport{
+    cursor: pointer;
+    width: 0 !important;
+  }
+  .was-validated .form-control:invalid, .form-control.is-invalid{
+    background-image: none !important;
+  }
+  label{
+    color: #4caf50 !important;
+    font-weight: 500 !important;
+  }
+
+  .ifNodata_List{
+    text-align: center;
+    margin: 15px;
+  }
+
+  .ifNodata_List p{
+    color: #4caf50;
+    font-weight: 500;
+  }
+  .custom_star_mark{
+    color: red !important;
+  }
+
+  .custom_retuns_image{
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+  }
+  .custome_css_for_place{
+    margin-top: 8px !important;
+  }
+  .custome_header_title { 
+    font-size: 20px !important;
+  }
+  .custome_chaild_text {
+    text-transform: capitalize;
+  }
+
+  .TextChanges{
+    text-transform: uppercase;
+  }
+  .form-control:read-only{
+    background-image: none !important;
+}
+.card .table tr td{
+  padding: 1px !important;
+  margin: 1px !important;
+}
+.card .table tr th{
+  padding: 1px !important;
+  margin: 1px !important;
+}
+#selectall{
+  margin: 0 !important;
+}
+.singlechkbox{
+  margin: 0 !important;
+}
+.custome_button_for{
+  background-color: #4caf50;
+}
+.pac-container{
+  z-index: 9999999 !important;
+}

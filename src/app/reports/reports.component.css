@@ -1,0 +1,14 @@
+.custom_select_added{
+    width: 100%;
+    background-image: none;
+    border: 0;
+    border-bottom: 1px solid #cacaca;
+    border-radius: 0;
+    font-size: 14px;
+    padding: 0 5px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+.custome_header_title{
+    text-align: center;
+}

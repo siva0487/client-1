@@ -1,0 +1,119 @@
+input,textarea {
+    background-image: none;
+    border: 0;
+    border-bottom: 1px solid #cacaca;
+    border-radius: 0;
+    font-size: 14px;
+    padding: 0 5px;
+    margin-bottom: 15px;
+    /* min-width: 300px; */
+    font-weight: 500;
+    
+}
+textarea,input::placeholder {
+    color: rgb(150, 48, 48);
+    font-weight: 500;
+    font-size: 14px;
+}
+.custome_title{
+    text-align: center;
+}
+
+.custom_select_added{
+    width: 100%;
+    background-image: none;
+    border: 0;
+    border-bottom: 1px solid #cacaca;
+    border-radius: 0;
+    font-size: 14px;
+    padding: 0 5px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.dynamic_slots{
+    margin: 50px 0 50px 0;
+}
+
+.hiding-data{
+    display:none;
+    list-style: none;
+    border-left: 1px solid rgb(184, 194, 204);
+    border-bottom: 1px solid rgb(184, 194, 204);
+    border-right: 1px solid rgb(184, 194, 204);
+    background-color: white;
+    width: 90%;
+    position: absolute;
+    z-index: 999999;
+    overflow: auto;
+    height: 100px;
+}
+.store_info_title_custom{
+    text-align: center;
+}
+.showThis{
+    width:100%;
+}
+.custom_circel_added{
+    cursor: pointer;
+}
+.multiselect-item-checkbox li:first-child{
+    display: none !important;
+}
+
+.item1 li:first-child {
+    display: none !important;
+}
+td,th {
+    padding: 0 10px 0 10px;
+}
+.custome_table_div_heigh{
+    height: 150px;
+    overflow: auto;
+}
+.dynamic_custom_div{
+    position: absolute;
+    border: 1px solid gray;
+    width: 66%;
+    height: 150px;
+    overflow: auto;
+    background: white;
+}
+/* select {
+    width: 100%;
+    height: 35px;
+    border: 2px solid #bab8b9;
+    border-radius: 0px;
+    font-weight: 700;
+} */
+.custom_main_div_layout{
+    display: flex;
+}
+.Custome_slots_creat{
+    display: none;
+}
+
+.custom_class_input_for_select{
+    margin-bottom: 25px !important;
+}
+
+.form-control:read-only{
+    background-image: none !important;
+  }
+  .form-control[readonly]{
+    background-color: white !important;
+  }
+
+.cap_custom{
+  text-transform: uppercase;
+}
+/** No CSS for this example */
+/* .mat-calendar-body-cell.selected
+{
+  background-color:red!important;
+  border-radius: 50%
+}
+.drop-calendar
+{
+  width:30rem
+} */

@@ -1,0 +1,352 @@
+<div class="container-fluid my-5 d-flex justify-content-center">
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === false" class="card card-1">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div>
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === true" class="card card-1">
+        <div class="card-body">
+            <div style="text-align: center;">
+                <h6 class="info_page_title custome_header_title">Customer Details </h6>
+            </div>
+            <div *ngIf="customersDetails" class="row justify-content-between mb-2">
+                <div class="col-auto ">
+                    <h6 class="color-1 mb-0 change-color info_page_title">Customer ID : {{customersDetails.customer_id}}
+                    </h6>
+                </div>
+                <div class="col-auto return_to_orders_list">
+                    <img src="/assets/img/return.png" class="custom_retuns_image" data-placement="right" title="Back"
+                        (click)="cancel()">
+                    <!-- <h6 class="color-1 mb-0 change-color info_page_title" (click)="cancel()">Return To Customer List -->
+                    <!-- </h6> -->
+                </div>
+            </div>
+            <div *ngIf="customersDetails" class="card-2 customer_info_custom">
+                <div class="row card-body">
+                    <div class="col-md-4">
+                        <label>Customer Name</label>
+                        <input readonly value="{{customer_full_name_new}}" type="text">
+                    </div>
+                    <div class="col-md-4">
+                        <label>Mobile Number</label>
+                        <input readonly value="{{customersDetails.mobile}}" type="number">
+                    </div>
+                    <div class="col-md-4">
+                        <label>Email ID</label>
+                        <input readonly value="{{customersDetails.email}}" type="text">
+                    </div>
+                    <!-- <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Subscription ID" type="text">
+                    </mat-form-field>
+                </div> -->
+                </div>
+                <div *ngIf="waletDetails" class="row card-body">
+                    <div class="col-md-4">
+                        <label>Wallet Amount</label>
+                        <input readonly value="{{waletDetails.wallet_amount}}" type="text">
+                    </div>
+                </div>
+                <div *ngIf="waletDetails">
+                    <label>Wallet Transaction Details</label>
+                    <div style="height: 200px; overflow: auto;">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Transaction Amount</th>
+                                    <th>Debit/Credit</th>
+                                    <th>Date & Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of waletDetails.transactions">
+                                    <td>{{item.amount}} </td>
+                                    <td *ngIf="item.is_credit" style="color: green;">Credited</td>
+                                    <td *ngIf="item.is_debit" style="color: red;">Debited</td>
+                                    <td>{{item.created_at | customDateAndTime}} </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="row mt-4">
+                <div class="col">
+                    <div class="card card-2 custom_main_content_product_list">
+                        <div class="card-body">
+                            <div class="list_of_orders_title_custom">
+                                <h4 class="info_page_title"> List Of Orders </h4>
+                            </div>
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                <div class="panel panel-default">
+                                    <div class="panel panel-default row">
+                                        <div class="col-md-4 main_custom_block">
+                                            <div class="panel-heading" role="tab" id="heading2">
+                                                <h4 class="panel-title"> <a class="collapsed" role="button"
+                                                        data-toggle="collapse" data-parent="#accordion"
+                                                        href="#collapse1" aria-expanded="false"
+                                                        aria-controls="collapse1">
+                                                        Order ID : 125366 <br>
+                                                        Order Status : In Progress </a> </h4>
+                                            </div>
+                                            <div id="collapse1" class="panel-collapse collapse custom_collapse_design"
+                                                role="tabpanel" aria-labelledby="heading2">
+                                                <div class="panel-body">
+                                                    <div class="media">
+                                                        <div class="sq align-self-center "> <img
+                                                                class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                                src="/assets/img/orange.png" width="135" height="135" />
+                                                        </div>
+                                                        <div class="media-body my-auto">
+                                                            <div>
+                                                                <span>Orange</span>
+                                                            </div>
+                                                            <div>
+                                                                <span>Qty : 1 KG</span>
+                                                            </div>
+                                                            <div>
+                                                                <span>&#8377;235.00</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 main_custom_block">
+                                            <div class="panel-heading" role="tab" id="heading3">
+                                                <h4 class="panel-title"> <a class="collapsed" role="button"
+                                                        data-toggle="collapse" data-parent="#accordion"
+                                                        href="#collapse2" aria-expanded="false"
+                                                        aria-controls="collapse2">
+                                                        Order ID : 125367 <br>
+                                                        Order Status : In Progress
+                                                    </a> </h4>
+                                            </div>
+                                            <div id="collapse2" class="panel-collapse collapse custom_collapse_design"
+                                                role="tabpanel" aria-labelledby="heading2">
+                                                <div class="panel-body">
+                                                    <div class="media">
+                                                        <div class="sq align-self-center "> <img
+                                                                class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                                src="/assets/img/pomegranate.png" width="135"
+                                                                height="135" /> </div>
+                                                        <div class="media-body my-auto">
+                                                            <div>
+                                                                <span>Pomegranate</span>
+                                                            </div>
+                                                            <div>
+                                                                <span>Qty : 1 KG</span>
+                                                            </div>
+                                                            <div>
+                                                                <span>&#8377;350.00</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 main_custom_block">
+                                            <div class="panel-heading" role="tab" id="heading3">
+                                                <h4 class="panel-title"> <a class="collapsed" role="button"
+                                                        data-toggle="collapse" data-parent="#accordion"
+                                                        href="#collapse3" aria-expanded="false"
+                                                        aria-controls="collapse3">
+                                                        Order ID : 125368 <br>
+                                                        Order Status : Ordered
+                                                    </a> </h4>
+                                            </div>
+                                            <div id="collapse3" class="panel-collapse collapse custom_collapse_design"
+                                                role="tabpanel" aria-labelledby="heading2">
+                                                <div class="panel-body">
+                                                    <div class="media">
+                                                        <div class="sq align-self-center "> <img
+                                                                class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                                src="/assets/img/strawberry.png" width="135"
+                                                                height="135" /> </div>
+                                                        <div class="media-body my-auto">
+                                                            <div>
+                                                                <span>Strawberry</span>
+                                                            </div>
+                                                            <div>
+                                                                <span>Qty : 1 KG</span>
+                                                            </div>
+                                                            <div>
+                                                                <span>&#8377;350.00</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 main_custom_block">
+                                            <div class="panel-heading" role="tab" id="heading3">
+                                                <h4 class="panel-title"> <a class="collapsed" role="button"
+                                                        data-toggle="collapse" data-parent="#accordion"
+                                                        href="#collapse4" aria-expanded="false"
+                                                        aria-controls="collapse4">
+                                                        Order ID : 125369 <br>
+                                                        Order Status : Ordered
+                                                    </a> </h4>
+                                            </div>
+                                            <div id="collapse4" class="panel-collapse collapse custom_collapse_design"
+                                                role="tabpanel" aria-labelledby="heading2">
+                                                <div class="panel-body">
+                                                    <div class="media">
+                                                        <div class="sq align-self-center "> <img
+                                                                class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                                src="/assets/img/strawberry.png" width="135"
+                                                                height="135" /> </div>
+                                                        <div class="media-body my-auto">
+                                                            <div>
+                                                                <span>Strawberry</span>
+                                                            </div>
+                                                            <div>
+                                                                <span>Qty : 1 KG</span>
+                                                            </div>
+                                                            <div>
+                                                                <span>&#8377;350.00</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 main_custom_block">
+                                            <div class="panel-heading" role="tab" id="heading3">
+                                                <h4 class="panel-title"> <a class="collapsed" role="button"
+                                                        data-toggle="collapse" data-parent="#accordion"
+                                                        href="#collapse5" aria-expanded="false"
+                                                        aria-controls="collapse5">
+                                                        Order ID : 125370 <br>
+                                                        Order Status : Ordered
+                                                    </a> </h4>
+                                            </div>
+                                            <div id="collapse5" class="panel-collapse collapse custom_collapse_design"
+                                                role="tabpanel" aria-labelledby="heading2">
+                                                <div class="panel-body">
+                                                    <div class="media">
+                                                        <div class="sq align-self-center "> <img
+                                                                class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                                src="/assets/img/strawberry.png" width="135"
+                                                                height="135" /> </div>
+                                                        <div class="media-body my-auto">
+                                                            <div>
+                                                                <span>Strawberry</span>
+                                                            </div>
+                                                            <div>
+                                                                <span>Qty : 1 KG</span>
+                                                            </div>
+                                                            <div>
+                                                                <span>&#8377;350.00</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 main_custom_block">
+                                            <div class="panel-heading" role="tab" id="heading3">
+                                                <h4 class="panel-title"> <a class="collapsed" role="button"
+                                                        data-toggle="collapse" data-parent="#accordion"
+                                                        href="#collapse6" aria-expanded="false"
+                                                        aria-controls="collapse6">
+                                                        Order ID : 125371 <br>
+                                                        Order Status : Ordered
+                                                    </a> </h4>
+                                            </div>
+                                            <div id="collapse6" class="panel-collapse collapse custom_collapse_design"
+                                                role="tabpanel" aria-labelledby="heading2">
+                                                <div class="panel-body">
+                                                    <div class="media">
+                                                        <div class="sq align-self-center "> <img
+                                                                class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                                src="/assets/img/strawberry.png" width="135"
+                                                                height="135" /> </div>
+                                                        <div class="media-body my-auto">
+                                                            <div>
+                                                                <span>Strawberry</span>
+                                                            </div>
+                                                            <div>
+                                                                <span>Qty : 1 KG</span>
+                                                            </div>
+                                                            <div>
+                                                                <span>&#8377;350.00</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 main_custom_block">
+                                            <div class="panel-heading" role="tab" id="heading3">
+                                                <h4 class="panel-title"> <a class="collapsed" role="button"
+                                                        data-toggle="collapse" data-parent="#accordion"
+                                                        href="#collapse7" aria-expanded="false"
+                                                        aria-controls="collapse7">
+                                                        Order ID : 125372 <br>
+                                                        Order Status : Ordered
+                                                    </a> </h4>
+                                            </div>
+                                            <div id="collapse7" class="panel-collapse collapse custom_collapse_design"
+                                                role="tabpanel" aria-labelledby="heading2">
+                                                <div class="panel-body">
+                                                    <div class="media">
+                                                        <div class="sq align-self-center "> <img
+                                                                class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                                src="/assets/img/strawberry.png" width="135"
+                                                                height="135" /> </div>
+                                                        <div class="media-body my-auto">
+                                                            <div>
+                                                                <span>Strawberry</span>
+                                                            </div>
+                                                            <div>
+                                                                <span>Qty : 1 KG</span>
+                                                            </div>
+                                                            <div>
+                                                                <span>&#8377;350.00</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="row delivery_details">
+                <div class="col-md-6 ">
+                    <!-- <h3 class="info_page_title">Customer Default Address</h3>
+                    <span>
+                        <p>Sivaramkumar</p>
+                        <p>No 4, 4th Main Road, Errapareddy Layout, subbanapalya extenstions</p>
+                        <p>Bangalore, Karnataka, India</p>
+                        <p>560033,+91 9642392940 </p>
+                    </span> -->
+
+                    <!-- <div class="col-md-1" style="padding:0; margin: 00;">
+                        </div> -->
+                    <!-- <div class="col-md-6 shipping_address">
+                            <h3 class="info_page_title">Shipping Address</h3>
+                            <span>
+                                <p>Sivaramkumar</p>
+                                <p>No 4, 4th Main Road, Errapareddy Layout, subbanapalya extenstions</p>
+                                <p>Bangalore, Karnataka, India</p>
+                                <p>560033,+91 9642392940 </p>
+                            </span>
+                        </div> -->
+                </div>
+            </div>
+            <!-- <hr class="my-3 "> -->
+
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p>Loading please wait...</p>
+</div>

@@ -1,0 +1,52 @@
+<div class="container-fluid my-5 d-flex justify-content-center">
+    <div class="card card-1">
+        <div class="card-body">
+            <div style="text-align: center;">
+                <h6 class="info_page_title custome_header_title">Subscription Details</h6>
+            </div>
+            <div class="row justify-content-between mb-2">
+                <div class="col-auto ">
+                    <h6 class="color-1 mb-0 change-color info_page_title">Subscription ID : {{id.subscription_id}} </h6>
+                </div>
+                <div class="col-auto return_to_orders_list">
+                    <img src="/assets/img/return.png" class="custom_retuns_image" data-placement="right" title="Back" (click)="cancel()">
+                    <!-- <h6 class="color-1 mb-0 change-color info_page_title" (click)="cancel()">Return To Subscription List -->
+                    <!-- </h6> -->
+                </div>
+            </div>
+            <div class="card-2 customer_info_custom">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input placeholder="Subscriber Name" readonly value="Sivaramkumar" type="text">
+                        </div>
+                        <div class="col-md-4">
+                            <input placeholder="Mobile Number" readonly value="{{id.phone_number}}" type="number">
+                        </div>
+                        <div class="col-md-4">
+                            <input placeholder="Email ID" readonly value="sivaramkumar94@gmail.com" type="email">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input placeholder="Customer ID" readonly value="{{id.customer_id}}" type="text">
+                        </div>
+                        <div class="col-md-6">
+                            <input placeholder="Subscription Type" readonly value="{{id.type}}" type="text">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input placeholder="Start Date" readonly value="{{id.start_date}}" type="text">
+                        </div>
+                        <div class="col-md-6">
+                            <input placeholder="End Date" readonly value="{{id.end_date}}" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

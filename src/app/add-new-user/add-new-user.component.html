@@ -1,0 +1,234 @@
+<div class="main-content">
+    <div *ngIf="writePermissionForOnlyThisScreen.is_read === false" class="container-fluid">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div>
+    <div *ngIf="writePermissionForOnlyThisScreen.is_read === true" class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header custome_header_title">
+                        <h5 class="card-title custome_title  info_page_title">Create New User</h5>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="createNewUserForm">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>First Name <span class="custom_star_mark"> *</span> </label>
+                                    <input class="form-control" formControlName="first_name"
+                                        [ngClass]="{ 'is-invalid': submitted && a.first_name.errors }">
+                                    <div *ngIf="submitted && a.first_name.errors" class="invalid-feedback">
+                                        <div *ngIf="a.first_name.errors.required">First Name is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Last Name <span class="custom_star_mark"> *</span> </label>
+                                    <input type="text" class="form-control custom_class_input"
+                                        formControlName="last_name"
+                                        [ngClass]="{ 'is-invalid': submitted && a.last_name.errors }">
+                                    <div *ngIf="submitted && a.last_name.errors" class="invalid-feedback">
+                                        <div *ngIf="a.last_name.errors.required">Last Name is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Mobile Number<span class="custom_star_mark"> *</span> </label>
+                                    <input type="text" class="form-control custom_class_input" formControlName="mobile"
+                                        pattern="^[0-9]{10}$"
+                                        [ngClass]="{ 'is-invalid': submitted && a.mobile.errors }">
+                                    <div *ngIf="submitted && a.mobile.errors" class="invalid-feedback">
+                                        <div *ngIf="a.mobile.errors.required">Mobile Number is required</div>
+                                        <div *ngIf="a.mobile.errors.pattern">Invalid MobileNumber</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Email ID<span class="custom_star_mark"> *</span> </label>
+                                    <input type="text" class="form-control custom_class_input" formControlName="email"
+                                        [ngClass]="{ 'is-invalid': submitted && a.email.errors }">
+                                    <div *ngIf="submitted && a.email.errors" class="invalid-feedback">
+                                        <div *ngIf="a.email.errors.required">Email is required</div>
+                                        <div *ngIf="a.email.errors.pattern">Enter valid email address</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Password<span class="custom_star_mark"> *</span> </label>
+                                    <input type="password" class="form-control custom_class_input"
+                                        formControlName="password"
+                                        [ngClass]="{ 'is-invalid': submitted && a.password.errors }">
+                                    <div *ngIf="submitted && a.password.errors" class="invalid-feedback">
+                                        <div *ngIf="a.password.errors.required">Password is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Assign Role<span class="custom_star_mark"> *</span> </label>
+                                    <select class="custom_select_added form-control custom_class_input"
+                                        formControlName="role_id"
+                                        [ngClass]="{ 'is-invalid': submitted && a.role_id.errors }">
+                                        <option *ngFor="let role_list of finalRolesArray" value="{{role_list.role_id}}">
+                                            {{role_list.role_name}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && a.role_id.errors" class="invalid-feedback">
+                                        <div *ngIf="a.role_id.errors.required">Assigning the Role is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Assign Store<span class="custom_star_mark"> *</span> </label>
+                                    <select class="form-control" formControlName="store_id"
+                                        [ngClass]="{ 'is-invalid': submitted && a.store_id.errors }">
+                                        <option value="for_admin">All Stores</option>
+                                        <option *ngFor="let list of finalStoresListArray" value="{{list.store_id}}">
+                                            {{list.store_name}}</option>
+                                    </select> 
+                                    <div *ngIf="submitted && a.store_id.errors" class="invalid-feedback">
+                                        <div *ngIf="a.store_id.errors.required">Assigning the Store is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>User Status<span class="custom_star_mark"> *</span> </label>
+                                    <select class="form-control" formControlName="is_active"
+                                        [ngClass]="{ 'is-invalid': submitted && a.is_active.errors }">
+                                        <option *ngFor="let list of userStatusSet" value="{{list.is_active}}">
+                                            {{list.status}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && a.is_active.errors" class="invalid-feedback">
+                                        <div *ngIf="a.is_active.errors.required">Assigning the User Status is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label>User Permissions<span class="custom_star_mark"> *</span> </label>
+                                <div class="user_permission_custome">
+                                    <button id="user_permission_id" class="btn btn-outline-secondary"
+                                        (click)="forUserPermission()" data-target="#add_new_user_permissions"
+                                        data-dismiss="modal">User
+                                        Permissions</button>
+                                    <p *ngIf="permissionsMessage"> Permission has been created successfully </p>
+                                    <p class="user_permission_required" *ngIf="userpermissionsMessage"> Assigning
+                                        the Permissions are required</p>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row-reverse bd-highlight">
+                                <div class="p-2 bd-highlight">
+                                    <button mat-raised-button type="submit" (click)="createNewUser()"
+                                        class="btn btn-success pull-right">Create</button>
+                                </div>
+                                <div class="p-2 bd-highlight">
+                                    <button mat-raised-button type="submit" class="btn btn-danger pull-right"
+                                        (click)="cancel()">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade auth-modal" id="add_new_user_permissions">
+            <div class="modal-dialog " style="z-index: 2;">
+                <div class="modal-content d-flex" style="height: 565px;">
+                    <button type="button" class="close close-button" id="profile_edit_verified" data-dismiss="modal">
+                        <img src="assets/img/Close.png" alt="">
+                    </button>
+                    <h5 class="card-title custome_title_in_pop-up">User Permissions</h5>
+                    <div class="user_permission_table_info row">
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr class="assigneForAll">
+                                        <th rowspan="2">Screens</th>
+                                        <th colspan="2">Action</th>
+                                    </tr>
+                                    <tr class="assigneForAll">
+                                        <th>Read</th>
+                                        <th>Write</th>
+                                    </tr>
+                                    <tr class="assigneForAll">
+                                        <th colspan="3">
+                                            Select All (Read & Write) <input type="checkbox" (click)="all_selecte()"
+                                                id="select_all_for_permissions">
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of finalModifiedArray; let i = index;" class="assigneForAll">
+                                        <td>
+                                            {{item.screen_name}}
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" class="singlechkbox_read" value="{{item.screen_id}}"
+                                                id="checked_new{{i}}" [checked]="item.is_read">
+                                            <!-- (change)="checkingRead(i,item)" -->
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" class="singlechkbox_write" value="{{item.screen_id}}"
+                                                id="checked_newNew{{i}}" [checked]="item.is_write"
+                                                (click)="all_selecte_read_default(i)">
+                                            <!-- (change)="checkingWrite(i,item)" -->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr class="assigneForAll">
+                                        <th rowspan="2">Order Status Update Permissions</th>
+                                        <th colspan="2">Action</th>
+                                    </tr>
+                                    <tr class="assigneForAll">
+                                        <th>Read</th>
+                                        <th>Write</th>
+                                    </tr>
+                                    <tr class="assigneForAll">
+                                        <th colspan="3">
+                                            Select All (Read & Write) <input type="checkbox"
+                                                (click)="all_selecte_status()" id="select_all_for_permissions_status">
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of finalModifiedStatusArray; let i = index;"
+                                        class="assigneForAll">
+                                        <td class="custome_chaild_text">
+                                            {{item.status | removeUnderscore}}
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" class="singlechkbox_read_status"
+                                                value="{{item.status_id}}" id="checked_new_status{{i}}"
+                                                [checked]="item.is_read">
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" class="singlechkbox_write_status"
+                                                value="{{item.status_id}}" id="checked_new1_status{{i}}"
+                                                [checked]="item.is_write" (click)="all_selecte_read_default_status(i)">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row-reverse bd-highlight">
+                        <div class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" class="btn btn-success pull-right btn-sm"
+                                (click)="createNewUserPermission()">Create</button>
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right btn-sm"
+                                (click)="closethisNow()">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-backdrop modal-overlay fade show" style="z-index: 1;"></div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p>Loading please wait...</p>
+</div>

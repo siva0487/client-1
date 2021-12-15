@@ -1,0 +1,159 @@
+<div class="main-content">
+    <!-- <div *ngIf="allPermissionForOnlyThisScreen.is_read === false" class="container-fluid">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div> -->
+    <div class="container-fluid">
+        <!-- <div class="card card-user">
+            <div class="card-header custome_final_added_look">
+                <img style="position: absolute;
+                    left: 95%;" src="/assets/img/return.png" class="custom_retuns_image" data-placement="right"
+                    title="Back" [routerLink]="['/orders']">
+                <div style="text-align: center;">
+                    <h5 style="color: #4caf50;font-weight: 700;" class="card-title custome_title custome_header_title">
+                        Placing Order From OMS</h5>
+                </div>
+            </div>
+        </div> -->
+        <div class="card card-user custome_aadded_cl" style="padding: 10px;height: 500px; overflow: auto;">
+            <div class="card-header custome_final_added_look">
+                <img style="position: absolute;
+                    left: 95%;" src="/assets/img/return.png" class="custom_retuns_image" data-placement="right"
+                    title="Back" (click)="goBackToViewPage()">
+                <div style="text-align: center;">
+                    <h5 style="color: #4caf50;font-weight: 700;" class="card-title custome_title custome_header_title">
+                        Add Products For Existing Order From OMS</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div #searchBar (click)="handleAsideClick($event)" class="search-container" fxFlex="1 0 auto">
+                    <form>
+                        <input #searchInput id="searchInputId" style="border: none;" class="pl-2 pr-5" type="search"
+                            placeholder="Product Name Search.." name="search"
+                            (keyup)="search($event.target.value, $event)">
+                        <button (click)="isSearchSuggestion = false" class="custome_button_for" type="submit"><i
+                                class="fa fa-search"></i></button>
+                        <div *ngIf="searchLoader" class="search-suggestion-loader">
+                            <img class="w-100" src="/assets/img/loader1.gif" alt="">
+                        </div>
+                    </form>
+                    <div class="search-overlay">
+
+                    </div>
+                    <div class="search-suggestions" #searchSuggestion>
+                        <div *ngIf="searchedProducts && isSearchSuggestion" class="search-suggestions-inner p-2">
+                            <div *ngIf="searchedProducts == '' && isSearchSuggestion" class="no-result-found">
+                                <p>No Result Found</p>
+                            </div>
+                            <div *ngFor="let product of searchedProducts; let i= index" class="search-product" fxLayout
+                                fxLayoutAlign="space-between center">
+                                <div class="product-image">
+                                    <!-- (click)="isSearchSuggestion = false" -->
+                                    <img [src]="product.image" alt="">
+                                    <!-- onError="this.src='assets/images/images/image_not_found.png'" -->
+                                </div>
+                                <div class="product-detail">
+                                    <!-- (click)="isSearchSuggestion = false" -->
+                                    <!-- <p>{{product?.brand}}</p> -->
+                                    <p style="line-height: 1.5;">{{product.name}}</p>
+                                </div>
+                                <p style="margin: 0; line-height: 1;" class="product-varient">
+                                    {{product.variants}}
+                                </p>
+                                <!-- (click)="isSearchSuggestion = false" -->
+                                <p style="margin: 0;" class="product-price">Rs
+                                    {{product.price}}</p>
+                                <div *ngIf="!checkoutStatus" class="product-quantity">
+                                    <!-- <p fxLayout fxLayoutAlign="center center">Qty</p> -->
+                                    <input type="text" style="text-align: center;
+                                    padding: 0;" readonly [value]="1" #productQuantity>
+                                    <button *ngIf="!checkoutStatus" [disabled]="sharedIndex === i"
+                                        (click)="updateCart(product, productQuantity.value,i)"
+                                        class="px-2 custome_button_for">ADD</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- </div>
+        </div> -->
+                <!-- <div *ngFor="let product of newselectedItems" class="product-tile p-2 p-sm-3" fxLayout
+                    fxLayoutGap="10px"> -->
+                <!-- <div style="text-align: end;position: absolute; left: 90%;">
+                        <span class="material-icons"
+                            (click)="deleteCartProduct(product.item_id, newselectedItems?.items.length)"
+                            data-placement="right" title="Delete">
+                            delete_forever
+                        </span>
+                    </div> -->
+                <div class="row">
+                    <div *ngFor="let product of newselectedItems; let i = index;" style="margin: 25px 12px;border: 1px solid lightgray;
+                    border-radius: 5px; padding: 15px;" class="col-md-5">
+                        <div style="text-align: end;position: absolute; left: 90%;">
+                            <span class="material-icons" (click)="deleteCartProduct(i)" data-placement="right"
+                                title="Delete">
+                                delete_forever
+                            </span>
+                        </div>
+                        <p class="product-title mb-2 mb-sm-2  card-title custome_title custome_header_title"
+                            style="margin: 0 !important;">{{product.name}}</p>
+                        <div class="product-cart" fxLayout="row" fxLayoutGap="5px">
+                            <button class="btn btn-success btn-sm custome_button_for"
+                                [disabled]="product.defaultQty === 1" (click)="updateCartNew(product.item_id, product.defaultQty-1, i,
+                      product.inventory,product.forMyuse)">-</button>
+                            <input type="text" class="filterme" min="1"
+                                style="width: 40px; border: 1px solid #395a26; text-align: center; font-weight: 600; font-size: 14px"
+                                (click)="numberOnly($event)" [value]="product.defaultQty"
+                                (change)="updateCartNew(product.item_id, $event.target.value, i, product.inventory,product.forMyuse)">
+                            <button class="btn btn-success btn-sm custome_button_for"
+                                (click)="updateCartNew(product.item_id, product.defaultQty-1+2, i, product.inventory,product.forMyuse)">+</button>
+                        </div>
+                        <p style="margin: 0; font-size: 12px; color: #868686;" class="">MRP <span
+                                style="text-decoration: line-through;">₹{{product.mrp}}</span>
+                        </p>
+
+                        <p *ngIf="product.final_selling_price" style="margin: 0;" class="">
+                            ₹{{product.final_selling_price}}</p>
+
+                        <!-- <p *ngIf="product.special_price" style="margin: 0;" class="">
+                                ₹{{product.special_price}}</p> -->
+
+                        <!-- <p class="product-offered-price">{{product.quantity}} x ₹
+                    {{product.special_price | number : '1.2-2'}}</p>
+                <p class="product-total-price">₹ {{product.total_price | number : '1.2-2' }}</p> -->
+                    </div>
+                </div>
+                <div *ngIf="this.newselectedItems.length != 0" class="d-flex flex-row-reverse bd-highlight">
+                    <div class="p-2 bd-highlight">
+                        <button type="submit" (click)="addThisProducts()"
+                            class="btn btn-success btn-sm pull-right">Add</button>
+                    </div>
+                    <div class="p-2 bd-highlight">
+                        <button type="submit" class="btn btn-danger btn-sm pull-right"
+                            (click)="goBackToViewPage()">Cancel</button>
+                    </div>
+                </div>
+                <!-- <div class="product-information" fxLayout="column" fxLayoutAlign="space-between start">
+                        <div class="row">
+                        </div>
+                    </div> -->
+                <!-- <div class="product-price mb-2" *ngIf="deviceWidth != 'xs'">
+            <div class="per-product-price">
+                <p class="">MRP <span>₹{{product.price}}</span></p>
+                <p *ngIf="product.special_price" class="">₹{{product.special_price}}</p>
+            </div>
+            <p class="product-offered-price">{{product.quantity}} x ₹
+                {{product.special_price | number : '1.2-2'}}</p>
+            <p class="product-total-price">₹ {{product.total_price | number : '1.2-2' }}</p>
+        </div> -->
+                <!-- </div> -->
+                <!-- </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p>Loading please wait...</p>
+</div>

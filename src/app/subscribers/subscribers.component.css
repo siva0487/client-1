@@ -1,0 +1,51 @@
+/* Structure */
+table {
+    width: 100%;
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  .mat-header-cell {
+    color: #4caf50;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .order_view{
+    cursor: pointer;
+  }
+  .order_edit{
+    cursor: pointer;
+  }
+  .custome_title{
+    color: #4caf50;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .custom_filter input {
+    border: 1px solid lightgray;
+    border-radius: 3px;
+  }
+.custom_filter h5{
+  text-align: end;
+}
+.custom_export h5{
+  text-align: end;
+}
+.custom_export span{
+  cursor: pointer;
+}
+.close-button {
+  position: absolute;
+  right: 10px;
+  top: 0px;
+  opacity: 1;
+  width: 12px;
+}
+.custome_title_in_pop-up {
+  color: #4caf50;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+}

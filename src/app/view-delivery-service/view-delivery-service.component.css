@@ -1,0 +1,41 @@
+#update_this{
+    display: none;
+}
+.form-control:read-only{
+    background-image: none !important;
+}
+ .form-control[readonly]{
+    background-color: white !important;
+}
+.custom_select_added{
+    width: 100%;
+    background-image: none;
+    border: 0;
+    border-bottom: 1px solid #cacaca;
+    border-radius: 0;
+    font-size: 14px;
+    padding: 0 5px;
+    margin-bottom: 15px;
+    font-weight: 500;
+  }
+  .custome_table_div_heigh{
+    height: 150px;
+    overflow: auto;
+  }
+  input {
+      background-image: none;
+      border: 0;
+      border-bottom: 1px solid #cacaca;
+      border-radius: 0;
+      font-size: 14px;
+      padding: 0 5px;
+      margin-bottom: 15px;
+      font-weight: 500;
+      
+  }
+  input::placeholder {
+      color: gray;
+      font-weight: 500;
+      font-size: 14px;
+  }
+  

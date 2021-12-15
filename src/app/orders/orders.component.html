@@ -1,0 +1,488 @@
+<div class="main-content">
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === false" class="container-fluid">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div>
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === true" class="container-fluid">
+        
+
+        <div class="card card-user">
+            <div class="card-header custome_final_added_look">
+                <div style="text-align: center;">
+                    <h5 class="card-title custome_title custome_header_title ">List Of Orders</h5>
+                </div>
+            </div>
+            <div class="d-flex flex-row-reverse bd-highlight card-header custome_final_added_look_2">
+                <div class="p-2 bd-highlight">
+                    <div class="dropdown show">
+                        <a class="btn btn-success btn-sm dropdown-toggle forButton" role="button" id="dropdownMenuLink"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Items Per Page
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item custome_chaild_text"
+                                *ngFor="let item_s of pageCount; let i = index;" value="{{item_s.count}}"
+                                (click)="countPerPage(item_s.count)" id="bulk_status_update_id">{{item_s.count}}</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="onlyForDashboard === 'false'" class="p-2 bd-highlight">
+                    <div class="dropdown show">
+
+                        <!-- [class.disabled]="disabled ? true : ShareThisSelectedList === 0" -->
+                        <a class="btn btn-success btn-sm dropdown-toggle forButton"
+                            [class.disabled]="disabled ? true : allPermissionForOnlyThisScreen.is_write === false || disabled ? true : ShareThisSelectedList === 0"
+                            role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Bulk Status Change
+                        </a>
+                        <!-- [ngStyle]="{'pointer-events': getAccess(i, modifiedStatusArray[i-1].status_name)}" -->
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item custome_chaild_text"
+                                *ngFor="let item_s of currectArray; let i = index;" value="{{item_s.status_id}}"
+                                [ngStyle]="(i > 0) && (currectArray[i-1].is_status_write) || item_s.status_name == 'cancelled' ? {'pointer-events':'all'} : {'pointer-events':'none'}"
+                                (click)="bulkStatus(i,item_s, currectArray[i-1].status_name)" id="bulk_status_update_id"
+                                data-toggle="modal" data-dismiss="modal"
+                                data-target="#bulk_status_confirmation_open">{{item_s.status_name |
+                                removeUnderscore}}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-2 bd-highlight">
+                    <button class="btn btn-success btn-sm collapsed panel-heading"
+                        [disabled]="allPermissionForOnlyThisScreen.is_write === false"
+                        [routerLink]="['/adding-orders-from-oms']">Add New Order<i style="margin-left: 10px;"
+                            class="fa fa-cart-plus"></i></button>
+                </div>
+                <div *ngIf="onlyForDashboard === 'false'" class="p-2 bd-highlight">
+                    <button class="btn btn-success btn-sm collapsed panel-heading" role="tab" id="heading1"
+                        data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="false"
+                        aria-controls="collapse1" (click)="customeDownloads()"> Download<i style="margin-left: 10px;"
+                            class="fa fa-arrow-circle-o-down"></i></button>
+                </div>
+                <div class="p-2 bd-highlight">
+                    <button class="btn btn-success btn-sm collapsed panel-heading" role="tab" id="heading2"
+                        data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="false"
+                        aria-controls="collapse2" (click)="eraiseAll()"> Filter<i style="margin-left: 10px;"
+                            class="fa fa-filter"></i></button>
+                </div>
+                <div class="p-2 bd-highlight">
+                    <button class="btn btn-success btn-sm"
+                        [disabled]="allPermissionForOnlyThisScreen.is_write === false" (click)="generate()">Export<i
+                            style="margin-left: 10px;" class="fa fa-external-link-square"></i>
+                    </button>
+                </div>
+                <div *ngIf="ShareThisSelectedList != 0" style="line-height: 1.3;" class="p-2 bd-highlight">
+                    <p style="padding: 0; margin: 0; text-align: center;">Selected <br>
+                        <b>{{ShareThisSelectedList}}</b>
+                    </p>
+                </div>
+            </div>
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1">
+                        <div class="panel-body">
+                            <div *ngIf="statustotalList" class="card-header">
+                                <form [formGroup]="custome_download">
+                                    <div class=" row">
+                                        <div class="col-md-3">
+                                            <label>From Date</label>
+                                            <input type="date"
+                                                class="form-control custom_select_added custom_class_input"
+                                                formControlName="from_date" id="from_date">
+                                            <!-- [ngClass]="{ 'is-invalid': submitted && a.from_date.errors }" -->
+                                            <!-- <div *ngIf="submitted && a.from_date.errors" class="invalid-feedback">
+                                                <div *ngIf="a.from_date.errors.required">From Date is required
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>To Date</label>
+                                            <input type="date" id="to_date"
+                                                class="form-control custom_select_added custom_class_input"
+                                                formControlName="to_date">
+                                            <!-- [ngClass]="{ 'is-invalid': submitted && a.to_date.errors }" -->
+                                            <!-- <div *ngIf="submitted && a.to_date.errors" class="invalid-feedback">
+                                                <div *ngIf="a.to_date.errors.required">To Date is required</div>
+                                            </div> -->
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Status</label>
+                                            <select class="form-control custom_select_added"
+                                                (change)="selectedStatusInfor($event.target.value)"
+                                                formControlName="status_id" id="selectedStatus">
+                                                <option *ngFor="let p of statustotalList.statuses;let i = index;"
+                                                    class="form-control custome_chaild_text" [value]="p.status_id">
+                                                    {{p.status | removeUnderscore}}</option>
+                                            </select>
+                                            <!-- <div *ngIf="submitted && a.status_id.errors" class="invalid-feedback">
+                                                <div *ngIf="a.status_id.errors.required">Status is required
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button class="btn btn-success" (click)="customeExport()">
+                                                Download
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="collapse2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading2">
+                        <div class="panel-body">
+                            <div *ngIf="statustotalList" class="card-header">
+                                <div class=" row">
+                                    <div class="col-md-4">
+                                        <label>Order Id </label>
+                                        <input type="text" readonly (click)="enableThis1()"
+                                            class="form-control custom_select_added custom_class_input"
+                                            id="order_id_filter">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Order Date</label>
+                                        <input type="date" id="order_date" readonly (click)="enableThis2()"
+                                            class="form-control custom_select_added custom_class_input">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Customer Name</label>
+                                        <input type="text" id="customer_name" readonly (click)="enableThis3()"
+                                            class="form-control custom_select_added custom_class_input">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Payment Type</label>
+                                        <input type="text" id="payment_type" readonly (click)="enableThis4()"
+                                            class="form-control custom_select_added custom_class_input">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Status</label>
+                                        <select class="form-control custom_select_added"
+                                            (change)="selectedStatusInfor($event.target.value)" id="status_filter">
+                                            <option *ngFor="let p of statustotalList.statuses;let i = index;"
+                                                class="form-control custome_chaild_text" [value]="p.status">
+                                                {{p.status | removeUnderscore}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn btn-success" (click)="customeSearch()">
+                                        Filter
+                                    </button>
+                                    <button class="btn btn-success" (click)="reSet()">
+                                        Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body custome_final_added_look_3">
+                <div class="ifNodata_List" *ngIf="message_display === true">
+                    <p>Currently No Orders are Available</p>
+                </div>
+                <div *ngIf="message_display != true" class="table-responsive table_custome_resp">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%;">
+                                    <input type="checkbox" (click)="all(pagedItems)" id="selectall" />
+                                </th>
+                                <!-- <th>S.No</th> -->
+                                <th> Order ID <i (click)="onSortClickOID($event)"
+                                        class="my-icon fa fa-chevron-up custome_chaild_text"></i></th>
+                                <th> Order Date <i (click)="onSortClick1($event)"
+                                        class="my-icon fa fa-chevron-up custome_chaild_text"></i>
+                                </th>
+                                <th> Customer Name </th>
+                                <!-- <i (click)="onSortClickCN($event)" class="my-icon fa fa-chevron-up custome_chaild_text"></i> -->
+                                <th> Payment Type </th>
+                                <th> Order Status <i (click)="onSortClick($event)"
+                                        class="my-icon fa fa-chevron-up custome_chaild_text"></i>
+                                </th>
+                                <th style="width: 8%;"> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of pagedItems;let i = index;">
+                                <td>
+                                    <input type="checkbox" id="dynamicID{{i}}" class="singlechkbox"
+                                        (click)="single(i,item)" name="username" value="i" />
+                                </td>
+                                <!-- <td>{{i+1}}</td> -->
+                                <!-- class="TextChanges" -->
+                                <td>{{item.order_no}} </td>
+                                <td>{{item.created_at | customDate}} </td>
+                                <td>{{item.first_name}} {{item.last_name}} </td>
+                                <td>{{item.payment_method | removeUnderscore}}</td>
+                                <td class="custome_chaild_text">{{item.status | removeUnderscore}}</td>
+
+                                <!-- <td class="custome_chaild_text" *ngIf="item.status === null">{{item.status}}</td>
+                                <td class="custome_chaild_text" *ngIf="item.status === 'placed'">{{item.status}}</td>
+                                <td class="custome_chaild_text" *ngIf="item.status === 'confirmed'">{{item.status}}</td>
+                                <td class="custome_chaild_text" *ngIf="item.status === 'in_process'">
+                                    {{item.status | removeUnderscore}}</td>
+                                <td class="custome_chaild_text" *ngIf="item.status === 'ready_for_shipping'">
+                                    {{item.status | removeUnderscore}}</td>
+                                <td class="custome_chaild_text" *ngIf="item.status === 'out_for_delivery'">
+                                    {{item.status | removeUnderscore}}</td>
+                                <td class="custome_chaild_text" *ngIf="item.status === 'delivered'">{{item.status}}</td>
+                                <td class="custome_chaild_text" *ngIf="item.status === 'cancelled'">{{item.status}}</td>
+                                <td class="custome_chaild_text" *ngIf="item.status === 'payment_failed'">
+                                    {{item.status | removeUnderscore}}</td>
+                                <td class="custome_chaild_text" *ngIf="item.status === 'pickup_confirmed'">
+                                    {{item.status | removeUnderscore}}</td> -->
+                                <!-- <td> -->
+                                <td>
+                                    <span class="material-icons order_edit" data-placement="right" title="View"
+                                        (click)="viewValue(item)">
+                                        remove_red_eye
+                                    </span>
+                                    <span *ngIf="item.status === 'ready_for_shipping'" (click)="onPrintInvoice(item)"
+                                        class="material-icons order_edit" data-placement="right" title="Print">
+                                        print
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div *ngIf="pager.pages && pager.pages.length" class="total_pagination_custom">
+                <ul class="pagination">
+                    <li (click)="setPage(1)" [ngClass]="{disabled:pager.currentPage === 1}">
+                        <a>First</a>
+                    </li>
+                    <li (click)="setPage(pager.currentPage - 1)" [ngClass]="{disabled:pager.currentPage === 1}">
+                        <a>Previous</a>
+                    </li>
+                    <li (click)="setPage(page)" *ngFor="let page of pager.pages"
+                        [ngClass]="{active:pager.currentPage === page}">
+                        <a>{{page}}</a>
+                    </li>
+                    <li (click)="setPage(pager.currentPage + 1)"
+                        [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                        <a>Next</a>
+                    </li>
+                    <li (click)="setPage(pager.totalPages)"
+                        [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                        <a>Last</a>
+                    </li>
+                </ul>
+                <p style="line-height: 2.5;">Items Per Page : {{shareThisCount}} </p>
+                <p style="line-height: 2.5; margin-left: 5px;">Items Count : {{allOrdersList.length}} </p>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade auth-modal" id="bulk_status_confirmation_open">
+        <div class="modal-dialog " style="z-index: 2;">
+            <div class="modal-content d-flex">
+                <button type="button" (click)="reasonClose()" class="close close-button"
+                    id="bulk_status_confirmation_close" data-dismiss="modal">
+                    <img src="assets/img/Close.png" alt="">
+                </button>
+                <h5 class="card-title custome_title_in_pop-up">
+                </h5>
+                <div>
+                    <div *ngIf="sendThis_item_s" class="custom_question">
+                        <p>Are you Sure...?</p>
+                        <p>The Selected Orders List Status Will be changed to {{sendThis_item_s.status_name |
+                            removeUnderscore}}</p>
+                    </div>
+                    <div *ngIf="showOnlyForCancel">
+                        <label style="margin-left: 30px;">Reson<span class="custom_star_mark">
+                                *</span> </label>
+                        <textarea style="width: 50%;
+                    margin-left: 30px;" id="cancelation_reason"
+                            class="custom_select_added form-control custom_class_input"></textarea>
+                    </div>
+                    <div *ngIf="showThisMsgReasonRequired">
+                        <p style="margin-left: 30px;font-size: 12px;color: red;">Reason
+                            is Required</p>
+                    </div>
+                    <div class="d-flex flex-row-reverse bd-highlight">
+                        <div class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" class="btn btn-success pull-right btn-sm"
+                                (click)="bulkStatusUpdate()">Yes</button>
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right btn-sm"
+                                (click)="closethisNow()">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-backdrop modal-overlay fade show" style="z-index: 1;"></div>
+    </div>
+
+    <div id="elem" style="display: none;">
+
+        <body *ngIf="testingNow" style="margin: 10px 100px 10px 100px;">
+            <div style="text-align: center">
+                <p style="margin: 0;">Sahyadri Agro Retails Ltd</p>
+                <p style="margin: 0;">Registered Office Address: Gat No 314/2/2, A/p Mohadi, Taluka Dindori, District
+                    Nashik 422207,
+                    Maharashtra, India.</p>
+            </div>
+            <div style="width: 100%;display: flex;">
+                <div style="width: 50%;">
+                    <label>Toll Free no.:</label>
+                    <p style="margin: 0;">1800212002020</p>
+                </div>
+                <div style="width: 50%;">
+                    <label>Email</label>
+                    <p style="margin: 0;">care@sahyadrifarms.com</p>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <p style="margin: 0;">GSTIN : 27AAVCS2537G1ZX</p>
+            </div>
+            <div style="width: 100%; display: flex; border-top: 1px solid black; border-bottom: 1px solid black;">
+                <div style="width: 60%;">
+                    <label>Cust ID</label>
+                    <p style="margin: 0;">{{testingNow.customer_id}}</p>
+                </div>
+                <div style="width: 40%;">
+                    <label>Tax Invoice</label>
+                    <p style="margin: 0;">Cum Bill of Supply</p>
+                </div>
+            </div>
+            <div *ngIf="testingNow" style="width: 100%; display: flex;">
+                <div style="width: 70%;">
+                    <div style="display: flex;">
+                        <label style="width: 10%;">Name </label>
+                        <p style="width: 100%;margin: 0 0 0 15px;">{{testingNow.name}}</p>
+                    </div>
+                    <div style="display: flex;">
+                        <label style="width: 10%;">Add </label>
+                        <p style="width: 100%;margin: 0 0 0 15px;">{{testingNow.addresses}}</p>
+                    </div>
+                    <div style="display: flex;">
+                        <label style="width: 10%;">PH</label>
+                        <p style="width: 100%;margin: 0 0 0 15px;">{{testingNow.mobile}}</p>
+                    </div>
+                </div>
+                <div style="width: 30%;">
+                    <div style="display: flex;">
+                        <label style="width: 30%;">Bill No. </label>
+                        <p style="width: 100%;margin: 0;">{{testingNow.order_no}}</p>
+                    </div>
+                    <div style="display: flex;">
+                        <label style="width: 30%;">Date </label>
+                        <p style="width: 100%;margin: 0;">{{testingNow.date}}</p>
+                    </div>
+                    <div style="display: flex;">
+                        <label style="width: 30%;">Time </label>
+                        <p style="width: 100%;margin: 0;"> {{testingNow.time}} </p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <p style="margin: 0;">Name of Product</p>
+            </div>
+            <div>
+                <table *ngIf="testingNow" style="width: 100%;text-align: left; border-top: 1px solid black">
+                    <thead>
+                        <tr>
+                            <th>HSN CODE</th>
+                            <th> Qty.</th>
+                            <th> Rate</th>
+                            <th> Dis</th>
+                            <th> GST%</th>
+                            <th> GST Amount</th>
+                            <th> Amount</th>
+                        </tr>
+                    </thead>
+                    <tr *ngFor="let itemName of testingNow.items">
+                        <th>{{itemName.item_name}}</th>
+                    </tr>
+                    <tr *ngFor="let itemsInFo of testingNow.items">
+                        <td style="width: 35%;">{{itemsInFo.hsn_code}}</td>
+                        <td>{{itemsInFo.quantiy}}</td>
+                        <td>{{itemsInFo.rate}}</td>
+                        <td>{{itemsInFo.discount}}</td>
+                        <td>{{itemsInFo.gst}}</td>
+                        <td>{{itemsInFo.gst_amount}}</td>
+                        <td>{{itemsInFo.amount}}</td>
+                    </tr>
+
+                </table>
+                <table *ngIf="testingNow" style="width: 100%;">
+                    <tr style="text-align: left;">
+                        <th style="width: 35%;">Tot Items</th>
+                        <th>{{testingNow.total_items}}</th>
+                        <th style="width: 12%;"></th>
+                        <th style="width: 35%;">Total amt</th>
+                        <th></th>
+                        <th style="width: 2%;"></th>
+                        <th>{{testingNow.total_amount}}</th>
+                    </tr>
+                    <tr style="text-align: left;">
+                        <th>Tot Qty</th>
+                        <th>{{testingNow.total_quantity}}</th>
+                        <th></th>
+                        <th>Gross amt</th>
+                        <th></th>
+                        <th></th>
+                        <th>{{testingNow.total_amount}}</th>
+                    </tr>
+                    <tr style="text-align: left;">
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Delivery Fee </th>
+                        <th></th>
+                        <th></th>
+                        <th>{{testingNow.delivery_fee}}</th>
+                    </tr>
+                    <tr style="text-align: left;">
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Packaging & Handling Charges </th>
+                        <th></th>
+                        <th></th>
+                        <th>{{testingNow.packaging_charges}}</th>
+                    </tr>
+                    <tr style="text-align: left;">
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>TOT GST AMT </th>
+                        <th></th>
+                        <th></th>
+                        <th>{{testingNow.total_gst_amount}}</th>
+                    </tr>
+                    <tr style="text-align: left;">
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Refund Amount(-) </th>
+                        <th></th>
+                        <th></th>
+                        <th>{{testingNow.refund_amount}}</th>
+                    </tr>
+                    <tr style="text-align: left;">
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Net Amt: </th>
+                        <th></th>
+                        <th></th>
+                        <th>{{testingNow.net_amount}}</th>
+                    </tr>
+                </table>
+            </div>
+        </body>
+    </div>
+</div>
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p style="margin: 0;">Loading please wait...</p>
+</div>

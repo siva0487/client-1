@@ -1,0 +1,405 @@
+<div class="main-content">
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === false" class="container-fluid">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div>
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === true" class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header custome_title">
+                        <h5 class="card-title info_page_title custome_header_title">Return & Refund Details</h5>
+                    </div>
+                    <div class="row justify-content-between mb-2 custom_title_names_inner">
+                        <div class="col-auto ">
+                            <h6 class="color-1 mb-0 change-color info_page_title">Order ID : {{id.order_id}} </h6>
+                        </div>
+                        <div class="col-auto return_to_orders_list">
+                            <img src="/assets/img/return.png" class="custom_retuns_image" data-placement="right"
+                                title="Back" (click)="cancel()">
+                            <!-- <h6 class="color-1 mb-0 change-color info_page_title" (click)="cancel()">Return To Returns and Refund List</h6> -->
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mt-4">
+                            <div class="col">
+                                <div class="card card-2 custom_main_content_product_list">
+                                    <div class="card-body row">
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/orange.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Orange</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;235.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/pomegranate.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Pomegranate</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;350.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/strawberry.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Strawberry</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;350.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/orange.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Orange</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;235.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/pomegranate.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Pomegranate</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;350.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/strawberry.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Strawberry</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;350.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/orange.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Orange</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;235.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/pomegranate.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Pomegranate</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;350.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/strawberry.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Strawberry</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;350.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/orange.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Orange</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;235.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/pomegranate.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Pomegranate</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;350.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/strawberry.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Strawberry</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;350.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/orange.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Orange</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;235.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/pomegranate.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Pomegranate</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;350.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/strawberry.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Strawberry</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;350.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/orange.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Orange</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;235.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/pomegranate.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Pomegranate</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;350.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media col-md-4">
+                                            <div class="sq align-self-center "> <img
+                                                    class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                    src="/assets/img/strawberry.png" width="135" height="135" /> </div>
+                                            <div class="media-body my-auto">
+                                                <div>
+                                                    <span>Strawberry</span>
+                                                </div>
+                                                <div>
+                                                    <span>Qty : 1 KG</span>
+                                                </div>
+                                                <div>
+                                                    <span>&#8377;350.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="my-3 ">
+                                    <div class="order_tatal_info">
+                                        <p> <b>Order Total: </b> &#8377; 5,528.00 </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <form>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Customer ID">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Order ID">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Order Type" type="email">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Return Initiate Date" type="email">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Return Status">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Transaction ID">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Return Drop Store ID" type="text">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Return Type">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Return Approved Date">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Fulfillment ID" type="text">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Return Reason" type="text">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row-reverse bd-highlight">
+                                <div class="p-2 bd-highlight">
+                                    <button mat-raised-button type="submit"
+                                        class="btn btn-success pull-right">Approve</button>
+                                </div>
+                                <div class="p-2 bd-highlight">
+                                    <button mat-raised-button type="submit"
+                                        class="btn btn-danger pull-right">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+<div class="main-content">
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === false" class="container-fluid">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div>
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === true" class="container-fluid">
+        <div class="card card-user">
+            <div class="card-header">
+                <div style="text-align: center;">
+                    <h5 class="card-title custome_title custome_header_title">List Of Returns & Refunds</h5>
+                </div>
+                <div class="card-header d-flex bd-highlight">
+                    <!-- <div class="d-flex p-2 bd-highlight Picklist_part">
+                        <h5 class="card-title custome_title">Export : </h5>
+                        <span class="material-icons custom_exxport" (click)="generate()">
+                            wysiwyg
+                        </span>
+                    </div> -->
+                    <div>
+                        <button class="btn btn-success" (click)="generate()">
+                            Export :
+                            <span class="material-icons custom_exxport">
+                                wysiwyg
+                            </span>
+                        </button>
+                    </div>
+                    <div class="p-2 flex-fill bd-highlight custom_filter row">
+                        <h5 class="card-title custome_title col custome_css_for_place ">Search : </h5>
+                        <input class="col" #input>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" (click)="all(finalData)" id="selectall" />
+                                </th>
+                                <th>S.No</th>
+                                <th> Customer ID </th>
+                                <th> Order ID </th>
+                                <th> Order Amount </th>
+                                <th> Order Type </th>
+                                <th> Return Status</th>
+                                <th> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of finalData;let i = index;">
+                                <td>
+                                    <input type="checkbox" class="singlechkbox" (click)="single(i,item)" name="username"
+                                        value="i" />
+                                </td>
+                                <td>{{i+1}}</td>
+                                <td>{{item.customer_id}}</td>
+                                <td>{{item.order_id}}</td>
+                                <td>{{item.order_amount}}</td>
+                                <td>{{item.order_type}}</td>
+                                <td>{{item.return_status}}</td>
+                                <td>
+                                    <span class="material-icons order_view" data-placement="right" title="View"
+                                        (click)="viewValue(item)">
+                                        remove_red_eye
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="modal fade auth-modal" id="return_veiw_info">
+            <div class="modal-dialog " style="z-index: 2;">
+                <div class="modal-content d-flex">
+                    <button type="button" class="close close-button" id="profile_edit_verified" data-dismiss="modal">
+                        <img src="assets/img/Close.png" alt="">
+                    </button>
+                    <h5 class="card-title custome_title_in_pop-up">Return & Refund Details</h5>
+                </div>
+            </div>
+            <div class="modal-backdrop modal-overlay fade show" style="z-index: 1;"></div>
+        </div>
+        <div class="modal fade auth-modal" id="return_edit_info">
+            <div class="modal-dialog " style="z-index: 2;">
+                <div class="modal-content d-flex">
+                    <button type="button" class="close close-button" id="profile_edit_verified" data-dismiss="modal">
+                        <img src="assets/img/Close.png" alt="">
+                    </button>
+                    <h5 class="card-title custome_title_in_pop-up">Return & Refund Details</h5>
+                    <div>
+                        <button class="btn btn-success" (click)="editSubmit()">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-backdrop modal-overlay fade show" style="z-index: 1;"></div>
+        </div> -->
+    </div>
+</div>

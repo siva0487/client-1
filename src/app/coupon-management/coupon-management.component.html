@@ -1,0 +1,131 @@
+<div class="main-content">
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === false" class="container-fluid">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div>
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === true" class="container-fluid">
+        <div class="card card-user">
+            <div class="card-header custome_final_added_look">
+                <div style="text-align: center;">
+                    <h5 class="card-title custome_title custome_header_title">List Of Coupons</h5>
+                </div>
+            </div>
+            <div class="d-flex flex-row-reverse bd-highlight card-header custome_final_added_look_2">
+                <div class="p-2 bd-highlight">
+                    <button [disabled]="allPermissionForOnlyThisScreen.is_write === false"
+                        class="btn btn-success btn-sm" (click)="addNewCoupons()">Add New Coupon<i
+                            style="margin-left: 10px;" class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body custome_final_added_look_3">
+                <div class="ifNodata_List" *ngIf="message_display === true">
+                    <p>Currently No Coupons are Available</p>
+                </div>
+                <div *ngIf="message_display != true" class="table-responsive table_custome_resp">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <!-- <th style="width: 5%;">
+                                    <input type="checkbox" (click)="all(finalData)" id="selectall" />
+                                </th> -->
+                                <!-- <th> S.No </th> -->
+                                <th> Coupon Code </th>
+                                <!-- <th> Coupon Amount </th> -->
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th> Status </th>
+                                <th style="width: 8%;"> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of pagedItems;let i = index;">
+                                <!-- <td>
+                                    <input type="checkbox" id="dynamicID{{i}}" class="singlechkbox"
+                                        (click)="single(i,item)" name="username" value="i" />
+                                </td> -->
+                                <!-- <td>{{i+1}}</td> -->
+                                <td>{{item.coupon_code}}</td>
+                                <!-- <td>{{item.coupon_amount}}</td> -->
+                                <td>{{item.coupon_start_date | customDate}}</td>
+                                <td>{{item.coupon_end_date | customDate}}</td>
+
+                                <td *ngIf="item.is_active === true">Active</td>
+                                <td *ngIf="item.is_active === false">Inactive</td>
+                                <td>
+                                    <span class="material-icons order_edit" data-placement="right" title="View"
+                                        (click)="viewValue(item)">
+                                        remove_red_eye
+                                    </span>
+                                    <span *ngIf="allPermissionForOnlyThisScreen.is_write === true"
+                                        class="material-icons order_edit" data-toggle="modal"
+                                        (click)="forDelete(item.coupon_id)" data-target="#remove_selecte_store"
+                                        data-dismiss="modal" data-placement="right" title="Delete">
+                                        delete_forever
+                                    </span>
+                                    <span *ngIf="allPermissionForOnlyThisScreen.is_write === false"
+                                        style="opacity: 0.5;" class="material-icons order_edit" data-placement="right"
+                                        title="Delete">
+                                        delete_forever
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="total_pagination_custom">
+                <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                    <li (click)="setPage(1)" [ngClass]="{disabled:pager.currentPage === 1}">
+                        <a>First</a>
+                    </li>
+                    <li (click)="setPage(pager.currentPage - 1)" [ngClass]="{disabled:pager.currentPage === 1}">
+                        <a>Previous</a>
+                    </li>
+                    <li (click)="setPage(page)" *ngFor="let page of pager.pages"
+                        [ngClass]="{active:pager.currentPage === page}">
+                        <a>{{page}}</a>
+                    </li>
+                    <li (click)="setPage(pager.currentPage + 1)"
+                        [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                        <a>Next</a>
+                    </li>
+                    <li (click)="setPage(pager.totalPages)"
+                        [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                        <a>Last</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="modal fade auth-modal" id="remove_selecte_store">
+            <div class="modal-dialog " style="z-index: 2;">
+                <div class="modal-content d-flex">
+                    <button type="button" class="close close-button" id="profile_edit_verified" data-dismiss="modal">
+                        <img src="assets/img/Close.png" alt="">
+                    </button>
+                    <h5 class="card-title custome_title_in_pop-up">Delete This Coupon</h5>
+                    <div class="custom_question">
+                        <p>Are you Sure...?</p>
+                    </div>
+                    <div class="d-flex flex-row-reverse bd-highlight">
+                        <div class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" class="btn btn-success pull-right btn-sm"
+                                (click)="deleteThisNow()">Yes</button>
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right btn-sm"
+                                (click)="closethisNow()">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-backdrop modal-overlay fade show" style="z-index: 1;"></div>
+        </div>
+
+    </div>
+</div>
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p>Loading please wait...</p>
+</div>

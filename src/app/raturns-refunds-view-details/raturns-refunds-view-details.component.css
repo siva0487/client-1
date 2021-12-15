@@ -1,0 +1,31 @@
+.order_tatal_info{
+    text-align: end;
+    padding: 0 15px 15px;
+    margin: 0;
+}
+.order_tatal_info p{
+    padding: 0;
+    margin: 0;
+}
+.mt-4{
+    margin: 0 !important;
+}
+.customer_info_custom {
+    margin-top: 1.5rem !important;
+}
+.list_of_orders_title_custom{
+    text-align: center;
+}
+.custome_title{
+    text-align: center;
+}
+.return_to_orders_list h6{
+    cursor: pointer;
+}
+.custom_main_content_product_list{
+    height: 275px;
+    overflow: auto;
+}
+.custom_title_names_inner{
+    margin: 5px !important;
+}

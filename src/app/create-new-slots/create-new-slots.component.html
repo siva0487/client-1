@@ -1,0 +1,126 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header custome_header_title">
+                        <h5 class="card-title custome_title  info_page_title">Create New Slots</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div *ngFor="let days of mainOuterArray;let i = index" class="col-md-10 overallOuterOne">
+                                <!-- <div class="row"> -->
+                                <!-- <div class="col-md-6"> -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>From Date <span class="custom_star_mark"> *</span></label>
+                                        <input type="date" id="from_date"
+                                            (change)="todate_check_all(days.from_date,days.to_date)"
+                                            [(ngModel)]="days.from_date">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>To Date <span class="custom_star_mark"> *</span></label>
+                                        <input type="date" id="to_date"
+                                            (change)="todate_check_all(days.from_date,days.to_date)"
+                                            [(ngModel)]="days.to_date">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <p *ngFor="let item of mainOuterArray.full_dates">{{item}}</p>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Open Time <span class="custom_star_mark"> *</span></label>
+                                        <input type="time" id="open_time" [(ngModel)]="days.open_time">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Close Time <span class="custom_star_mark"> *</span></label>
+                                        <input type="time" id="close_time" [(ngModel)]="days.close_time">
+                                    </div>
+                                </div>
+                                <!-- </div> -->
+                                <!-- </div> -->
+                                <div class="row custom_main_div_layout">
+                                    <div class="custome_table_div_heigh col-md-8">
+                                        <table class="opraterBookingInitiated custome_table_dynamic" cellspacing="0">
+                                            <tr>
+                                                <th>
+                                                    <label>Start Time <span class="custom_star_mark">
+                                                            *</span></label>
+                                                </th>
+                                                <th>
+                                                    <label>End Time <span class="custom_star_mark"> *</span></label>
+                                                </th>
+                                                <th>
+                                                    <label>Slot Limt <span class="custom_star_mark">
+                                                            *</span></label>
+                                                </th>
+                                                <th>
+                                                    <label>Is It Active <span class="custom_star_mark">
+                                                            *</span></label>
+                                                </th>
+                                            </tr>
+                                            <tr *ngFor="let qwe of days.time_slots; let k=index">
+                                                <td>
+                                                    <input type="time" id="appt" [(ngModel)]="qwe.slot_start_time"
+                                                        name="appt">
+                                                </td>
+                                                <td>
+                                                    <input type="time" id="appt2" [(ngModel)]="qwe.slot_end_time"
+                                                        name="appt2">
+                                                </td>
+                                                <td>
+                                                    <input type="text" [(ngModel)]="qwe.slot_limit" id="slot_limit"
+                                                        name="slot_limit">
+                                                </td>
+                                                <td> 
+                                                    <select class="custom_select_added form-control custom_class_input"
+                                                        [(ngModel)]="qwe.is_active">
+                                                        <option *ngFor="let list of store_status_list"
+                                                            value="{{list.value}}">
+                                                            {{list.status}}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div style="margin: auto;" class="col-md-4">
+                                            <span class="material-icons custom_circel_added"
+                                                (click)="add_time_slot(i,k)">
+                                                add_circle
+                                            </span>
+                                            <span class="material-icons custom_circel_added"
+                                                (click)="remove_time_slot(i,k)">
+                                                remove_circle
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mainOuterAddRemove">
+                                <span class="material-icons custom_circel_added" (click)="add()">
+                                    add_circle
+                                </span>
+                                <span class="material-icons custom_circel_added" (click)="remove()">
+                                    remove_circle
+                                </span>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row-reverse bd-highlight">
+                            <div class="p-2 bd-highlight">
+                                <button mat-raised-button type="submit" (click)="createSlotsForStore()"
+                                    class="btn btn-success pull-right">Create</button>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <button mat-raised-button type="submit" class="btn btn-danger pull-right"
+                                    (click)="cancel()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="loader" *ngIf="loader">
+        <img src="/assets/img/Sahyadri-logo.png" alt="">
+        <p>Loading please wait...</p>
+    </div> -->

@@ -1,0 +1,127 @@
+<div class="container-fluid my-5 d-flex justify-content-center">
+    <div *ngIf="writePermissionForOnlyThisScreen.is_read === false" class="card card-1">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div>
+    <div *ngIf="writePermissionForOnlyThisScreen.is_read === true" class="card card-1">
+        <div class="card-body">
+            <div class="info_page_title_block">
+                <h6 class="info_page_title custome_header_title">Frequency Service</h6>
+            </div>
+            <!-- <div class="card-header d-flex bd-highlight">
+                <div>
+                    <button class="btn btn-success" [disabled]="writePermissionForOnlyThisScreen.is_write === false"
+                        (click)="addNewFrequency()">
+                        Add New Frequency Service :
+                        <span class="material-icons col custom_exxport">
+                            store_mall_directory
+                        </span>
+                    </button>
+                </div>
+                <div class="p-2 flex-fill bd-highlight custom_filter row">
+                    <h5 class="card-title custome_title col custome_css_for_place ">Search : </h5>
+                    <input class="col" #input>
+                </div>
+            </div> -->
+            <div class="d-flex flex-row-reverse bd-highlight card-header">
+                <!-- <div class="p-2 bd-highlight">
+                    <button class="btn btn-success btn-sm collapsed panel-heading" role="tab" id="heading1"
+                        data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="false"
+                        aria-controls="collapse1" (click)="customeDownloads()"> Download<i style="margin-left: 10px;"
+                            class="fa fa-arrow-circle-o-down"></i></button>
+                </div>
+                <div class="p-2 bd-highlight">
+                    <button class="btn btn-success btn-sm collapsed panel-heading" role="tab" id="heading2"
+                        data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="false"
+                        aria-controls="collapse2" (click)="eraiseAll()"> Filter<i style="margin-left: 10px;"
+                            class="fa fa-filter"></i></button>
+                </div> -->
+                <div class="p-2 bd-highlight">
+                    <button class="btn btn-success btn-sm" [disabled]="writePermissionForOnlyThisScreen.is_write === false"
+                    (click)="addNewFrequency()">
+                    Add New Frequency Service<i style="margin-left: 10px;"
+                            class="fa fa-external-link-square"></i>
+                    </button>
+                </div>
+            </div>
+            <div>
+                <div class="ifNodata_List" *ngIf="message_display === true">
+                    <p>Currently No Frequency Service are Available</p>
+                </div>
+                <table *ngIf="message_display != true" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <!-- <th>
+                                <input type="checkbox" (click)="all(finalListOfFrequency)" id="selectall" />
+                            </th> -->
+                            <th>S.No</th>
+                            <th> Frequency Type </th>
+                            <th> Status </th>
+                            <th> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of finalListOfFrequency;let i = index;">
+                            <!-- <td>
+                                <input type="checkbox" class="singlechkbox" (click)="single(i,item)" name="username"
+                                    value="i" />
+                            </td> -->
+                            <td>{{i+1}}</td>
+                            <td>{{item.frequency}} </td>
+                            <td *ngIf="item.is_active === true">Active</td>
+                            <td *ngIf="item.is_active === false">Inactive</td>
+                            <td>
+                                <span class="material-icons frequency_edit" data-placement="right" title="View"
+                                    (click)="viewFrequency(item)">
+                                    remove_red_eye
+                                </span>
+                                <span *ngIf="writePermissionForOnlyThisScreen.is_write === true"
+                                    class="material-icons user_Actions" data-toggle="modal"
+                                    (click)="forDelete(item.frequency_id)" data-target="#remove_frequency"
+                                    data-dismiss="modal" data-placement="right" title="Delete">
+                                    delete_forever
+                                </span>
+                                <span *ngIf="writePermissionForOnlyThisScreen.is_write === false"
+                                    class="material-icons user_Actions" style="opacity: 0.5;" data-placement="right"
+                                    title="Delete">
+                                    delete_forever
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal fade auth-modal" id="remove_frequency">
+            <div class="modal-dialog " style="z-index: 2;">
+                <div class="modal-content d-flex">
+                    <button type="button" class="close close-button" id="remove_frequency_popup_id"
+                        data-dismiss="modal">
+                        <img src="assets/img/Close.png" alt="">
+                    </button>
+                    <h5 class="card-title custome_title_in_pop-up">Remove This Frequency</h5>
+
+                    <div class="custom_question">
+                        <p>Are you Sure...?</p>
+                    </div>
+                    <div class="d-flex flex-row-reverse bd-highlight">
+                        <div class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" class="btn btn-success pull-right btn-sm"
+                                (click)="deleteThisNow()">Yes</button>
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right btn-sm"
+                                (click)="closethisNow()">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-backdrop modal-overlay fade show" style="z-index: 1;"></div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p>Loading please wait...</p>
+</div>

@@ -1,0 +1,192 @@
+<div class="main-content">
+    <!-- <div *ngIf="allPermissionForOnlyThisScreen.is_read === false" class="container-fluid">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div> -->
+    <!-- *ngIf="allPermissionForOnlyThisScreen.is_read === true" -->
+    <div class="container-fluid">
+        <div class="row Custome_store_creat">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header custome_title">
+                        <h5 class="card-title info_page_title custome_header_title">Add New Coupon</h5>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="addNewCouponForm">
+                            <div class="row">
+                                <div class="col-md-3 ">
+                                    <label>Coupon Name <span class="custom_star_mark"> *</span> </label>
+                                    <input type="text" class="form-control custom_select_added custom_class_input"
+                                        formControlName="coupon_name"
+                                        [ngClass]="{ 'is-invalid': submitted && a.coupon_name.errors }">
+                                    <div *ngIf="submitted && a.coupon_name.errors" class="invalid-feedback">
+                                        <div *ngIf="a.coupon_name.errors.required">Coupon Name is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 ">
+                                    <label>Coupon Code <span class="custom_star_mark"> *</span> </label>
+                                    <input type="text"
+                                        class="form-control custom_select_added custom_class_input cap_custom"
+                                        formControlName="coupon_code"
+                                        [ngClass]="{ 'is-invalid': submitted && a.coupon_code.errors }">
+                                    <div *ngIf="submitted && a.coupon_code.errors" class="invalid-feedback">
+                                        <div *ngIf="a.coupon_code.errors.required">Coupon Code is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <!-- <label>Coupon Type <span class="custom_star_mark"> *</span> </label>
+                                    <select class="custom_select_added form-control custom_class_input"
+                                        formControlName="coupon_type"
+                                        [ngClass]="{ 'is-invalid': submitted && a.coupon_type.errors }">
+                                        <option *ngFor="let list of coupon_types" value="{{list.val}}">
+                                            {{list.coupon_type}}</option>
+                                    </select> --> 
+                                    <label>Select Store<span class="custom_star_mark"> *</span> </label>
+                                    <select class="custom_select_added form-control custom_class_input"
+                                        formControlName="store_id"
+                                        [ngClass]="{ 'is-invalid': submitted && a.store_id.errors }">
+                                        <option value="for_admin">All Stores</option>
+                                        <option *ngFor="let list of finalStoresListArray" value="{{list.plant_code}}">
+                                            {{list.store_name}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && a.store_id.errors" class="invalid-feedback">
+                                        <div *ngIf="a.store_id.errors.required">Select Store is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Coupon Status <span class="custom_star_mark"> *</span> </label>
+                                    <select class="custom_select_added form-control custom_class_input"
+                                        formControlName="is_active"
+                                        [ngClass]="{ 'is-invalid': submitted && a.is_active.errors }">
+                                        <option *ngFor="let list of coupon_status" value="{{list.val}}">
+                                            {{list.coupon_status}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && a.is_active.errors" class="invalid-feedback">
+                                        <div *ngIf="a.is_active.errors.required">Coupon Status is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Value Type <span class="custom_star_mark"> *</span> </label>
+                                    <select class="custom_select_added form-control custom_class_input"
+                                        formControlName="value_type" (change)="selectedType($event.target.value)"
+                                        [ngClass]="{ 'is-invalid': submitted && a.value_type.errors }">
+                                        <option *ngFor="let list of value_type_list" value="{{list.value_type}}">
+                                            {{list.type}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && a.value_type.errors" class="invalid-feedback">
+                                        <div *ngIf="a.value_type.errors.required">Value Type is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 ">
+                                    <label>Coupon Value <span class="custom_star_mark"> *</span> </label>
+                                    <input type="text" (click)="numberOnly()"
+                                        class="form-control filterme custom_select_added custom_class_input"
+                                        formControlName="coupon_amount"
+                                        [ngClass]="{ 'is-invalid': submitted && a.coupon_amount.errors }">
+                                    <div *ngIf="submitted && a.coupon_amount.errors" class="invalid-feedback">
+                                        <div *ngIf="a.coupon_amount.errors.required">Coupon Value is required</div>
+                                    </div>
+                                    <p id="showThepersentage"
+                                        style="display: none; margin: 0; padding: 0; position: absolute; top: 45%; left: 26%; font-size: 20px;">
+                                        %</p>
+                                </div>
+                                <div class="col-md-3 ">
+                                    <label>Coupon Start Date <span class="custom_star_mark"> *</span> </label>
+                                    <input type="date" class="form-control custom_select_added custom_class_input"
+                                        formControlName="coupon_start_date" id="start_date" (click)="checkValidation()"
+                                        (change)="startdate()"
+                                        [ngClass]="{ 'is-invalid': submitted && a.coupon_start_date.errors }">
+                                    <div *ngIf="submitted && a.coupon_start_date.errors" class="invalid-feedback">
+                                        <div *ngIf="a.coupon_start_date.errors.required">Coupon Start Date is required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 ">
+                                    <label>Coupon End Date <span class="custom_star_mark"> *</span> </label>
+                                    <input type="date" class="form-control custom_select_added custom_class_input"
+                                        formControlName="coupon_end_date" id="end_date" (click)="checkValidation()"
+                                        (change)="enddate()"
+                                        [ngClass]="{ 'is-invalid': submitted && a.coupon_end_date.errors }">
+                                    <div *ngIf="submitted && a.coupon_end_date.errors" class="invalid-feedback">
+                                        <div *ngIf="a.coupon_end_date.errors.required">Coupon Start Date is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 ">
+                                    <label>Max Limit <span class="custom_star_mark"> *</span> </label>
+                                    <input type="text"
+                                        class="form-control filterme custom_select_added custom_class_input"
+                                        formControlName="max_limit" (click)="numberOnly()"
+                                        [ngClass]="{ 'is-invalid': submitted && a.max_limit.errors }">
+                                    <div *ngIf="submitted && a.max_limit.errors" class="invalid-feedback">
+                                        <div *ngIf="a.max_limit.errors.required">Max Limit Date is required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 ">
+                                    <label>Minimum Cart Value <span class="custom_star_mark"> *</span> </label>
+                                    <input type="text"
+                                        class="form-control filterme custom_select_added custom_class_input"
+                                        formControlName="minimum_cart_value" (click)="numberOnly()"
+                                        [ngClass]="{ 'is-invalid': submitted && a.minimum_cart_value.errors }">
+                                    <div *ngIf="submitted && a.minimum_cart_value.errors" class="invalid-feedback">
+                                        <div *ngIf="a.minimum_cart_value.errors.required">Minimum Cart Value is required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 ">
+                                    <label>Total Number of Coupon Count <span class="custom_star_mark"> *</span>
+                                    </label>
+                                    <input type="text"
+                                        class="form-control filterme custom_select_added custom_class_input"
+                                        formControlName="number_of_times_coupon_used" (click)="numberOnly()"
+                                        [ngClass]="{ 'is-invalid': submitted && a.number_of_times_coupon_used.errors }">
+                                    <div *ngIf="submitted && a.number_of_times_coupon_used.errors"
+                                        class="invalid-feedback">
+                                        <div *ngIf="a.number_of_times_coupon_used.errors.required">Total Number of
+                                            Coupon Count is required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 ">
+                                    <label>Number of Times Per Customer <span class="custom_star_mark"> *</span>
+                                    </label>
+                                    <input type="text"
+                                        class="form-control filterme custom_select_added custom_class_input"
+                                        formControlName="number_of_times_per_customer" (click)="numberOnly()"
+                                        [ngClass]="{ 'is-invalid': submitted && a.number_of_times_per_customer.errors }">
+                                    <div *ngIf="submitted && a.number_of_times_per_customer.errors"
+                                        class="invalid-feedback">
+                                        <div *ngIf="a.number_of_times_per_customer.errors.required">Number of Times Per
+                                            Customer is required
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="d-flex flex-row-reverse bd-highlight">
+                                <div class="p-2 bd-highlight">
+                                    <button mat-raised-button type="submit" (click)="createNewCoupons()"
+                                        class="btn btn-success pull-right">Create</button>
+                                </div>
+                                <div class="p-2 bd-highlight">
+                                    <button mat-raised-button type="submit" class="btn btn-danger pull-right"
+                                        (click)="cancel()">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p>Loading please wait...</p>
+</div>

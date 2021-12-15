@@ -1,0 +1,34 @@
+.custome_title h5{
+    text-align: center;
+}
+.custom_select_added{
+    width: 100%;
+    background-image: none;
+    border: 0;
+    border-bottom: 1px solid #cacaca;
+    border-radius: 0;
+    font-size: 14px;
+    padding: 0 5px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+input,textarea {
+    background-image: none;
+    border: 0;
+    border-bottom: 1px solid #cacaca;
+    border-radius: 0;
+    font-size: 14px;
+    padding: 0 5px;
+    margin-bottom: 15px;
+    width: 100%;
+    font-weight: 500;
+    
+}
+input,textarea::placeholder {
+    color: black;
+    font-weight: 500;
+    font-size: 14px;
+}
+.custom_textare_added {
+    height: 55px !important;
+}

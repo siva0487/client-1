@@ -1,0 +1,776 @@
+<div class="main-content">
+    <!-- <div *ngIf="allPermissionForOnlyThisScreen.is_read === false" class="container-fluid">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div> -->
+    <div class="container-fluid">
+        <div class="card card-user">
+            <div class="card-header custome_final_added_look">
+                <img style="position: absolute;
+                    left: 95%;" src="/assets/img/return.png" class="custom_retuns_image" data-placement="right"
+                    title="Back" [routerLink]="['/orders']">
+                <div style="text-align: center;">
+                    <h5 style="color: #4caf50;font-weight: 700;" class="card-title custome_title custome_header_title">
+                        Placing Order From OMS</h5>
+                    <!-- Placing Order From OMS</h5> -->
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <input style="width: 100%;" type="text" placeholder="Customer Register Mobile Number/Email ID"
+                            id="searching_customer_details">
+                    </div>
+                    <div class="col-md-6">
+                        <button type="submit" style="margin: 0;" class="btn btn-sm custome_button_for"
+                            (click)="searchForTheCustomer()">Search</button>
+                        <button type="submit" style="margin: 0 0 0 10px;" class="btn btn-danger btn-sm"
+                            (click)="clearThesearch()">clear</button>
+                    </div>
+                </div>
+                <div *ngIf="showcustomerSearchErrormsg">
+                    <p style="font-size: 15px; color: red;">Customer Register Mobile Number/Email ID is required *</p>
+                </div>
+                <div class="row" style="margin: 25px 0 25px 0;" *ngIf="showThisUserNotAvailable">
+                    <div class="col-md-6">
+                        <h5 class="card-title custome_title custome_header_title">
+                            User Not Available Please Creat New User
+                        </h5>
+                        <div class="d-flex bd-highlight">
+                            <div class="p-2 bd-highlight">
+                                <button type="submit" class="btn btn-success pull-right btn-sm" data-toggle="modal"
+                                    data-target="#addNewUser" data-dismiss="modal">Ok</button>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <button type="submit" class="btn btn-danger pull-right btn-sm"
+                                    (click)="noDontCreate()">No</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="showThisOnlySuccess" class="card card-user custome_aadded_cl" style="padding: 10px;">
+
+            <div *ngIf="addressDetails">
+                <div *ngIf="showThisOnlyAddressSuccess" style="text-align: center; margin-top: 25px;margin-bottom: 10px;display: flex;
+                    justify-content: center;">
+                    <h5 style="color: #4caf50;font-weight: 700; padding: 0;
+                    margin: 0;" class="card-title custome_title custome_header_title">
+                        Please Select the Address</h5>
+                    <span style="display: none;position: absolute;left: 62%; cursor: pointer;" class="material-icons"
+                        id="editIcones" (click)="enableAddress()">
+                        edit
+                    </span>
+                </div>
+                <div class="addresses" gdAuto gdColumns="repeat(auto-fit, minmax(300px, 1fr) )"
+                    gdColumns.lt-sm="repeat(auto-fit, minmax(300px, 1fr) )" gdGap="10px">
+                    <div *ngIf="showNewAddAddress" class="add-address">
+                        <button class="px-3 btn btn-sm custome_button_for" data-toggle="modal"
+                            data-target="#addAddressModal" data-dismiss="modal" (click)="addAddressStatus = 'true'">Add
+                            New Address</button>
+                    </div>
+                    <ng-container *ngIf="showThisOnlyAddressSuccess">
+                        <div *ngFor="let address of addressList; let i = index;" class="address-tile p-2">
+                            <div>
+                                <input type="checkbox" (click)="userSelectedThisAddress(i,address)"
+                                    id="checkThe_address_is_selected{{i}}">
+                            </div>
+                            <p class="mb-2">{{address.first_name}} {{address.last_name}}</p>
+                            <p class="mb-2">{{address.line_1}} {{address.line_2}}, {{address.street}},
+                                {{address.city}}<br>{{address.state}}, {{address.country}} - {{address.pincode}}</p>
+                            <p class="mb-2">{{address.mobile}}</p>
+                            <button class="edit btn btn-sm custome_button_for" data-toggle="modal"
+                                data-target="#addAddressModal" data-dismiss="modal" (click)="addAddressStatus = 'false'; editAddressFormData(
+                        address.first_name, address.last_name,
+                        address.mobile,
+                        address.line_1,
+                        address.street,
+                        address.city,
+                        address.state,
+                        address.country, address.pincode,
+                        address.address_id,address.landmark,address.latitude,address.longitude)">Edit</button>
+                            <button class="close" (click)="deleteAddress(address.address_id)"><img _ngcontent-rlk-c11=""
+                                    alt="" class="w-100" src="/assets/img/Close.png"></button>
+                            <div style="display: flex;">
+                                <input type="radio" [disabled]="true" name="address{{i}}" value="Billing_Shipping"
+                                    (click)="userSelectedThisAddressForShiping_and_billing(address)"
+                                    id="checkThe_address_is_billing_and_shipping{{i}}">
+                                <label style="margin: 0 0 3px 5px;line-height:1;color: black !important;">Billing &
+                                    Shipping
+                                    Address are Same</label>
+                            </div>
+                            <div style="display: flex;">
+                                <input type="radio" [disabled]="true" name="address{{i}}" value="Billing"
+                                    (click)="userSelectedThisAddressFor_billing(address)"
+                                    id="checkThe_address_is_billing{{i}}">
+                                <label style="margin: 0 0 3px 5px;line-height:1;color: black !important;">Billing
+                                    Address
+                                </label>
+                            </div>
+                            <div style="display: flex;">
+                                <input type="radio" [disabled]="true" name="address{{i}}" value="Shipping"
+                                    (click)="userSelectedThisAddressFor_Shiping(address)"
+                                    id="checkThe_address_is_shipping{{i}}">
+                                <label style="margin: 0 0 3px 5px;line-height:1;color: black !important;">Shipping
+                                    Address
+                                </label>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                <div *ngIf="showThisSlotSelection" style="margin: 5px; justify-content: flex-end; display: flex;">
+                    <button class="btn btn-success btn-sm" id="hide_this_proceed"
+                        (click)="selectTheSlotCheck()">Proceed</button>
+                </div>
+            </div>
+            <div *ngIf="cartDetails">
+                <div>
+                    <div #searchBar (click)="handleAsideClick($event)" class="search-container"
+                        *ngIf="deviceWidth != 'xs'" fxFlex="1 0 auto">
+                        <form>
+                            <input #searchInput id="searchInputId" style="border: none;" class="pl-2 pr-5" type="search"
+                                placeholder="Product Name Search.." name="search"
+                                (keyup)="search($event.target.value, $event)">
+                            <button (click)="isSearchSuggestion = false" class="custome_button_for" type="submit"><i
+                                    class="fa fa-search"></i></button>
+                            <div *ngIf="searchLoader" class="search-suggestion-loader">
+                                <img class="w-100" src="/assets/img/loader1.gif" alt="">
+                            </div>
+                        </form>
+                        <div class="search-overlay">
+
+                        </div>
+                        <div class="search-suggestions" #searchSuggestion>
+                            <div *ngIf="searchedProducts && isSearchSuggestion" class="search-suggestions-inner p-2">
+                                <div *ngIf="searchedProducts == '' && isSearchSuggestion" class="no-result-found">
+                                    <p>No Result Found</p>
+                                </div>
+                                <div *ngFor="let product of searchedProducts" class="search-product" fxLayout
+                                    fxLayoutAlign="space-between center">
+                                    <div class="product-image">
+                                        <!-- (click)="isSearchSuggestion = false" -->
+                                        <img [src]="product.image" alt="">
+                                        <!-- onError="this.src='assets/images/images/image_not_found.png'" -->
+                                    </div>
+                                    <div class="product-detail">
+                                        <!-- (click)="isSearchSuggestion = false" -->
+                                        <!-- <p>{{product?.brand}}</p> -->
+                                        <p style="line-height: 1.5;">{{product.name}}</p>
+                                    </div>
+                                    <p style="margin: 0; line-height: 1;" class="product-varient">
+                                        {{product.variants}}
+                                    </p>
+                                    <!-- (click)="isSearchSuggestion = false" -->
+                                    <p style="margin: 0;" class="product-price">Rs
+                                        {{product.mrp}}</p>
+                                    <div *ngIf="!checkoutStatus" class="product-quantity">
+                                        <!-- <p fxLayout fxLayoutAlign="center center">Qty</p> -->
+                                        <input type="text" style="text-align: center;
+                                    padding: 0;" readonly [value]="1" #productQuantity>
+                                        <button *ngIf="!checkoutStatus"
+                                            (click)="updateCart(product.id, productQuantity.value)"
+                                            class="px-2 custome_button_for">ADD</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="cartStatus || getCartData?.items.length == 0" class="cart-empty">
+                    <div class="screen-container">
+                        <!-- <img src="assets/images/images/cart-empty.jpg" alt=""> -->
+                        <h1 class="mt-4">Your Cart is waiting!</h1>
+                        <p>Let's add some items</p>
+                        <!-- <button class="mt-4 px-5" routerLink='/'>START SHOPPING</button> -->
+                    </div>
+                </div>
+                <div class="cart" *ngIf="getCartData && getCartData?.items.length != 0">
+                    <div class="screen-container row" fxLayout.lt-sm="column" fxLayout.gt-xs="row" fxLayoutGap="10px">
+                        <div class="cart-products col-md-6" style="height: 300px;
+                    overflow: auto;">
+                            <h1 style="color: #4caf50;font-weight: 700;" class="custome_title custome_header_title">Cart
+                            </h1>
+                            <div *ngFor="let product of getCartData.items" class="product-tile p-2 p-sm-3" fxLayout
+                                fxLayoutGap="10px">
+                                <div style="text-align: end;position: absolute;
+                            left: 90%;">
+                                    <span class="material-icons"
+                                        (click)="deleteCartProduct(product.item_id, getCartData?.items.length)"
+                                        data-placement="right" title="Delete">
+                                        delete_forever
+                                    </span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <!-- <a class="product-tile-image" fxLayout fxLayoutAlign="center center"> -->
+                                        <img style="width: 100%;" [src]="product.image_url" alt="">
+                                        <!-- onError="this.src='assets/images/images/image_not_found.png'" -->
+                                        <!-- </a> -->
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="product-title mb-2 mb-sm-2  card-title custome_title custome_header_title"
+                                            style="margin: 0 !important;">{{product.name}}</p>
+                                        <div class="product-cart" fxLayout="row" fxLayoutGap="5px">
+                                            <button class="btn btn-success btn-sm custome_button_for"
+                                                [disabled]="product.quantity === 1" (click)="updateCart(product.item_id, product.quantity-1, getCartData?.items.length,
+                                          product.inventory)">-</button>
+                                            <input type="text" class="filterme" min="1"
+                                                style="width: 40px; border: 1px solid #395a26; text-align: center; font-weight: 600; font-size: 14px"
+                                                (click)="numberOnly($event)" [value]="product.quantity"
+                                                (change)="updateCart(product.item_id, $event.target.value, getCartData?.items.length, product.inventory)">
+                                            <button class="btn btn-success btn-sm custome_button_for"
+                                                (click)="updateCart(product.item_id, product.quantity-1+2, getCartData?.items.length, product.inventory)">+</button>
+                                        </div>
+                                        <p style="margin: 0;
+                                    font-size: 12px;
+                                    color: #868686;" class="">MRP <span
+                                                style="text-decoration: line-through;">₹{{product.mrp}}</span></p>
+
+                                        <p *ngIf="product.final_selling_price" style="margin: 0;" class="">
+                                            ₹{{product.final_selling_price}}</p>
+                                        <!-- <p *ngIf="product.special_price" style="margin: 0;" class="">
+                                            ₹{{product.special_price}}</p> -->
+                                        <!-- <p class="product-offered-price">{{product.quantity}} x ₹
+                                        {{product.special_price | number : '1.2-2'}}</p>
+                                    <p class="product-total-price">₹ {{product.total_price | number : '1.2-2' }}</p> -->
+                                    </div>
+                                </div>
+
+                                <!-- <div class="product-tile-inner" fxFlex="1 0 calc(100% - 150px)" fxLayout.gt-xs
+                                fxLayoutAlign.gt-xs="space-between center"> -->
+                                <div class="product-information" fxLayout="column" fxLayoutAlign="space-between start">
+                                    <!-- <p [routerLink]="['/products/detail', hyphenateUrlParams(product.name), product.item_id]"
+                                        class="product-brand mb-1">{{product.brand}}</p> -->
+                                    <div class="row">
+
+                                        <!-- <div class="col-md-6" style="text-align: end;">
+                                        <p class="product-offered-price" style="margin: 0;color: #868686;
+                                        font-size: 14px;">{{product.quantity}} x ₹ {{product.price}}
+                                        </p>
+                                        <p class="product-total-price" style="margin: 0;">₹ {{product.total_price}}
+                                        </p>
+                                    </div> -->
+                                    </div>
+                                    <!-- </div> -->
+                                </div>
+                                <!-- <div class="product-price mb-2" *ngIf="deviceWidth != 'xs'">
+                                <div class="per-product-price">
+                                    <p class="">MRP <span>₹{{product.price}}</span></p>
+                                    <p *ngIf="product.special_price" class="">₹{{product.special_price}}</p>
+                                </div>
+                                <p class="product-offered-price">{{product.quantity}} x ₹
+                                    {{product.special_price | number : '1.2-2'}}</p>
+                                <p class="product-total-price">₹ {{product.total_price | number : '1.2-2' }}</p>
+                            </div> -->
+                                <!-- </div> -->
+                            </div>
+                            <button (click)="deleteCart()" class="btn btn-sm empty-cart px-4 custome_button_for">Empty
+                                Cart</button>
+                        </div>
+                        <div class="order-summary col-md-6">
+                            <h1 style="color: #4caf50;font-weight: 700;" class="custome_title custome_header_title">
+                                Order
+                                Summary</h1>
+                            <div class="order-summary-inner p-3" style="border: 1px solid lightgray;">
+                                <div style="margin: 0 0 15px 0;" class="coupon-container packing-type">
+                                    <p style="margin: 0;">Packing Type</p>
+                                    <select class="p-1" style="width: 100%;
+                                border: 1px solid #eaeaea;
+                                font-size: 14px;" name="" id="PackageTypeValue" (change)="updatePackagingType($event)"
+                                        [ngModel]="getCartData.packaging_type_id">
+                                        <option *ngFor="let packagingType of packagingTypes"
+                                            [value]="packagingType.packaging_type_id">
+                                            {{packagingType.packaging_type}} (₹ {{packagingType.amount}})</option>
+                                    </select>
+                                </div>
+                                <table style="width: 100%;" class="order-summary-header mt-3">
+                                    <tr>
+                                        <td>Subtotal <span></span></td>
+                                        <td style="text-align: right;">Rs {{getCartData.sub_total}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Delivery</td>
+                                        <td style="text-align: right;" class="order-summary-delivery-status">
+                                            {{getCartData.delivery_charges}}</td>
+                                    </tr>
+                                    <tr *ngIf="getCartData.packaging_type">
+                                        <td>Packing Type</td>
+                                        <td style="text-align: right;">Rs
+                                            {{getCartData.packaging_type_amount}}<br>({{getCartData.packaging_type}})
+                                        </td>
+                                    </tr>
+                                </table>
+                                <hr>
+                                <table style="width: 100%;" class="order-summary-footer">
+                                    <tr>
+                                        <td class="order-summary-delivery-total-title">
+                                            <p style="margin: 0;">TOTAL</p>
+                                        </td>
+                                        <td style="text-align: right;" class="order-summary-delivery-total">
+                                            ₹ {{getCartData.cart_amount}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <button id="checkout_perpos" class="btn btn-sm button-fill mt-2 custome_button_for"
+                                (click)='navigateCheckoutAddress()'>CHECKOUT
+                                NOW</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="proceesdNext">
+                <div style="margin-top: 25px;margin-bottom: 10px;">
+                    <div *ngIf="!selectSlotStatus" class="delivery-slots">
+                        <p class="title pb-2" style="margin: 0; color: #4caf50; font-weight: 700;">Choose Delivery
+                            Slots</p>
+                        <!-- <mat-form-field class="example-full-width" appearance="fill"> -->
+                        <div class="delivery-slot-pick-date py-1">
+                            <input [(ngModel)]="toDate" id="selectedSlotDetails" readonly matInput
+                                (dateInput)="OnDateChange($event.value)" [min]="minDate" [max]="maxDate"
+                                [matDatepicker]="picker" [matDatepickerFilter]=dateFilter>
+                            <div class="calender-button">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            </div>
+                            <div class="calender">
+                                <mat-datepicker #picker></mat-datepicker>
+                            </div>
+                        </div>
+                        <!-- </mat-form-field> -->
+                        <div *ngIf="selectedDateTimeSlots" class="timeslots">
+                            <button class="p-1" *ngFor="let selectedDateTimeSlot of
+                        selectedDateTimeSlots" (click)="slotSelect(selectedDateTimeSlot.time_slot_id,
+                        selectedDateTimeSlot.slot_start_time,
+                        selectedDateTimeSlot.slot_end_time)">{{selectedDateTimeSlot.slot_start_time | date:"hh:mm
+                                a":"+0000"}} -
+                                {{selectedDateTimeSlot.slot_end_time | date:"hh:mm a":"+0000"}}</button>
+                        </div>
+                    </div>
+                    <div *ngIf="selectSlotStatus" class="delivery-slots-selected">
+                        <p class="title pb-2" style="margin: 0; color: #4caf50; font-weight: 700;">Selected Delivery
+                            Slot</p>
+                        <p class="selected-slot px-2 py-1">{{selectedSlotDates | customDate}}
+                            {{selectedSlotStartTime | date:"hh:mm a":"+0000"}}-{{selectedSlotEndTime | date:"hh:mm
+                            a":"+0000"}}<button (click)="selectSlotStatus = false">Change</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="proceedToSelectPayment">
+                <div style="display: flex;border: 1px solid lightgray; width: 50%; padding: 15px; margin-bottom: 10px;">
+                    <input type="radio" name="payment" value="cash_on_delivery" id="cash_on_delivery">
+                    <label style="margin: 0 0 3px 5px;line-height:1;color: black !important;">Cash On Delivery
+                    </label>
+                </div>
+                <!-- <div style="display: flex;border: 1px solid lightgray; width: 50%; padding: 15px; margin-bottom: 10px;">
+                    <input type="radio" name="payment" value="card_on_delivery" id="card_on_delivery">
+                    <label style="margin: 0 0 3px 5px;line-height:1;color: black !important;">Card On Delivery
+                    </label>
+                </div> -->
+
+                <button class="btn btn-sm custome_button_for" (click)="checkTheAddress()">Place Order</button>
+            </div>
+            <!-- <div *ngIf="finalGetCartData">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="custom_adding_t">Item</th>
+                            <th class="custom_adding_t"> Quantity</th>
+                            <th class="custom_adding_t"> Price</th>
+                            <th class="custom_adding_t">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of finalGetCartData.items">
+                            <td class="custom_adding_t">{{item.name}} </td>
+                            <td class="custom_adding_t">{{item.quantity}} </td>
+                            <td class="custom_adding_t">{{item.price}} </td>
+                            <td class="custom_adding_t">
+                                <span class="material-icons order_edit" (click)="forDeletePackagingTtype(item)"
+                                    data-toggle="modal" data-target="#remove_packaging_type" data-dismiss="modal"
+                                    data-placement="right" title="Delete">
+                                    delete_forever
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+
+        </div>
+
+        <div class="modal fade" id="addAddressModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <button (click)="onReset()" id="addAddressClose" type="button" class="close"
+                        data-dismiss="modal"><img class="w-100" src="assets/img/Close.png" alt=""></button>
+                    <div class="modal-form p-3" fxLayout="column" fxLayoutAlign="center">
+                        <h1 *ngIf="addAddressStatus == 'true'"
+                            style="color: #4caf50; font-weight: 700; text-align: center;">Add New Address
+                        </h1>
+                        <h1 *ngIf="addAddressStatus == 'false'"
+                            style="color: #4caf50; font-weight: 700; text-align: center;">Edit Address</h1>
+                        <!-- <form [formGroup]="addAddressForm" class="mt-2 p-3">
+                            <div class="form-field mb-4">
+                                <input type="text" formControlName="firstName" placeholder="First Name"
+                                    #addressFirstname class="form-control"
+                                    [ngClass]="{ 'is-invalid': addressSubmitted && a.firstName.errors }">
+                                <div *ngIf="addressSubmitted && a.firstName.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.firstName.errors.required">
+                                        Firstname is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4">
+                                <input type="text" class="form-control" formControlName="lastName"
+                                    placeholder="Last Name" #addressLastname
+                                    [ngClass]="{ 'is-invalid': addressSubmitted && a.lastName.errors }">
+                                <div *ngIf="addressSubmitted && a.lastName.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.lastName.errors.required">
+                                        Lastname is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4">
+                                <input type="text" class="form-control" formControlName="phoneNumber"
+                                    placeholder="Enter Mobile Number" #addressPhoneNumber
+                                    [ngClass]="{ 'is-invalid': addressSubmitted && a.phoneNumber.errors }">
+                                <div *ngIf="addressSubmitted && a.phoneNumber.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.phoneNumber.errors.required">
+                                        Phone Number is required
+                                    </div>
+                                    <div *ngIf="addressSubmitted && a.phoneNumber.errors.pattern">
+                                        Phone Number is invalid
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4">
+                                <input type="text" class="form-control" formControlName="line1"
+                                    placeholder="Address line" #addressLine1
+                                    [ngClass]="{ 'is-invalid': addressSubmitted && a.line1.errors }">
+                                <div *ngIf="addressSubmitted && a.line1.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.line1.errors.required">
+                                        Address is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4">
+                                <input type="text" class="form-control" formControlName="street" placeholder="Street"
+                                    #addressStreet [ngClass]="{ 'is-invalid': addressSubmitted && a.street.errors }">
+                                <div *ngIf="addressSubmitted && a.street.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.street.errors.required">
+                                        Street is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4">
+                                <input type="text" class="form-control" formControlName="city" placeholder="City"
+                                    #addressCity [ngClass]="{ 'is-invalid': addressSubmitted && a.city.errors }">
+                                <div *ngIf="addressSubmitted && a.city.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.city.errors.required">
+                                        City is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4">
+                                <input type="text" class="form-control" formControlName="state" placeholder="State"
+                                    #addressState [ngClass]="{ 'is-invalid': addressSubmitted && a.state.errors }">
+                                <div *ngIf="addressSubmitted && a.state.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.state.errors.required">
+                                        State is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4">
+                                <input type="text" class="form-control" formControlName="country" placeholder="Country"
+                                    #addressCountry [ngClass]="{ 'is-invalid': addressSubmitted && a.country.errors }">
+                                <div *ngIf="addressSubmitted && a.country.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.country.errors.required">
+                                        Country is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4">
+                                <input type="text" class="form-control" formControlName="pincode" placeholder="Pincode"
+                                    #addressPincode [ngClass]="{ 'is-invalid': addressSubmitted && a.pincode.errors }">
+                                <div *ngIf="addressSubmitted && a.pincode.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.pincode.errors.required">
+                                        Pincode is required
+                                    </div>
+                                </div>
+                            </div>
+                            <button *ngIf="addAddressStatus == 'true'" class="modal-submit px-2 custome_button_for"
+                                (click)="addAddress()">SAVE
+                                ADDRESS</button>
+                            <button *ngIf="addAddressStatus == 'false'" class="modal-submit px-2 custome_button_for"
+                                (click)="editAddress()">SAVE
+                                ADDRESS</button>
+                        </form> -->
+                        <form [formGroup]="addAddressForm" class="mt-2 p-3">
+                            <!-- <div class="w-100">
+                                <button class="detect-location-btn mb-3 p-1 px-3 py-2" (click)="getLocation()"><i
+                                        class="fas fa-street-view"></i>
+                                    &nbsp;&nbsp;Detect
+                                    Location</button>
+                            </div> -->
+                            <div class="form-field mb-4 width-50">
+                                <input type="text" class="form-control" formControlName="firstName"
+                                    placeholder="First Name" #addressFirstname
+                                    [ngClass]="{ 'is-invalid': addressSubmitted && a.firstName.errors }">
+                                <div *ngIf="addressSubmitted && a.firstName.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.firstName.errors.required">
+                                        Firstname is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4 width-50">
+                                <input type="text" class="form-control" formControlName="lastName"
+                                    placeholder="Last Name" #addressLastname
+                                    [ngClass]="{ 'is-invalid': addressSubmitted && a.lastName.errors }">
+                                <div *ngIf="addressSubmitted && a.lastName.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.lastName.errors.required">
+                                        Lastname is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4 width-50">
+                                <input type="text" class="form-control" formControlName="phoneNumber"
+                                    placeholder="Enter Mobile Number" #addressPhoneNumber
+                                    [ngClass]="{ 'is-invalid': addressSubmitted && a.phoneNumber.errors }">
+                                <div *ngIf="addressSubmitted && a.phoneNumber.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.phoneNumber.errors.required">
+                                        Phone Number is required
+                                    </div>
+                                    <div *ngIf="addressSubmitted && a.phoneNumber.errors.pattern">
+                                        Phone Number is invalid
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4 width-50">
+                                <!-- (keyup)="autofill($event.target.value)" -->
+                                <input type="text" class="form-control" (keyup)="autofill($event.target.value)"
+                                    formControlName="pincode" placeholder="Pincode" #addressPincode
+                                    [ngClass]="{ 'is-invalid': addressSubmitted && a.pincode.errors }">
+                                <div *ngIf="addressSubmitted && a.pincode.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.pincode.errors.required">
+                                        Pincode is required
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <p class="w-100">OR</p> -->
+
+                            <!-- <button class="button-empty mt-2 py-1">Enter Manually</button> -->
+                            <div class="form-field mb-4 w-100">
+                                <input type="text" class="form-control" formControlName="line1"
+                                    placeholder="Address line" #addressLine1
+                                    [ngClass]="{ 'is-invalid': addressSubmitted && a.line1.errors }">
+                                <div *ngIf="addressSubmitted && a.line1.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.line1.errors.required">
+                                        Address is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4 w-100">
+                                <input type="text" class="form-control" formControlName="street" placeholder="Street"
+                                    #addressStreet [ngClass]="{ 'is-invalid': addressSubmitted && a.street.errors }">
+                                <div *ngIf="addressSubmitted && a.street.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.street.errors.required">
+                                        Street is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4 w-100">
+                                <input type="text" class="form-control" formControlName="city" placeholder="City"
+                                    #addressCity [ngClass]="{ 'is-invalid': addressSubmitted && a.city.errors }">
+                                <div *ngIf="addressSubmitted && a.city.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.city.errors.required">
+                                        City is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4 width-50">
+                                <input type="text" class="form-control" formControlName="state" placeholder="State"
+                                    #addressState [ngClass]="{ 'is-invalid': addressSubmitted && a.state.errors }">
+                                <div *ngIf="addressSubmitted && a.state.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.state.errors.required">
+                                        State is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4 width-50">
+                                <input type="text" value="India" class="form-control" formControlName="country"
+                                    placeholder="Country" #addressCountry
+                                    [ngClass]="{ 'is-invalid': addressSubmitted && a.country.errors }">
+                                <div *ngIf="addressSubmitted && a.country.errors" class="invalid-feedback">
+                                    <div *ngIf="addressSubmitted && a.country.errors.required">
+                                        Country is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <input type="hidden" formControlName="latitude">
+                            </div>
+                            <div class="form-field">
+                                <input type="hidden" formControlName="longitude">
+                            </div>
+                            <div class="form-field">
+                                <input type="hidden" formControlName="landmarkPincode">
+                            </div>
+                            <div class="landmark mb-3 p-2">
+                                <div class="googlemap-search my-2 w-100">
+                                    <input id="searchTextAddressField" class="p-1 pl-4" type="text" size="50"
+                                        placeholder="Select the Nearest Landmark">
+                                    <span><i class="fa fa-search"></i></span>
+                                    <!-- <button class="detect-location p-1" (click)="getLocation()">Detect Location</button> -->
+                                </div>
+
+                                <div class="form-field w-100">
+                                    <textarea class="pointer-none" rows="5" class="w-100 mt-3 p-2" type="text"
+                                        formControlName="landmark" class="form-control"
+                                        placeholder="Please Find the nearest Landmark from above Box"
+                                        [ngClass]="{ 'is-invalid': addressSubmitted && a.landmark.errors }"
+                                        readonly></textarea>
+                                    <div *ngIf="addressSubmitted && a.landmark.errors" class="invalid-feedback">
+                                        <div *ngIf="addressSubmitted && a.landmark.errors.required">
+                                            Please Select Landmark field from above textbox
+                                        </div>
+                                    </div>
+                                    <div *ngIf="showThisForLandmark">
+                                        <p style="font-size: 12px; color: red;">Your Landmark Pincode is not matching
+                                            with Address Pincode</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="form-field default-address mb-4 w-100">
+                                <label class="checkbox " fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
+                                    Default Address
+                                    <input formControlName="defaultAddress" type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div> -->
+                            <!-- <input type="text" formControlName="addressId" #addressId> -->
+                            <button *ngIf="addAddressStatus == 'true'" class="btn btn-success btn-sm"
+                                (click)="addAddress()">SAVE
+                                ADDRESS</button>
+                            <button *ngIf="addAddressStatus == 'false'" class="btn-success btn-sm"
+                                (click)="editAddress()">SAVE ADDRESS</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="addNewUser">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <button (click)="onResetUserCreation()" id="addAddressClose" type="button" class="close"
+                        data-dismiss="modal"><img src="assets/img/Close.png" alt=""></button>
+                    <div class="modal-form p-3" fxLayout="column" fxLayoutAlign="center">
+                        <h1>Create New User</h1>
+                        <form id="generateOTP_id" [formGroup]="createNewUserForm" class="mt-2 p-3">
+                            <div class="form-field mb-4">
+                                <input type="text" formControlName="firstName" placeholder="First Name"
+                                    class="form-control"
+                                    [ngClass]="{ 'is-invalid': addnewUserSubmitted && b.firstName.errors }">
+                                <div *ngIf="addnewUserSubmitted && b.firstName.errors" class="invalid-feedback">
+                                    <div *ngIf="addnewUserSubmitted && b.firstName.errors.required">
+                                        Firstname is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4">
+                                <input type="text" class="form-control" formControlName="lastName"
+                                    placeholder="Last Name"
+                                    [ngClass]="{ 'is-invalid': addnewUserSubmitted && b.lastName.errors }">
+                                <div *ngIf="addnewUserSubmitted && b.lastName.errors" class="invalid-feedback">
+                                    <div *ngIf="addnewUserSubmitted && b.lastName.errors.required">
+                                        Lastname is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4">
+                                <input type="email" class="form-control" formControlName="email" placeholder="Email ID"
+                                    [ngClass]="{ 'is-invalid': addnewUserSubmitted && b.email.errors }">
+                                <div *ngIf="addnewUserSubmitted && b.email.errors" class="invalid-feedback">
+                                    <div *ngIf="addnewUserSubmitted && b.email.errors.required">
+                                        Email IDis required
+                                    </div>
+                                    <div *ngIf="addnewUserSubmitted && b.email.errors.pattern">
+                                        Invalid Email ID
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4">
+                                <input type="text" class="form-control" formControlName="phone"
+                                    placeholder="Enter Mobile Number" pattern="^[0-9]{10,11}$"
+                                    [ngClass]="{ 'is-invalid': addnewUserSubmitted && b.phone.errors }">
+                                <div *ngIf="addnewUserSubmitted && b.phone.errors" class="invalid-feedback">
+                                    <div *ngIf="addnewUserSubmitted && b.phone.errors.required">
+                                        Phone Number is required
+                                    </div>
+                                    <div *ngIf="addnewUserSubmitted && b.phone.errors.pattern">
+                                        Phone Number is invalid
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex bd-highlight">
+                                <div class="p-2 bd-highlight">
+                                    <button mat-raised-button type="submit" class="btn btn-success pull-right btn-sm"
+                                        (click)="generateOTPForverify()">Verify</button>
+                                </div>
+                                <div class="p-2 bd-highlight">
+                                    <button mat-raised-button type="submit" class="btn btn-danger pull-right btn-sm"
+                                        (click)="closeGeneratOTPPart()">No</button>
+                                </div>
+                            </div>
+                        </form>
+                        <form id="verifyOTP_id" style="display: none;" [formGroup]="createNewUserFormAfterVerify"
+                            class="mt-2 p-3">
+                            <div class="form-field mb-4">
+                                <input type="text" class="form-control" formControlName="otp" placeholder="OTP"
+                                    [ngClass]="{ 'is-invalid': addnewUserSubmittedAfterVerify && c.otp.errors }">
+                                <div *ngIf="addnewUserSubmittedAfterVerify && c.otp.errors" class="invalid-feedback">
+                                    <div *ngIf="addnewUserSubmittedAfterVerify && c.otp.errors.required">
+                                        OTP is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-field mb-4">
+                                <input type="password" class="form-control" formControlName="password"
+                                    placeholder="Password"
+                                    [ngClass]="{ 'is-invalid': addnewUserSubmittedAfterVerify && c.password.errors }">
+                                <div *ngIf="addnewUserSubmittedAfterVerify && c.password.errors"
+                                    class="invalid-feedback">
+                                    <div *ngIf="addnewUserSubmittedAfterVerify && c.password.errors.required">
+                                        Password is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="showOTPInvalid">
+                                <p style="font-size: 15px; color: red;">{{msg}}</p>
+                            </div>
+                            <div *ngIf="showMsgOtpsentsuccess">
+                                <p style="font-size: 15px; color: green;">OTP sent successfully</p>
+                            </div>
+                            <div class="d-flex bd-highlight">
+                                <div class="p-2 bd-highlight">
+                                    <button mat-raised-button type="submit" class="btn btn-success pull-right btn-sm"
+                                        (click)="createUserVerifyOTP()">Create</button>
+                                </div>
+                                <div class="p-2 bd-highlight">
+                                    <button mat-raised-button type="submit" class="btn btn-danger pull-right btn-sm"
+                                        (click)="createUserVerifyOTPClear()">No</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p>Loading please wait...</p>
+</div>

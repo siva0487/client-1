@@ -1,0 +1,66 @@
+<div class="main-content">
+    <div *ngIf="writePermissionForOnlyThisScreen.is_read === false" class="container-fluid">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div>
+    <div *ngIf="writePermissionForOnlyThisScreen.is_read === true" class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header custome_header_title">
+                        <h5 class="card-title custome_title  info_page_title">View Role Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="updateRoleForm">
+                            <div *ngIf="selectedRoleInformation" class="row">
+                                <div class="col-md-6">
+                                    <label>Role <span class="custom_star_mark"> *</span> </label>
+                                    <input id="role_name_id" class="form-control" readonly formControlName="role_name"
+                                        [(ngModel)]="selectedRoleInformation.role_name"
+                                        [ngClass]="{ 'is-invalid': submitted && a.role_name.errors }">
+                                    <div *ngIf="submitted && a.role_name.errors" class="invalid-feedback">
+                                        <div *ngIf="a.role_name.errors.required">Role is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>User Status<span class="custom_star_mark"> *</span> </label>
+                                    <select [(ngModel)]="selectedRoleInformation.is_active" id="role_status_id"
+                                        disabled="true" class="custom_select_added custom_class_input form-control"
+                                        formControlName="is_active"
+                                        [ngClass]="{ 'is-invalid': submitted && a.is_active.errors }">
+                                        <option *ngFor="let list of is_activeOrNot_new" value="{{list.value}}">
+                                            {{list.status}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && a.is_active.errors" class="invalid-feedback">
+                                        <div *ngIf="a.is_active.errors.required">Store Status is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row-reverse bd-highlight">
+                                <div class="p-2 bd-highlight">
+                                    <button id="edit_this"
+                                        [disabled]="writePermissionForOnlyThisScreen.is_write === false"
+                                        mat-raised-button type="submit" class="btn btn-success pull-right"
+                                        (click)="edit()">Edit</button>
+                                </div>
+                                <div class="p-2 bd-highlight">
+                                    <button id="update_this" mat-raised-button type="submit"
+                                        class="btn btn-success pull-right" (click)="Update()">Update</button>
+                                </div>
+                                <div class="p-2 bd-highlight">
+                                    <button mat-raised-button type="submit" class="btn btn-danger pull-right"
+                                        (click)="cancel()">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p>Loading please wait...</p>
+</div>

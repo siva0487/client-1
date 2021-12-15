@@ -1,0 +1,58 @@
+<div class="main-content">
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === false" class="container-fluid">
+        <p style="text-align: center;
+        color: #4caf50;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div>
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === true" class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header custome_header_title">
+                        <h5 class="card-title custome_title  info_page_title">Create New Role</h5>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="createNewRoleForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Role <span class="custom_star_mark"> *</span> </label>
+                                    <input class="form-control" formControlName="role_name"
+                                        [ngClass]="{ 'is-invalid': submitted && a.role_name.errors }">
+                                    <div *ngIf="submitted && a.role_name.errors" class="invalid-feedback">
+                                        <div *ngIf="a.role_name.errors.required">Role is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>User Status<span class="custom_star_mark"> *</span> </label>
+                                    <select class="form-control" formControlName="is_active"
+                                        [ngClass]="{ 'is-invalid': submitted && a.is_active.errors }">
+                                        <option *ngFor="let list of roleStatusSet" value="{{list.is_active}}">
+                                            {{list.status}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && a.is_active.errors" class="invalid-feedback">
+                                        <div *ngIf="a.is_active.errors.required">Assigning the Role Status is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row-reverse bd-highlight">
+                                <div class="p-2 bd-highlight">
+                                    <button mat-raised-button type="submit" (click)="createNewUser()"
+                                        class="btn btn-success pull-right">Create</button>
+                                </div>
+                                <div class="p-2 bd-highlight">
+                                    <button mat-raised-button type="submit" class="btn btn-danger pull-right"
+                                        (click)="cancel()">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p>Loading please wait...</p>
+</div>

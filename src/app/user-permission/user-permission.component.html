@@ -1,0 +1,85 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card card-user">
+            <div class="card-header">
+                <div style="text-align: center;">
+                    <h5 class="card-title custome_title custome_header_title">User Permissions</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="width: 96% !important;
+                overflow: auto;">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr class="assigneForAll">
+                                <th rowspan="4">Roles</th>
+                                <th colspan="30">Screens</th>
+                            </tr>
+                            <tr class="assigneForAll">
+                                <th colspan="2" *ngFor="let scrnlistHeading of headingsForScreens">
+                                    {{scrnlistHeading.screen_name}}</th>
+                            </tr>
+                            <tr class="assigneForAll">
+                                <!-- <th *ngFor="let scrnlistHeading of headingsForScreens">Read</th>
+                                <th *ngFor="let scrnlistHeading of headingsForScreens">Write</th> -->
+                                <th>Read</th>
+                                <th>Write</th>
+                                <th>Read</th>
+                                <th>Write</th>
+                                <th>Read</th>
+                                <th>Write</th>
+                                <th>Read</th>
+                                <th>Write</th>
+                                <th>Read</th>
+                                <th>Write</th>
+                                <th>Read</th>
+                                <th>Write</th>
+                                <th>Read</th>
+                                <th>Write</th>
+                                <th>Read</th>
+                                <th>Write</th>
+                                <th>Read</th>
+                                <th>Write</th>
+                                <th>Read</th>
+                                <th>Write</th>
+                                <!-- <th *ngFor="let scrnlistHeading of headingsForScreens">Write</th> -->
+                            </tr>
+                            <!-- <tr class="assigneForAll"> -->
+                            <!-- <th *ngFor="let scrnlistHeading of headingsForScreens">Read</th> -->
+                            <!-- <th colspan="3" *ngFor="let scrnlistHeading of headingsForScreens">Write</th>
+                            </tr> -->
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of finalArray; let i = index;" class="assigneForAll">
+                                <td>{{item.role_name}}</td>
+                                <td colspan="2" *ngFor="let scrnlist of headingsForScreens; let j= index;">
+                                    <input style="margin: 0 30px 0 0;" id="checked_new{{i}}"
+                                        (change)="checkingRead(i,j,item,scrnlist)" type="checkbox"
+                                        [checked]="scrnlist.is_read">
+                                    <input type="checkbox" id="checked_new1{{i}}"
+                                        (change)="checkingWrite(i,j,item,scrnlist)" [checked]="scrnlist.is_write">
+                                </td>
+                                <!-- <td *ngFor="let scrnlist1 of headingsForScreens">
+                                    <input type="checkbox" [checked]="scrnlist1.is_write">
+                                </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex flex-row-reverse bd-highlight">
+                    <div class="p-2 bd-highlight">
+                        <button mat-raised-button type="submit" (click)="createNewPermission()"
+                            class="btn btn-success pull-right">Create</button>
+                    </div>
+                    <div class="p-2 bd-highlight">
+                        <button mat-raised-button type="submit" class="btn btn-danger pull-right">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p>Loading please wait...</p>
+</div>

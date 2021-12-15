@@ -1,0 +1,332 @@
+<div class="main-content">
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === false" class="container-fluid">
+        <p style="text-align: center;
+        color: #1a3c7b;
+        font-weight: 700;">You Can't Access this page. If you want Please contact Admin</p>
+    </div>
+    <div *ngIf="allPermissionForOnlyThisScreen.is_read === true" class="container-fluid">
+        <div class="card card-user">
+            <div class="card-header">
+                <div class="custome_title">
+                    <h5 class="card-title info_page_title custome_header_title" data-placement="right"
+                        title="Configurations">Configurations
+                    </h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Configurations</label>
+                        <select (change)="selectedInfo($event.target.value)" [disabled]="allPermissionForOnlyThisScreen.is_write === false"
+                            class="custom_select_added form-control custom_class_input">
+                            <option value="select">Select Configurations</option>
+                            <option value="delivery" id="delivery_id">Delivery Charges</option>
+                            <option value="min_order" id="min_order_value_id">Minimum Order Value</option>
+                            <option value="packaging_types" id="packaging_types_id">Packaging Types</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row deliveryInformation_main">
+                    <div *ngIf="showDeliveryInfo" class="col-md-8 deliveryInformation">
+                        <div style="text-align: end;">
+                            <span *ngIf="message_display_button" class="material-icons icon_custom" (click)="addNew()">
+                                add_circle
+                            </span>
+                            <span *ngIf="showEdit" class="material-icons icon_custom" (click)="edit()">
+                                edit
+                            </span>
+                        </div>
+                        <div>
+                            <p *ngIf="message_display">Delivery Charges are Not available !</p>
+                            <table *ngIf="deliveryChargesArray.length !=0">
+                                <tr>
+                                    <th><label>Minimum Cart Value<span class="custom_star_mark"> *</span></label></th>
+                                    <th><label>Maximum Cart Value<span class="custom_star_mark"> *</span></label></th>
+                                    <th><label>Delivery Charges<span class="custom_star_mark"> *</span></label></th>
+                                </tr>
+                                <tr *ngFor="let item of deliveryChargesArray;let i= index;">
+                                    <td>
+                                        <input type="text" [(ngModel)]="item.min_cart_value"
+                                            class="form-control custom_select_added custom_class_input filterme"
+                                            (click)="numberOnly()" id="minimum_cart_val{{i}}" >
+                                            <!-- (change)="check(i)" -->
+                                    </td>
+                                    <td>
+                                        <input type="text"
+                                            class="form-control custom_select_added custom_class_input filterme"
+                                            [(ngModel)]="item.max_cart_value" id="maximum_cart_val{{i}}"
+                                             (click)="numberOnly()">
+                                             <!-- (change)="check2(i)" -->
+                                    </td>
+                                    <td>
+                                        <input type="text"
+                                            class="form-control custom_select_added custom_class_input filterme"
+                                            [(ngModel)]="item.amount" id="charges_d{{i}}" (click)="numberOnly()">
+                                    </td>
+                                    <td *ngIf="showDelete">
+                                        <span class="material-icons icon_custom" (click)="delete(i,item)">
+                                            delete_forever
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div *ngIf="showCreate" class="d-flex flex-row-reverse bd-highlight">
+                            <div class="p-2 bd-highlight">
+                                <button type="submit" (click)="createNewDeliveryCharges()"
+                                    class="btn btn-success btn-sm pull-right">Create</button>
+                            </div>
+                            <!-- <div class="p-2 bd-highlight">
+                                <button  type="submit" class="btn btn-danger btn-sm pull-right"
+                                    (click)="cancel()">Cancel</button>
+                            </div> -->
+                        </div>
+                        <!-- <div *ngIf="showUpdate" class="d-flex flex-row-reverse bd-highlight">
+                            <div class="p-2 bd-highlight">
+                                <button  type="submit" (click)="updateDeliveryCharges()"
+                                    class="btn btn-success btn-sm pull-right">Update</button>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <button  type="submit" class="btn btn-danger btn-sm pull-right"
+                                    (click)="cancel()">Cancel</button>
+                            </div>
+                        </div> -->
+
+                    </div>
+                    <div *ngIf="showMinimumOrderValueInfo">
+                        <div style="margin: 20px;">
+                            <label>Minimum Order Value <span class="custom_star_mark"> *</span> </label>
+                            <div *ngIf="miniOrderValRes" class="miniMumOrderPart">
+                                <input type="text"
+                                    class="form-control custom_select_added custom_class_input filterme custome_input"
+                                    (click)="numberOnly()" readonly value="{{miniOrderValRes.min_order_value}}"
+                                    id="minimum_order_val">
+                                <button type="submit" (click)="updateMinimumOrderValue(miniOrderValRes)"
+                                    class="btn btn-success btn-sm custome_button" data-toggle="modal"
+                                    data-target="#updatingThe_Mini_order_val" data-dismiss="modal">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="showPackagingType" class="col-md-12">
+                        <div *ngIf="showThisNoPackageTpe">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Packaging Type<span class="custom_star_mark"> *</span> </label>
+                                    <input type="text"
+                                        class="form-control custom_select_added custom_class_input  custome_input"
+                                        id="create_packaging_type_val">
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Amount<span class="custom_star_mark"> *</span> </label>
+                                    <input type="text" (click)="numberOnly()"
+                                        class="form-control custom_select_added custom_class_input filterme custome_input"
+                                        id="create_amount_val">
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="submit" (click)="createPackagingType()"
+                                        class="btn btn-success btn-sm custome_button">Create</button>
+                                </div>
+                            </div>
+                            <div style="text-align: center;
+                        font-size: 15px;
+                        color: red;" *ngIf="showThisMessageForCreatePackagingType">
+                                <p>Please Fill the Mandatory Fields</p>
+                            </div>
+
+                        </div>
+                        <div *ngIf="showThisNoPackageTpe === false">
+                            <div style="display: flex;">
+                                <p>Add Packaging Type</p>
+                                <span style="margin-left: 10px; cursor: pointer;" class="material-icons icon_custom"
+                                    data-toggle="modal" data-target="#add_packaging_type" data-dismiss="modal">
+                                    add_circle
+                                </span>
+                            </div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="custom_adding_t">Packaging Type</th>
+                                        <th class="custom_adding_t"> Amount</th>
+                                        <th class="custom_adding_t">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of finalPackageGet">
+                                        <td class="custom_adding_t">{{item.packaging_type}} </td>
+                                        <td class="custom_adding_t">{{item.amount}} </td>
+                                        <td class="custom_adding_t"> <span class="material-icons order_edit"
+                                                (click)="forEditPackagingTtype(item)" data-toggle="modal"
+                                                data-target="#edit_packaging_type" data-dismiss="modal"
+                                                data-placement="right" title="View">
+                                                edit
+                                            </span>
+                                            <!-- <span class="material-icons order_edit"
+                                                (click)="forDeletePackagingTtype(item)" data-toggle="modal"
+                                                data-target="#remove_packaging_type" data-dismiss="modal"
+                                                data-placement="right" title="Delete">
+                                                delete_forever
+                                            </span> -->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade auth-modal" id="add_packaging_type">
+            <div class="modal-dialog " style="z-index: 2;">
+                <div class="modal-content d-flex">
+                    <button type="button" class="close close-button" id="profile_edit_verified" data-dismiss="modal">
+                        <img src="assets/img/Close.png" alt="">
+                    </button>
+                    <h5 class="card-title custome_title_in_pop-up">Add Packaging Type</h5>
+                    <div class="custom_question">
+                        <div style="padding: 0; margin: 0;" class=" row">
+                            <div class="col-md-6">
+                                <label>Packaging Type<span class="custom_star_mark"> *</span> </label>
+                                <input type="text" class="form-control custom_select_added custom_class_input"
+                                    id="add_packaging_type_id">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Amount<span class="custom_star_mark"> *</span> </label>
+                                <input type="text" (click)="numberOnly()" id="add_amount_id"
+                                    class="form-control custom_select_added custom_class_input filterme">
+                            </div>
+                        </div>
+                        <div style="text-align: center;
+                        font-size: 15px;
+                        color: red;" *ngIf="add_showThisMessageForPackagingType">
+                            <p>Please Fill the Mandatory Fields</p>
+                        </div>
+                        <div class="d-flex flex-row-reverse bd-highlight">
+                            <div class="p-2 bd-highlight">
+                                <button type="submit" class="btn btn-danger pull-right btn-sm"
+                                    (click)="add_closethisNow_Edit_PKG()">No</button>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <button type="submit" class="btn btn-success pull-right btn-sm"
+                                    (click)="add_package_create()">Create</button>
+                            </div>
+                        </div>
+                        <!-- </form> -->
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-backdrop modal-overlay fade show" style="z-index: 1;"></div>
+        </div>
+        <div class="modal fade auth-modal" id="updatingThe_Mini_order_val">
+            <div class="modal-dialog " style="z-index: 2;">
+                <div class="modal-content d-flex">
+                    <button type="button" class="close close-button" id="profile_edit_verified" data-dismiss="modal">
+                        <img src="assets/img/Close.png" alt="">
+                    </button>
+                    <h5 class="card-title custome_title_in_pop-up">Update Minimum Order Value</h5>
+                    <div class="custom_question">
+                        <div style="padding: 0; margin: 0;" class=" row">
+                            <div class="col-md-6">
+                                <label>Minimum Order Value<span class="custom_star_mark"> *</span> </label>
+                                <input type="text" (click)="numberOnly()"
+                                    class="form-control custom_select_added custom_class_input filterme"
+                                    id="updatingTheMinimum_order_val_id">
+                            </div>
+                        </div>
+                        <div style="text-align: center;
+                        font-size: 15px;
+                        color: red;" *ngIf="showThisMessageForUpdatedMini_orderVal">
+                            <p>Please Fill the Mandatory Fields</p>
+                        </div>
+                        <div class="d-flex flex-row-reverse bd-highlight">
+                            <div class="p-2 bd-highlight">
+                                <button type="submit" class="btn btn-danger pull-right btn-sm"
+                                    (click)="close_updatingTheMinimum_order_val()">No</button>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <button type="submit" class="btn btn-success pull-right btn-sm"
+                                    (click)="updatingTheMinimum_order_val_Update()">Update</button>
+                            </div>
+                        </div>
+                        <!-- </form> -->
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-backdrop modal-overlay fade show" style="z-index: 1;"></div>
+        </div>
+        <div class="modal fade auth-modal" id="edit_packaging_type">
+            <div class="modal-dialog " style="z-index: 2;">
+                <div class="modal-content d-flex">
+                    <button type="button" class="close close-button" id="profile_edit_verified_one" data-dismiss="modal">
+                        <img src="assets/img/Close.png" alt="">
+                    </button>
+                    <h5 class="card-title custome_title_in_pop-up">Update Packaging Type</h5>
+                    <div class="custom_question">
+                        <!-- <div class="row"> -->
+                        <!-- <form [formGroup]="update_packaging_type"> -->
+                        <div style="padding: 0; margin: 0;" class=" row">
+                            <div class="col-md-6">
+                                <label>Packaging Type<span class="custom_star_mark"> *</span> </label>
+                                <input type="text" class="form-control custom_select_added custom_class_input"
+                                    id="packaging_type_id">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Amount<span class="custom_star_mark"> *</span> </label>
+                                <input type="text" id="amount_id" (click)="numberOnly()"
+                                    class="form-control custom_select_added custom_class_input filterme">
+                            </div>
+                        </div>
+                        <div style="text-align: center;
+                        font-size: 15px;
+                        color: red;" *ngIf="showThisMessageForPackagingType">
+                            <p>Please Fill the Mandatory Fields</p>
+                        </div>
+                        <div class="d-flex flex-row-reverse bd-highlight">
+                            <div class="p-2 bd-highlight">
+                                <button type="submit" class="btn btn-danger pull-right btn-sm"
+                                    (click)="closethisNow_Edit_PKG()">No</button>
+                            </div>
+                            <div class="p-2 bd-highlight">
+                                <button type="submit" class="btn btn-success pull-right btn-sm"
+                                    (click)="packageUpdate()">Update</button>
+                            </div>
+                        </div>
+                        <!-- </form> -->
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-backdrop modal-overlay fade show" style="z-index: 1;"></div>
+        </div>
+        <!-- <div class="modal fade auth-modal" id="remove_packaging_type">
+            <div class="modal-dialog " style="z-index: 2;">
+                <div class="modal-content d-flex">
+                    <button type="button" class="close close-button" id="profile_delete_verified" data-dismiss="modal">
+                        <img src="assets/img/Close.png" alt="">
+                    </button>
+                    <h5 class="card-title custome_title_in_pop-up">Delete Packaging Type</h5>
+                    <div class="custom_question">
+                        <p>Are you Sure...?</p>
+                    </div>
+                    <div class="d-flex flex-row-reverse bd-highlight">
+                        <div class="p-2 bd-highlight">
+                            <button type="submit" class="btn btn-success pull-right btn-sm"
+                                (click)="packageDelete()">Yes</button>
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            <button type="submit" class="btn btn-danger pull-right btn-sm"
+                                (click)="closethisNow_delete_PKG()">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-backdrop modal-overlay fade show" style="z-index: 1;"></div>
+        </div> -->
+    </div>
+</div>
+<!-- slot management -->
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p>Loading please wait...</p>
+</div>

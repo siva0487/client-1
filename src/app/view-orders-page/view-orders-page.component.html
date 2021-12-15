@@ -1,0 +1,426 @@
+<div class="container-fluid my-5 d-flex justify-content-center">
+    <div class="card card-1">
+        <div class="card-body">
+            <div class="info_page_title_block">
+                <h6 class="info_page_title custome_header_title">Order Details</h6>
+            </div>
+            <div class="row justify-content-between mb-2">
+                <div *ngIf="selectedOrder" class="col-auto ">
+                    <h6 class="color-1 mb-0 change-color for_custome_order_id">Order ID : {{selectedOrder.order_no}}
+                    </h6>
+                </div>
+                <div class="col-auto return_to_orders_list">
+                    <img src="/assets/img/return.png" class="custom_retuns_image" data-placement="right" title="Back"
+                        (click)="cancel()">
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="card card-2 custom_main_content_product_list">
+                        <div *ngIf="selectedOrder" class="card-body">
+                            <div class="list_of_orders_title_custom">
+                                <h4 class="info_page_title"> List Of Products </h4>
+                            </div>
+                            <div *ngIf="((selectedOrder.payment_method === 'CASH_ON_DELIVERY')  && (selectedOrder.status === 'placed' ||selectedOrder.status ===  'confirmed' || selectedOrder.status === 'in_process' || selectedOrder.status === 'ready_for_shipping'))"
+                                class="for_add_product">
+                                <span class="material-icons inside_the_add" (click)="forNewProductAdd(selectedOrder)"
+                                    data-placement="right" title="Add New Product">
+                                    add_circle_outline
+                                </span>
+                            </div>
+                            <div *ngIf="itsEmpty === true">
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                        <div class="custom_no_producs_info">
+                                            <h5>No Products</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="itsEmpty === false">
+                                <div class="row">
+                                    <div *ngFor="let itemlist of selectedOrder.items; let i = index;"
+                                        class="product-tile mb-2 p-2 p-sm-0 pb-sm-3 col-md-3" fxLayoutGap.xs="10px"
+                                        fxLayout.xs>
+                                        <div style="text-align: end;
+                                                    margin-bottom: 10px;">
+                                            <span class="material-icons removeIteam" id="removeItemID{{i}}"
+                                                (click)="removeThisItem(i,itemlist)" data-toggle="modal"
+                                                data-target="#remove_selected_product" data-dismiss="modal"
+                                                data-placement="right" title="Delete">
+                                                delete
+                                            </span>
+                                            <span
+                                                *ngIf="selectedOrder.status === 'placed' ||selectedOrder.status ===  'confirmed' || selectedOrder.status === 'in_process' || selectedOrder.status === 'ready_for_shipping'"
+                                                class="material-icons editItem" id="editItemID{{i}}"
+                                                (click)="editThisItem(i,itemlist)">
+                                                edit
+                                            </span>
+                                        </div>
+                                        <img class="product-tile-image p-sm-2" fxLayout fxLayoutAlign="center center"
+                                            [src]="itemlist.image_url" alt="">
+                                        <div class="product-tile-inner">
+                                            <div class="product-information px-sm-3">
+                                                <p class="product-brand mb-1 mb-sm-0 mt-sm-2">{{itemlist.name}}</p>
+                                                <!-- <p class="product-brand mb-1 mb-sm-0 mt-sm-2">Qty :
+                                                    {{itemlist.quantity}}</p> -->
+                                                <p class="product-brand mb-1 mb-sm-0 mt-sm-2" data-placement="right"
+                                                    title="Qty">Qty :
+                                                    <input id="qytres{{i}}" class="custom_qty" type="text"
+                                                        value="{{itemlist.quantity}}" readonly>
+                                                </p>
+                                                <p class="product-brand mb-1 mb-sm-0 mt-sm-2" data-placement="right"
+                                                    title="Qty">
+                                                    <input id="qytres_edit{{i}}" (keypress)="numberOnly($event)"
+                                                        class="custom_qty_edit" type="text"
+                                                        value="{{itemlist.quantity}}">
+                                                </p>
+                                                <p class="product-brand mb-1 mb-sm-0 mt-sm-2"
+                                                    *ngIf="itemlist.special_price !='0.00' || itemlist.special_price != null || itemlist.special_price !='null' || itemlist.special_price !='' || itemlist.special_price != undefined || itemlist.special_price != 'undefined'">
+                                                    Unit Price : &#8377;{{itemlist.final_selling_price}}</p>
+                                                <!-- itemlist.special_price -->
+                                                <p class="product-brand mb-1 mb-sm-0 mt-sm-2"
+                                                    *ngIf="itemlist.special_price === '0.00'  || itemlist.special_price === null || itemlist.special_price === 'null' || itemlist.special_price === '' || itemlist.special_price === undefined || itemlist.special_price === 'undefined'">
+                                                    {{itemlist.price}}</p>
+                                                <p class="product-brand mb-1 mb-sm-0 mt-sm-2">Total Price :
+                                                    &#8377;{{itemlist.total_price}}</p>
+                                            </div>
+                                        </div>
+                                        <div style="text-align: end;">
+                                            <span class="material-icons closeThisNow" id="closeTheEdit{{i}}"
+                                                (click)="resetTheEdit(i)">
+                                                close
+                                            </span>
+                                            <span class="material-icons submitThisNow"
+                                                (click)="saveAndchangeTheQTY(i,itemlist)" id="saveTheEdit{{i}}">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <!-- <div *ngIf="itsEmpty === false">
+                                <div *ngIf="selectedOrder" class="panel-group" id="accordion" role="tablist"
+                                    aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                        <div class="panel panel-default row">
+                                            <div *ngFor="let itemlist of selectedOrder.items; let i = index;"
+                                                class="col-md-4 main_custom_block">
+                                                <div class="media">
+                                                    <div class="sq align-self-center "> <img
+                                                            class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0"
+                                                            src="{{itemlist.image_url}}" width="135" height="135" />
+                                                    </div>
+                                                    <div class="media-body my-auto">
+                                                        <div>
+                                                            <span>{{itemlist.name}}</span>
+                                                        </div>
+                                                        <div>
+                                                            <span>Qty : {{itemlist.quantity}}</span>
+                                                        </div>
+                                                        <div>
+                                                            <span
+                                                                *ngIf="itemlist.special_price !='0.00' || itemlist.special_price != null || itemlist.special_price !='null' || itemlist.special_price !='' || itemlist.special_price != undefined || itemlist.special_price != 'undefined'">Price
+                                                                :
+                                                                &#8377;{{itemlist.special_price}}</span>
+                                                            <span
+                                                                *ngIf="itemlist.special_price === '0.00'  || itemlist.special_price === null || itemlist.special_price === 'null' || itemlist.special_price === '' || itemlist.special_price === undefined || itemlist.special_price === 'undefined'">
+                                                                {{itemlist.price}}</span>
+                                                        </div>
+                                                        <div>
+                                                            <span>Total Price : &#8377;{{itemlist.total_price}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                        <hr class="my-3 ">
+                        <div *ngIf="selectedOrder" class="order_tatal_info">
+                            <p> <b>Sub Total: </b> &#8377; {{selectedOrder.sub_total}} </p>
+                            <p *ngIf="selectedOrder.coupon_amount != '0.00'">
+                                <b>Coupon Amount: </b> &#8377; - {{selectedOrder.coupon_amount}}
+                            </p>
+                            <p> <b>Packaging Type Amount: </b> &#8377; {{selectedOrder.packaging_type_amount}} </p>
+                            <p> <b>Delivery Charges: </b> &#8377; {{selectedOrder.delivery_charges}} </p>
+                            <p> <b>Order Total: </b> &#8377; {{selectedOrder.total_amount}} </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row delivery_details">
+                <div class="col-md-6 ">
+                    <div class="row">
+                        <div *ngIf="customerBillingAddress" class="col-md-6 billing_address">
+                            <h3 class="info_page_title">Billing Address</h3>
+                            <span>
+                                <p>{{customerBillingAddress.first_name}} {{customerBillingAddress.last_name}}</p>
+                                <p *ngIf="customerBillingAddress.line_1 != null">{{customerBillingAddress.line_1}},</p>
+                                <p *ngIf="customerBillingAddress.line_2 != null"> {{customerBillingAddress.line_2}},</p>
+                                <p>{{customerBillingAddress.street}}</p>
+                                <p>{{customerBillingAddress.city}},{{customerBillingAddress.state}},
+                                    {{customerBillingAddress.country}}</p>
+                                <p>{{customerBillingAddress.pincode}}, {{customerBillingAddress.mobile}} </p>
+                            </span>
+                        </div>
+                        <!-- <div class="col-md-1" style="padding:0; margin: 00;">
+                        </div> -->
+                        <div *ngIf="customerShippingingAddress" class="col-md-6 shipping_address">
+                            <h3 class="info_page_title">Shipping Address</h3>
+                            <span>
+                                <p>{{customerShippingingAddress.first_name}} {{customerShippingingAddress.last_name}}
+                                </p>
+                                <p *ngIf="customerShippingingAddress.line_1 != null">
+                                    {{customerShippingingAddress.line_1}},</p>
+                                <p *ngIf="customerShippingingAddress.line_2 != null">
+                                    {{customerShippingingAddress.line_2}},</p>
+                                <p>{{customerShippingingAddress.street}}</p>
+                                <p>{{customerShippingingAddress.city}}, {{customerShippingingAddress.state}},
+                                    {{customerShippingingAddress.country}}</p>
+                                <p>{{customerShippingingAddress.pincode}},{{customerShippingingAddress.mobile}} </p>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="selectedOrder" class="col-md-6 list_of_data_points">
+                    <!-- <div class="row">
+                        <h3>Transaction Details</h3>
+                    </div> -->
+                    <ul class="list-group">
+                        <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Transaction ID
+                            <span class="badge badge-primary badge-pill">T548UDH52255212</span>
+                        </li> -->
+                        <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Date & Time Slot
+                            <span class="badge badge-primary badge-pill">Tomorrow, 2 PM to 5 PM</span>
+                        </li> -->
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Payment Method
+                            <span class="badge badge-primary badge-pill">{{selectedOrder.payment_method |
+                                removeUnderscore}}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Package Type
+                            <span class="badge badge-primary badge-pill">{{selectedOrder.packaging_type}} </span>
+                        </li>
+                        <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Return Initiated
+                            <span class="badge badge-primary badge-pill">No</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Return Status
+                            <span class="badge badge-primary badge-pill">Pending</span>
+                        </li> -->
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Order Status
+                            <span class="badge badge-primary badge-pill custom_class_for_text">{{selectedOrder.status |
+                                removeUnderscore}}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Order Created Date
+                            <span class="badge badge-primary badge-pill">{{selectedOrder.created_at |
+                                customDateAndTime}}</span>
+                        </li>
+                        <li *ngIf="selectedOrder.delivery_person_name != null"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                            Delivery Person Name
+                            <span class="badge badge-primary badge-pill">{{selectedOrder.delivery_person_name}}</span>
+                        </li>
+                        <li *ngIf="selectedOrder.slot_date != null"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                            Slot Date
+                            <span class="badge badge-primary badge-pill">{{selectedOrder.slot_date}}</span>
+                        </li>
+
+                        <li *ngIf="selectedOrder.tracking_code != null"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                            Tracking Code
+                            <span class="badge badge-primary badge-pill">{{selectedOrder.tracking_code}}</span>
+                        </li>
+                        <li *ngIf="selectedOrder.delivery_time != null"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                            Delivery Time
+                            <span class="badge badge-primary badge-pill">{{selectedOrder.delivery_time}}</span>
+                        </li>
+                        <li *ngIf="selectedOrder.poc_name != null"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                            Poc Name
+                            <span class="badge badge-primary badge-pill">{{selectedOrder.poc_name}}</span>
+                        </li>
+                        <li *ngIf="selectedOrder.delivery_method != null"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                            Delivery Method
+                            <span class="badge badge-primary badge-pill">{{selectedOrder.delivery_method}}</span>
+                        </li>
+                        <li *ngIf="selectedOrder.is_cash_od != null"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                            Is Cash On Delivery
+                            <span *ngIf="selectedOrder.is_cash_od === true"
+                                class="badge badge-primary badge-pill">Yes</span>
+                            <span *ngIf="selectedOrder.is_cash_od === false"
+                                class="badge badge-primary badge-pill">No</span>
+                        </li>
+                        <li *ngIf="selectedOrder.is_card_od != null"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                            Is Card On Delivery
+                            <span *ngIf="selectedOrder.is_card_od === true"
+                                class="badge badge-primary badge-pill">Yes</span>
+                            <span *ngIf="selectedOrder.is_card_od === false"
+                                class="badge badge-primary badge-pill">No</span>
+                        </li>
+                        <li *ngIf="selectedOrder.is_online_payment != null"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                            Is Online Payment
+                            <span *ngIf="selectedOrder.is_online_payment === true"
+                                class="badge badge-primary badge-pill">Yes</span>
+                            <span *ngIf="selectedOrder.is_online_payment === false"
+                                class="badge badge-primary badge-pill">No</span>
+                        </li>
+                        <li *ngIf="selectedOrder.amount_collected != null"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                            Amount Collected
+                            <span class="badge badge-primary badge-pill">{{selectedOrder.amount_collected}}</span>
+                        </li>
+                        <li *ngIf="selectedOrder.change_collected != null"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                            Change Collected
+                            <span class="badge badge-primary badge-pill">{{selectedOrder.change_collected}}</span>
+                        </li>
+                        <li *ngIf="selectedOrder.amount_transacted != null"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                            Amount Transacted
+                            <span class="badge badge-primary badge-pill">{{selectedOrder.amount_transacted}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-3 ">
+        </div>
+        <div class="row order_fulfillment_stage">
+            <div *ngIf="selectedOrder" class="col-md-6">
+                <div *ngIf="selectedOrder.status != 'cancelled' && selectedOrder.status != 'payment_failed'">
+                    <div *ngIf="showThisNow" style="margin-left: 10px;">
+                        <label>Order Fulfillment</label>
+                        <select class="custom_select_added"
+                            [disabled]="writePermissionForOnlyThisScreen.is_write === false"
+                            [(ngModel)]="selectedOrder.status" (change)="currentOrderStatus($event.target.value)">
+                            <option *ngFor="let p of withOutPaymentArray;let i = index;" [disabled]="!p.active"
+                                class="form-control custome_chaild_text" [value]="p.status"
+                                data-target="#for_cancel_reson" data-dismiss="modal" data-toggle="modal">
+                                {{p.status | removeUnderscore}}</option>
+                        </select>
+                    </div>
+                </div>
+                <table *ngIf="selectedOrder.status != 'payment_failed'" id="faqs" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Order Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="selectedOrder">
+                        <tr *ngFor="let item of statusTimeStampArray">
+                            <td><input type="text" readonly class="form-control custome_chaild_text"
+                                    value="{{item.status}}"></td>
+                            <td><input type="text" readonly class="form-control"
+                                    value="{{item.time | customDateAndTime}}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div *ngIf="selectedOrder.status === 'payment_failed'">
+                    <div style="margin-left: 10px;">
+                        <label>Order Fulfillment</label>
+                        <select class="custom_select_added"
+                            [disabled]="writePermissionForOnlyThisScreen.is_write === false"
+                            [(ngModel)]="selectedOrder.status" (change)="currentOrderStatusPF($event.target.value)">
+                            <option *ngFor="let p of payment_faild_status;let i = index;" [disabled]="(i-1)"
+                                [value]="p.value">
+                                {{p.status | removeUnderscore}}</option>
+                        </select>
+                    </div>
+                    <div style="margin-left: 10px;">
+                        <label>Transaction ID</label>
+                        <input type="text" id="transctionID">
+                    </div>
+                    <div style="margin-left: 10px; margin-bottom: 25px;">
+                        <button (click)="moveToSuccess()" class="btn btn-success btn-sm">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+
+            </div>
+        </div>
+        <div class="modal fade auth-modal" id="for_cancel_reson">
+            <div class="modal-dialog " style="z-index: 2;">
+                <div class="modal-content d-flex">
+                    <button type="button" (click)="forReset()" class="close close-button" id="profile_edit_verified"
+                        data-dismiss="modal">
+                        <img src="assets/img/Close.png" alt="">
+                    </button>
+                    <h5 class="card-title custome_title_in_pop-up">Cancel This Order</h5>
+                    <div class="custom_question">
+                        <!-- <p>Are you Sure...?</p> -->
+                        <label style="margin-left: 30px;">Reson<span class="custom_star_mark">
+                                *</span> </label>
+                        <textarea style="width: 50%;
+                        margin-left: 30px;" id="cancelation_reason"
+                            class="custom_select_added form-control custom_class_input"></textarea>
+                    </div>
+                    <div>
+                        <p *ngIf="cancelReasonIsRequired" style="margin-left: 30px;font-size: 12px;color: red;">Reason
+                            is Required</p>
+                    </div>
+                    <div class="d-flex flex-row-reverse bd-highlight">
+                        <div class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" class="btn btn-success pull-right btn-sm"
+                                (click)="yesCancelThisNow()">Yes</button>
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right btn-sm"
+                                (click)="dontCancel()">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-backdrop modal-overlay fade show" style="z-index: 1;"></div>
+        </div>
+        <div class="modal fade auth-modal" id="remove_selected_product">
+            <div class="modal-dialog " style="z-index: 2;">
+                <div class="modal-content d-flex">
+                    <button type="button" class="close close-button" id="profile_edit_verified" data-dismiss="modal">
+                        <img src="assets/img/Close.png" alt="">
+                    </button>
+                    <h5 class="card-title custome_title_in_pop-up" data-placement="right"
+                        title="Delete This Product From the Order">Delete This Product From the Order</h5>
+                    <div class="custom_question">
+                        <p data-placement="right" title="Are you Sure...?">{{showMessage}} </p>
+                    </div>
+                    <div class="d-flex flex-row-reverse bd-highlight">
+                        <div class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" class="btn btn-success pull-right btn-sm"
+                                (click)="deleteThisNow()" data-placement="right" title="Yes">Yes </button>
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right btn-sm"
+                                (click)="closethisNow()" data-placement="right" title="No">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-backdrop modal-overlay fade show" style="z-index: 1;"></div>
+        </div>
+    </div>
+</div>
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p>Loading please wait...</p>
+</div>

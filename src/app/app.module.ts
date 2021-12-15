@@ -1,0 +1,52 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { RouterModule } from '@angular/router';
+import { PipesModule } from '../app/pipes/pipes.module';
+
+import { AppRoutingModule } from './app.routing';
+import { ComponentsModule } from './components/components.module';
+
+import { AppComponent } from './app.component';
+
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  AgmCoreModule
+} from '@agm/core';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { LoginComponent } from './login/login.component';
+
+
+
+
+
+
+// import { NgxPaginationModule } from 'ngx-pagination';
+
+@NgModule({
+  imports: [
+    // NgxPaginationModule,
+    BrowserAnimationsModule, 
+    FormsModule,
+    ReactiveFormsModule,
+    HttpModule,
+    ComponentsModule,
+    RouterModule,
+    PipesModule,
+    HttpClientModule,
+    AppRoutingModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
+    })
+  ],
+  declarations: [
+    AppComponent,
+    AdminLayoutComponent,
+    LoginComponent,
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }

@@ -1,0 +1,28 @@
+.login-form {
+    width: 350px;
+    padding: 40px 30px;
+    /* background: #eee; */
+    margin: auto;
+    border: 1px solid #fff;
+    /* position: fixed; */
+    left: 0;
+    right: 0;
+    top: 10%
+}
+.main_outer_layot{
+    margin-top: 50px;
+}
+.login-form h4{
+    text-align: center;
+}
+.custom_select_added{
+    width: 100%;
+    background-image: none;
+    border: 0;
+    border-bottom: 1px solid #cacaca;
+    border-radius: 0;
+    font-size: 14px;
+    padding: 0 5px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}

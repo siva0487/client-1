@@ -1,0 +1,35 @@
+label{
+    padding: 10px 0 10px 0;
+    margin: 0;
+}
+.custome_header_title{
+    text-align: center;
+}
+
+input,select { 
+    background-image: none;
+    border: 0;
+    border-bottom: 1px solid #cacaca;
+    border-radius: 0;
+    font-size: 14px;
+    padding: 0 5px;
+    margin-bottom: 15px;
+    /* min-width: 300px; */
+    font-weight: 500;
+    
+}
+.form-control:read-only{
+    background-image: none !important;
+}
+ .form-control[readonly]{
+    background-color: white !important;
+}
+
+select,input::placeholder {
+    color: rgb(150, 48, 48);
+    font-weight: 500;
+    font-size: 14px;
+}
+#update_this{
+    display: none;
+}

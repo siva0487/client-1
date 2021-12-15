@@ -1,0 +1,78 @@
+.custom_filter h5{
+    text-align: end;
+  }
+  .frequency_edit{
+      cursor: pointer;
+  }
+
+  .custom_filter h5{
+    text-align: end;
+  }
+  .frequency_edit{
+      cursor: pointer;
+  }
+
+  .custom_filter h5{
+    text-align: end;
+  }
+  .frequency_edit{
+      cursor: pointer;
+  }
+
+  /* Structure */
+table {
+    width: 100%;
+  }
+  .custom_question p{
+    margin: 0 0 0 30px !important;
+  }
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  .mat-header-cell {
+    color: #4caf50;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .order_view{
+    cursor: pointer;
+  }
+  .user_Actions{
+    cursor: pointer;
+  }
+  .order_edit{
+    cursor: pointer;
+    width: 0 !important;
+  }
+  .custome_title{
+    color: #4caf50;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .custom_filter input {
+    border: 1px solid lightgray;
+    border-radius: 3px;
+  }
+.custom_filter h5{
+  text-align: end;
+}
+.custom_export h5{
+  text-align: end;
+}
+.custom_export span{
+  cursor: pointer;
+}
+.close-button {
+  position: absolute;
+  right: 10px;
+  top: 0px;
+  opacity: 1;
+  width: 12px;
+}
+.custome_title_in_pop-up {
+  color: #4caf50;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+}

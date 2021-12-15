@@ -1,0 +1,248 @@
+<div class="logo">
+    <a class="simple-text">
+        <div class="logo-img">
+            <img src="/assets/img/Sahyadri-logo.png" />
+        </div>
+        Sahyadri Farms
+    </a>
+</div>
+<div class="sidebar-wrapper">
+    <div *ngIf="isMobileMenu()">
+        <!-- <form class="navbar-form">
+      <span class="bmd-form-group">
+        <div class="input-group no-border">
+          <input type="text" value="" class="form-control" placeholder="Search...">
+          <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
+            <i class="material-icons">search</i>
+            <div class="ripple-container"></div>
+          </button>
+        </div>
+      </span>
+    </form> -->
+        <ul class="nav navbar-nav nav-mobile-menu">
+            <!-- <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)">
+                <i class="material-icons">dashboard</i>
+                <p>
+                    <span class="d-lg-none d-md-block">Stats</span>
+                </p>
+            </a>
+        </li> -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="material-icons">person</i>
+                    <p>
+                        <span class="d-lg-none d-md-block"></span>
+                    </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="javascript:void(0)">Log out</a>
+                </div>
+            </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)">
+                    <i class="material-icons">person</i>
+                    <p>
+                        <span class="d-lg-none d-md-block">Account</span>
+                    </p>
+                </a>
+            </li> -->
+        </ul>
+    </div>
+    <ul class="nav">
+        <li *ngIf="onlyForDashboard === 'false'" routerLinkActive="active" class=" nav-item">
+            <a class="nav-link" [routerLink]="['/dashboard']">
+                <i class="material-icons">dashboard</i>
+                <p>Dashboard</p>
+            </a>
+        </li>
+        <li *ngIf="ThisScreenOrders.is_read === true" routerLinkActive="active" class=" nav-item">
+            <a class="nav-link" [routerLink]="['/orders']">
+                <i class="material-icons">list</i>
+                <p>Orders</p>
+            </a>
+        </li>
+        <!-- *ngIf="ThisScreenOrders.is_read === true" -->
+        <li *ngIf="ThisPaymentFaild.is_read === true" routerLinkActive="active" class=" nav-item">
+            <a class="nav-link" [routerLink]="['/payment-failed-orders']">
+                <i class="material-icons">list</i>
+                <p>Payment Failed Orders</p>
+            </a>
+        </li>
+
+        <li *ngIf="ThisScreenCustomers.is_read === true" routerLinkActive="active" class=" nav-item">
+            <a class="nav-link" [routerLink]="['/customers']">
+                <i class="material-icons">supervised_user_circle</i>
+                <p>Customers</p>
+            </a>
+        </li>
+        <!-- <li routerLinkActive="active" class=" nav-item">
+            <a class="nav-link" [routerLink]="['/stores']">
+                <i class="material-icons">stores</i>
+                <p>Stores</p>
+            </a>
+        </li> -->
+
+        <li *ngIf="ThisScreenStores_Management.is_read === true" routerLinkActive="active" data-toggle="collapse"
+            data-target="#status3" class="collapsed nav-item custome_cusore">
+            <a class="nav-link">
+                <i class="material-icons">stores</i>
+                <p>Store Management</p>
+            </a>
+        </li>
+        <ul style="list-style: none" class="sub-menu newsubmenus  collapse" id="status3">
+            <li routerLinkActive="active" class="nav-item storesubmenus" style="margin-left: 15px;" mat-raised-button
+                matTooltip="Info about the action"
+                aria-label="Button that displays a tooltip when focused or hovered over">
+                <a class="nav-link" [routerLink]="['/stores']" data-placement="right" title="List of Stores">
+                    <i class="material-icons">stores</i>
+                    <p>Stores</p>
+                </a>
+            </li>
+            <!-- <li routerLinkActive="active" class="nav-item storesubmenus" style="margin-left: 15px;">
+                <a class="nav-link" [routerLink]="['/list-of-slots']" data-placement="right" title="List of Slots">
+                    <i class="material-icons">supervised_user_circle</i>
+                    <p>Slots</p>
+                </a>
+            </li> -->
+            <!-- <li routerLinkActive="active" class="nav-item storesubmenus" style="margin-left: 15px;">
+                <a class="nav-link" [routerLink]="['/subscription-service']" data-placement="right"
+                    title="Subscription Service">
+                    <i class="material-icons">local_shipping</i>
+                    <p>Subscription</p>
+                </a>
+            </li> -->
+        </ul>
+
+        <li *ngIf="ThisScreencarts.is_read === true" routerLinkActive="active" class=" nav-item">
+            <a class="nav-link" [routerLink]="['/cart-info']">
+                <i class="material-icons">shopping_cart</i>
+                <p>Cart</p>
+            </a>
+        </li>
+        <li *ngIf="ThisScreenOrder_Rating_and_Review.is_read === true" routerLinkActive="active" class=" nav-item">
+            <a class="nav-link" [routerLink]="['/order-rating-and-review']">
+                <i class="material-icons">star_rate</i>
+                <p>Order Rating & Review</p>
+            </a>
+        </li>
+        <!-- <li *ngIf="ThisScreenReturns_and_Refunds.is_read === true" routerLinkActive="active" class="nav-item">
+            <a class="nav-link" [routerLink]="['/returns-and-refunds']">
+                <i class="material-icons">remove_shopping_cart</i>
+                <p>Returns & Refunds</p>
+            </a>
+        </li> -->
+
+
+        <!-- <li routerLinkActive="active" class=" nav-item">
+            <a class="nav-link" [routerLink]="['/subscribers']">
+                <i class="material-icons">mark_email_read</i>
+                <p>Subscription</p>
+            </a>
+        </li> -->
+        <!-- <li *ngIf="ThisScreenSubscription.is_read === true" routerLinkActive="active" data-toggle="collapse"
+            data-target="#status" class="collapsed nav-item custome_cusore">
+            <a class="nav-link">
+                <i class="material-icons">mark_email_read</i>
+                <p>Subscription</p>
+            </a>
+        </li>
+        <ul style="list-style: none" class="sub-menu newsubmenus  collapse" id="status">
+            <li routerLinkActive="active" class="nav-item storesubmenus" style="margin-left: 15px;" mat-raised-button
+                matTooltip="Info about the action"
+                aria-label="Button that displays a tooltip when focused or hovered over">
+                <a class="nav-link" [routerLink]="['/frequency-service']" data-placement="right"
+                    title="Frequency Service">
+                    <i class="material-icons">mark_email_read</i>
+                    <p>Frequency</p>
+                </a>
+            </li>
+            <li routerLinkActive="active" class="nav-item storesubmenus" style="margin-left: 15px;">
+                <a class="nav-link" [routerLink]="['/delivery-option-service']" data-placement="right"
+                    title="Delivery Option Service">
+                    <i class="material-icons">local_shipping</i>
+                    <p>Delivery Option</p>
+                </a>
+            </li>
+            <li routerLinkActive="active" class="nav-item storesubmenus" style="margin-left: 15px;">
+                <a class="nav-link" [routerLink]="['/subscription-service']" data-placement="right"
+                    title="Subscription Service">
+                    <i class="material-icons">local_shipping</i>
+                    <p>Subscription</p>
+                </a>
+            </li>
+        </ul>-->
+        <!-- *ngIf="ThisScreenConfigurations.is_read === true" -->
+        <li *ngIf="ThisScreenConfigurations.is_read === true" routerLinkActive="active" class=" nav-item">
+            <a class="nav-link" [routerLink]="['/configurations']">
+                <i class="material-icons">storefront</i>
+                <p>Configurations</p>
+            </a>
+        </li>
+
+        <!-- <li routerLinkActive="active" class=" nav-item">
+            <a class="nav-link" [routerLink]="['/users-list']">
+                <i class="material-icons">supervised_user_circle</i>
+                <p>UsersList</p>
+            </a>
+        </li> -->
+        <li *ngIf="ThisScreenUser_Management.is_read === true" routerLinkActive="active" data-toggle="collapse"
+            data-target="#status2" class="collapsed nav-item custome_cusore">
+            <a class="nav-link">
+                <i class="material-icons">supervised_user_circle</i>
+                <p>User Management</p>
+            </a>
+        </li>
+        <ul style="list-style: none" class="sub-menu newsubmenus  collapse" id="status2">
+            <li routerLinkActive="active" class="nav-item storesubmenus" style="margin-left: 15px;" mat-raised-button
+                matTooltip="Info about the action"
+                aria-label="Button that displays a tooltip when focused or hovered over">
+                <a class="nav-link" [routerLink]="['/roles-list']" data-placement="right" title="List of Roles">
+                    <i class="material-icons">supervised_user_circle</i>
+                    <p>Roles</p>
+                </a>
+            </li>
+            <li routerLinkActive="active" class="nav-item storesubmenus" style="margin-left: 15px;">
+                <a class="nav-link" [routerLink]="['/users-list']" data-placement="right" title="Users List">
+                    <i class="material-icons">supervised_user_circle</i>
+                    <p>Users</p>
+                </a>
+            </li>
+            <!-- <li routerLinkActive="active" class="nav-item storesubmenus" style="margin-left: 15px;">
+                <a class="nav-link" [routerLink]="['/user-permission']" data-placement="right" title="User Permission">
+                    <i class="material-icons">supervised_user_circle</i>
+                    <p>User Permission</p>
+                </a>
+            </li> -->
+
+            <!-- <li routerLinkActive="active" class="nav-item storesubmenus" style="margin-left: 15px;">
+                <a class="nav-link" [routerLink]="['/subscription-service']" data-placement="right"
+                    title="Subscription Service">
+                    <i class="material-icons">local_shipping</i>
+                    <p>Subscription</p>
+                </a>
+            </li> -->
+        </ul>
+        <!-- *ngIf="ThisScreenReports.is_read === true" -->
+        <li *ngIf="ThisScreenReports.is_read === true" routerLinkActive="active" class=" nav-item">
+            <a class="nav-link" [routerLink]="['/reports']">
+                <i class="material-icons">content_paste</i>
+                <p>Reports</p>
+            </a>
+        </li>
+        <li *ngIf="ThisScreenCoupons.is_read === true" routerLinkActive="active" class=" nav-item">
+            <a class="nav-link" [routerLink]="['/coupon-management']">
+                <i class="material-icons">content_paste</i>
+                <p>Coupon Management</p>
+            </a>
+        </li>
+
+        <!-- <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
+            <a class="nav-link" [routerLink]="[menuItem.path]">
+                <i class="material-icons">{{menuItem.icon}}</i>
+                <p>{{menuItem.title}}</p>
+            </a>
+        </li> -->
+    </ul>
+</div>

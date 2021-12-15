@@ -1,0 +1,479 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header store_info_title_custom">
+                        <h5 class="card-title info_page_title">Store Details</h5>
+                    </div>
+                    <div class="card-body" *ngIf="selectedStoreInfoList">
+                        <form [formGroup]="updateStoreForm">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Store Name <span class="custom_star_mark"> *</span></label>
+                                    <input class="form-control custom_class_input" id="store_name_id" readonly
+                                        formControlName="store_name" [(ngModel)]="selectedStoreInfoList.store_name"
+                                        [ngClass]="{ 'is-invalid': submitted && a.store_name.errors }">
+                                    <div *ngIf="submitted && a.store_name.errors" class="invalid-feedback">
+                                        <div *ngIf="a.store_name.errors.required">Store Name is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Contact Details <span class="custom_star_mark"> *</span></label>
+                                    <input id="phone_no_id" readonly type="text" class="form-control custom_class_input"
+                                        [(ngModel)]="selectedStoreInfoList.phone_no" formControlName="phone_no"
+                                        pattern="^[0-9]{10}$"
+                                        [ngClass]="{ 'is-invalid': submitted && a.phone_no.errors }">
+                                    <div *ngIf="submitted && a.phone_no.errors" class="invalid-feedback">
+                                        <div *ngIf="a.phone_no.errors.required">Phone Number is required</div>
+                                        <div *ngIf="a.phone_no.errors.pattern">Invalid MobileNumber</div>
+                                    </div>
+                                </div>
+                                <!-- </div>
+                            <div class="row"> -->
+                                <div class="col-md-3">
+                                    <label>Plant Code <span class="custom_star_mark"> *</span></label>
+                                    <!-- (keypress)="numberOnly($event)" numbersOnly pattern="^[1-9][0-9]*$" -->
+                                    <input id="plant_code_id" readonly type="text"
+                                        class="form-control custom_class_input" formControlName="plant_code"
+                                        [(ngModel)]="selectedStoreInfoList.plant_code"
+                                        [ngClass]="{ 'is-invalid': submitted && a.plant_code.errors }">
+                                    <div *ngIf="submitted && a.plant_code.errors" class="invalid-feedback">
+                                        <div *ngIf="a.plant_code.errors.required">Plant Code is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Dark store Code <span class="custom_star_mark"> *</span></label>
+                                    <input id="ds_code_id" readonly type="text" (keypress)="numberOnly($event)"
+                                        numbersOnly pattern="^[1-9][0-9]*$" class="form-control custom_class_input"
+                                        formControlName="ds_code" [(ngModel)]="selectedStoreInfoList.ds_code"
+                                        [ngClass]="{ 'is-invalid': submitted && a.ds_code.errors }">
+                                    <div *ngIf="submitted && a.ds_code.errors" class="invalid-feedback">
+                                        <div *ngIf="a.ds_code.errors.required">Dark store Code is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Door No/Plot No <span class="custom_star_mark"> *</span></label>
+                                    <input type="text" id="line_1_id" readonly class="form-control custom_class_input"
+                                        formControlName="line_1" [(ngModel)]="selectedStoreInfoList.line_1"
+                                        [ngClass]="{ 'is-invalid': submitted && a.line_1.errors }">
+                                    <div *ngIf="submitted && a.line_1.errors" class="invalid-feedback">
+                                        <div *ngIf="a.line_1.errors.required">Address is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Area Name <span class="custom_star_mark"> *</span></label>
+                                    <input type="text" id="line_2_id" readonly class="form-control custom_class_input"
+                                        formControlName="line_2" [(ngModel)]="selectedStoreInfoList.line_2"
+                                        [ngClass]="{ 'is-invalid': submitted && a.line_2.errors }">
+                                    <div *ngIf="submitted && a.line_2.errors" class="invalid-feedback">
+                                        <div *ngIf="a.line_2.errors.required">Address is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Street Name/Landmark <span class="custom_star_mark"> *</span></label>
+                                    <input id="street_id" readonly type="text" class="form-control custom_class_input"
+                                        formControlName="street" [(ngModel)]="selectedStoreInfoList.street"
+                                        [ngClass]="{ 'is-invalid': submitted && a.street.errors }">
+                                    <div *ngIf="submitted && a.street.errors" class="invalid-feedback">
+                                        <div *ngIf="a.street.errors.required">Address is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Store Status <span class="custom_star_mark"> *</span></label>
+                                    <select [(ngModel)]="selectedStoreInfoList.is_active" id="store_id" disabled="true"
+                                        class="custom_select_added custom_class_input form-control"
+                                        formControlName="is_active"
+                                        [ngClass]="{ 'is-invalid': submitted && a.is_active.errors }">
+                                        <option *ngFor="let list of store_status" value="{{list.value}}">
+                                            {{list.status}}</option>
+                                    </select>
+                                    <div *ngIf="submitted && a.is_active.errors" class="invalid-feedback">
+                                        <div *ngIf="a.is_active.errors.required">Store Status is required</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Country <span class="custom_star_mark"> *</span></label>
+                                    <input type="text" id="country_id" readonly class="form-control custom_class_input"
+                                        formControlName="country" [(ngModel)]="selectedStoreInfoList.country"
+                                        [ngClass]="{ 'is-invalid': submitted && a.country.errors }">
+                                    <div *ngIf="submitted && a.country.errors" class="invalid-feedback">
+                                        <div *ngIf="a.country.errors.required">Country is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>State <span class="custom_star_mark"> *</span></label>
+                                    <input type="text" id="state_id" readonly class="form-control custom_class_input"
+                                        formControlName="state" [(ngModel)]="selectedStoreInfoList.state"
+                                        [ngClass]="{ 'is-invalid': submitted && a.state.errors }">
+                                    <div *ngIf="submitted && a.state.errors" class="invalid-feedback">
+                                        <div *ngIf="a.state.errors.required">State is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>City <span class="custom_star_mark"> *</span></label>
+                                    <input type="text" id="city_id" readonly class="form-control custom_class_input"
+                                        formControlName="city" [(ngModel)]="selectedStoreInfoList.city"
+                                        [ngClass]="{ 'is-invalid': submitted && a.city.errors }">
+                                    <div *ngIf="submitted && a.city.errors" class="invalid-feedback">
+                                        <div *ngIf="a.city.errors.required">City is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Pincode <span class="custom_star_mark"> *</span></label>
+                                    <input type="text" id="pincode_id" readonly (keypress)="numberOnly($event)"
+                                        numbersOnly pattern="^[1-9][0-9]*$" class="form-control custom_class_input"
+                                        formControlName="pincode" [(ngModel)]="selectedStoreInfoList.pincode"
+                                        [ngClass]="{ 'is-invalid': submitted && a.pincode.errors }">
+                                    <div *ngIf="submitted && a.pincode.errors" class="invalid-feedback">
+                                        <div *ngIf="a.pincode.errors.required">Pincode is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Serviceable Pincodes <span class="custom_star_mark"> *</span> </label>
+                                    <textarea class="custom_select_added form-control custom_class_input"
+                                        [(ngModel)]="serviceablePincodesGET" (keypress)="numberOnlyForSRP($event)"
+                                        readonly type="text" formControlName="serviceable_pincodes"
+                                        id="serviceable_pincodes_ID"
+                                        [ngClass]="{ 'is-invalid': submitted && a.serviceable_pincodes.errors }"></textarea>
+                                    <div *ngIf="submitted && a.serviceable_pincodes.errors" class="invalid-feedback">
+                                        <div *ngIf="a.serviceable_pincodes.errors.required">Serviceable Pincodes are
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Zone <span class="custom_star_mark"> *</span> </label>
+                                    <input type="text" class="form-control custom_select_added custom_class_input"
+                                        formControlName="zone" id="zone_ID" [(ngModel)]="selectedStoreInfoList.zone"
+                                        readonly [ngClass]="{ 'is-invalid': submitted && a.zone.errors }">
+                                    <div *ngIf="submitted && a.zone.errors" class="invalid-feedback">
+                                        <div *ngIf="a.zone.errors.required">Zone is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>latitude <span class="custom_star_mark"> *</span> </label>
+                                    <textarea class="form-control custom_select_added custom_class_input" type="text"
+                                        formControlName="latitude" [(ngModel)]="finalaylatGet" readonly id="lat"
+                                        [ngClass]="{ 'is-invalid': submitted && a.latitude.errors }"></textarea>
+                                    <div *ngIf="submitted && a.latitude.errors" class="invalid-feedback">
+                                        <div *ngIf="a.latitude.errors.required">latitudes are
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>longitude <span class="custom_star_mark"> *</span> </label>
+                                    <textarea class="form-control custom_select_added custom_class_input" type="text"
+                                        formControlName="longitude" [(ngModel)]="finalaylongGet" readonly id="long"
+                                        [ngClass]="{ 'is-invalid': submitted && a.longitude.errors }"></textarea>
+                                    <div *ngIf="submitted && a.longitude.errors" class="invalid-feedback">
+                                        <div *ngIf="a.longitude.errors.required">longitudes are
+                                            required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Sales ORG <span class="custom_star_mark"> *</span> </label>
+                                    <input type="text" class="form-control custom_select_added custom_class_input"
+                                        id="sales_org_id" readonly formControlName="sales_org"
+                                        (keypress)="numberOnly($event)" numbersOnly pattern="^[1-9][0-9]*$"
+                                        [(ngModel)]="selectedStoreInfoList.sales_org"
+                                        [ngClass]="{ 'is-invalid': submitted && a.sales_org.errors }">
+                                    <div *ngIf="submitted && a.sales_org.errors" class="invalid-feedback">
+                                        <div *ngIf="a.sales_org.errors.required">Sales ORG is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Partner Number<span class="custom_star_mark"> *</span> </label>
+                                    <input type="text" class="form-control custom_select_added custom_class_input"
+                                        id="customer_id" readonly formControlName="customer"
+                                        [(ngModel)]="selectedStoreInfoList.partner_number"
+                                        [ngClass]="{ 'is-invalid': submitted && a.customer.errors }">
+                                    <div *ngIf="submitted && a.customer.errors" class="invalid-feedback">
+                                        <div *ngIf="a.customer.errors.required">Partner Number is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Profit Center<span class="custom_star_mark"> *</span> </label>
+                                    <input type="text" class="form-control custom_select_added custom_class_input"
+                                        id="profit_center_id" readonly formControlName="profit_center"
+                                        (keypress)="numberOnly($event)" numbersOnly pattern="^[1-9][0-9]*$"
+                                        [(ngModel)]="selectedStoreInfoList.profit_center"
+                                        [ngClass]="{ 'is-invalid': submitted && a.profit_center.errors }">
+                                    <div *ngIf="submitted && a.profit_center.errors" class="invalid-feedback">
+                                        <div *ngIf="a.profit_center.errors.required">Profit Center is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>BUPLA<span class="custom_star_mark"> *</span> </label>
+                                    <input type="text" class="form-control custom_select_added custom_class_input"
+                                        id="bupla_id" readonly formControlName="bupla" (keypress)="numberOnly($event)"
+                                        numbersOnly pattern="^[1-9][0-9]*$" [(ngModel)]="selectedStoreInfoList.bupla"
+                                        [ngClass]="{ 'is-invalid': submitted && a.bupla.errors }">
+                                    <div *ngIf="submitted && a.bupla.errors" class="invalid-feedback">
+                                        <div *ngIf="a.bupla.errors.required">BUPLA is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Company Code <span class="custom_star_mark"> *</span> </label>
+                                    <input type="text" class="form-control custom_select_added custom_class_input"
+                                        id="company_code_id" readonly formControlName="company_code"
+                                        (keypress)="numberOnly($event)" numbersOnly pattern="^[1-9][0-9]*$"
+                                        [(ngModel)]="selectedStoreInfoList.company_code"
+                                        [ngClass]="{ 'is-invalid': submitted && a.plant_code.errors }">
+                                    <div *ngIf="submitted && a.company_code.errors" class="invalid-feedback">
+                                        <div *ngIf="a.company_code.errors.required">Company Code is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row-reverse bd-highlight">
+                                <div class="p-2 bd-highlight">
+                                    <button id="edit_this"
+                                        [disabled]="allPermissionForOnlyThisScreen.is_write === false" mat-raised-button
+                                        type="submit" class="btn btn-success pull-right" (click)="edit()">Edit</button>
+                                </div>
+                                <div class="p-2 bd-highlight">
+                                    <button id="update_this" mat-raised-button type="submit"
+                                        class="btn btn-success pull-right" (click)="Update()">Update</button>
+                                </div>
+                                <div class="p-2 bd-highlight">
+                                    <button mat-raised-button type="submit" class="btn btn-danger pull-right"
+                                        (click)="cancel()">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row full_store_slots_info">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header store_info_title_custom">
+                        <h5 class="card-title info_page_title custome_header_title">Store Slots</h5>
+                    </div>
+                    <!-- <input type="checkbox" id="test" value="2"> -->
+                    <div class="card-body">
+                        <div class="Custome_slots_creat">
+                            <div style="text-align: center;">
+                                <label class="checkmark" fxLayout fxLayoutAlign="center center"><input type="checkbox"
+                                        id="selectall_new" (click)="all_new(months)" disabled="true">
+                                    Select All Months <span class="custom_star_mark"> *</span></label>
+                            </div>
+                            <div class="row" style="height: 90px; 
+                                       overflow: auto;">
+                                <label *ngFor="let list of months;let i = index;" class="checkmark col-md-2"
+                                    value="{{list.value}}" fxLayout fxLayoutAlign="center center"><input
+                                        [checked]="list.values" type="checkbox" value="{{i}}" disabled="true"
+                                        name="new_method" class="singlechkbox_new" id="new_method{{i}}">
+                                    <!-- (click)="single_new(i,list.value)"> -->
+                                    {{list.name}}</label>
+                            </div>
+                            <div style="text-align: center;">
+                                <label class="checkmark" fxLayout fxLayoutAlign="center center"><input type="checkbox"
+                                        id="selectall_days_new" (click)="all_days_new(daysListFinal)" disabled="true">
+                                    Select All Days <span class="custom_star_mark"> *</span></label>
+                            </div>
+                            <div class="row" style="height: 130px;
+                                       overflow: auto;">
+                                <label *ngFor="let list of daysListFinal;let j = index;" class="checkmark col-md-1"
+                                    value="{{list.value}}" fxLayout fxLayoutAlign="center center"><input
+                                        [checked]="list.value" type="checkbox" disabled="true" value="{{j}}"
+                                        name="username_days" id="new_method_for_day{{j}}" class="singlechkbox_days_new"
+                                        (click)="single_days_new(j,list.day)">
+                                    {{list.day}}</label>
+                            </div>
+                            <div class="carousel-item row custom_main_div_layout"
+                                *ngFor="let days of numberOfDaysArray_new; first as isFirst;let i = index"
+                                [ngClass]="{ 'active' : isFirst }">
+                                <div class="custome_table_div_heigh col-md-8">
+                                    <table class="opraterBookingInitiated custome_table_dynamic" cellspacing="0">
+                                        <tr>
+                                            <th>
+                                                <label>Start Time <span class="custom_star_mark">
+                                                        *</span></label>
+                                            </th>
+                                            <th>
+                                                <label>End Time <span class="custom_star_mark"> *</span></label>
+                                            </th>
+                                            <th>
+                                                <label>Slot Limt <span class="custom_star_mark">
+                                                        *</span></label>
+                                            </th>
+                                            <th>
+                                                <label>Is It Active <span class="custom_star_mark">
+                                                        *</span></label>
+                                            </th>
+                                        </tr>
+                                        <tr *ngFor="let qwe of days.time_slots; let k=index">
+                                            <td>
+                                                <input type="time" id="appt" [(ngModel)]="qwe.slot_start_time"
+                                                    name="appt">
+                                            </td>
+                                            <td>
+                                                <input type="time" id="appt2" [(ngModel)]="qwe.slot_end_time"
+                                                    name="appt2">
+                                            </td>
+                                            <td>
+                                                <input type="text" (keypress)="numberOnly($event)"
+                                                    [(ngModel)]="qwe.slot_limit" id="slot_limit" name="slot_limit">
+                                            </td>
+                                            <td>
+                                                <select
+                                                    class="custom_select_added form-control custom_class_input info_status"
+                                                    [(ngModel)]="qwe.is_active">
+                                                    <option *ngFor="let list of is_activeOrNot_new"
+                                                        value="{{list.value}}">
+                                                        {{list.status}}</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-4" id="show_hide_this">
+                                    <span class="material-icons custom_circel_added" (click)="add_new(i)">
+                                        add_circle
+                                    </span>
+                                    <span class="material-icons custom_circel_added" (click)="remove_new(i)">
+                                        remove_circle
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row-reverse bd-highlight">
+                        <div id="hide_this_edit" class="p-2 bd-highlight">
+                            <button mat-raised-button [disabled]="allPermissionForOnlyThisScreen.is_write === false"
+                                id="edit_store_slots_one" type="submit" class="btn btn-success pull-right"
+                                (click)="edit_store_slots()">Edit</button>
+                        </div>
+                        <div id="show_this_update" class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" (click)="createSlotsForStore()"
+                                class="btn btn-success pull-right">Update</button>
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right"
+                                (click)="cancel()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row Custome_slots_creat_edit">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header store_info_title_custom">
+                        <h5 class="card-title info_page_title">Store Slots</h5>
+                    </div>
+                    <div class="card-body">
+                        <div style="text-align: center;">
+                            <label class="checkmark" fxLayout fxLayoutAlign="center center"><input type="checkbox"
+                                    id="selectall_new" (click)="all_new(months_new)">
+                                Select All Months <span class="custom_star_mark"> *</span></label>
+                        </div>
+                        <div class="row" style="height: 90px;
+                                    overflow: auto;">
+                            <label *ngFor="let list of months_new;let i = index;" class="checkmark col-md-2"
+                                value="{{list.value}}" fxLayout fxLayoutAlign="center center"><input type="checkbox"
+                                    value="i" name="username" class="singlechkbox_new"
+                                    (click)="single_new(i,list.value)">
+                                {{list.name}}</label>
+                        </div>
+                        <div style="text-align: center;">
+                            <label class="checkmark" fxLayout fxLayoutAlign="center center"><input type="checkbox"
+                                    id="selectall_days_new" (click)="all_days_new(days_new)">
+                                Select All Days <span class="custom_star_mark"> *</span></label>
+                        </div>
+                        <div class="row" style="height: 130px;
+                                    overflow: auto;">
+                            <label *ngFor="let list of days_new;let j = index;" class="checkmark col-md-1"
+                                value="{{list.value}}" fxLayout fxLayoutAlign="center center"><input type="checkbox"
+                                    value="j" name="username_days" class="singlechkbox_days_new"
+                                    (click)="single_days_new(j,list.value)">
+                                {{list.value}}</label>
+                        </div>
+                        <div class="carousel-item row custom_main_div_layout"
+                            *ngFor="let days of numberOfDaysArray_new; first as isFirst;let i = index"
+                            [ngClass]="{ 'active' : isFirst }">
+                            <div class="custome_table_div_heigh col-md-8">
+                                <table class="opraterBookingInitiated custome_table_dynamic" cellspacing="0">
+                                    <tr>
+                                        <th>
+                                            <label>Start Time <span class="custom_star_mark">
+                                                    *</span></label>
+                                        </th>
+                                        <th>
+                                            <label>End Time <span class="custom_star_mark"> *</span></label>
+                                        </th>
+                                        <th>
+                                            <label>Slot Limt <span class="custom_star_mark">
+                                                    *</span></label>
+                                        </th>
+                                        <th>
+                                            <label>Is It Active <span class="custom_star_mark">
+                                                    *</span></label>
+                                        </th>
+                                    </tr>
+                                    <tr *ngFor="let qwe of days.time_slots; let k=index">
+                                        <td>
+                                            <input type="time" id="appt" [(ngModel)]="qwe.slot_start_time" name="appt">
+                                        </td>
+                                        <td>
+                                            <input type="time" id="appt2" [(ngModel)]="qwe.slot_end_time" name="appt2">
+                                        </td>
+                                        <td>
+                                            <input type="text" [(ngModel)]="qwe.slot_limit" id="slot_limit"
+                                                name="slot_limit">
+                                        </td>
+                                        <td>
+                                            <select class="custom_select_added form-control custom_class_input"
+                                                [(ngModel)]="qwe.is_active">
+                                                <option *ngFor="let list of is_activeOrNot_new" value="{{list.value}}">
+                                                    {{list.status}}</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="material-icons custom_circel_added" (click)="add_new(i)">
+                                    add_circle
+                                </span>
+                                <span class="material-icons custom_circel_added" (click)="remove_new(i)">
+                                    remove_circle
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row-reverse bd-highlight">
+                        <div class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" (click)="createSlotsForStore()"
+                                class="btn btn-success pull-right">Create</button>
+                        </div>
+                        <div class="p-2 bd-highlight">
+                            <button mat-raised-button type="submit" class="btn btn-danger pull-right"
+                                (click)="cancel()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
+<div class="loader" *ngIf="loader">
+    <img src="/assets/img/Sahyadri-logo.png" alt="">
+    <p>Loading please wait...</p>
+</div>
